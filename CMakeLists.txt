@@ -3,6 +3,9 @@ cmake_minimum_required(VERSION 2.8)
 project(fcontrol)
 
 
+#deps
+find_package(fftw REQUIRED)
+
 # source files for fcontrol
 aux_source_directory(src FCONTROL_SRCS)
 #INCLUDE_DIRECTORIES(src)
