@@ -1,0 +1,59 @@
+cmake_minimum_required(VERSION 2.8)
+
+project(fcontrol)
+
+
+# source files for gait
+aux_source_directory(src FCONTROL_SRCS)
+#INCLUDE_DIRECTORIES(src)
+
+FILE(GLOB_RECURSE FCONTROL_INCLUDE_LIST src/*.h src/*.hpp)
+
+
+#SET(GAIT_SRCS spgait)
+ADD_LIBRARY(${PROJECT_NAME} SHARED ${FCONTROL_SRCS} ${FCONTROL_INCLUDE_LIST})
+
+
+#Library install targets for use as top level project
+if("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
+    message(STATUS "Configuring gait as main project")
+    install(TARGETS ${PROJECT_NAME}
+        RUNTIME DESTINATION bin/${PROJECT_NAME}
+        LIBRARY DESTINATION lib/${PROJECT_NAME})
+    INSTALL(FILES ${FCONTROL_INCLUDE_LIST} DESTINATION include/${PROJECT_NAME})
+
+endif()
+
+# uninstall target
+configure_file(
+    "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
+    "${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake"
+    IMMEDIATE @ONLY)
+
+add_custom_target(uninstall
+    COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
+
+
+#orocos kdl
+#  message(STATUS "kdl libraries")
+#  add_subdirectory(external/orocos_kinematics_dynamics/orocos_kdl/)
+#  set(KDL_INCLUDE_DIR external/orocos_kinematics_dynamics/orocos_kdl/src/ ${KDL_INCLUDE_DIR})
+#    include_directories(${KDL_INCLUDE_DIR})
+
+#link with orocos
+#target_link_libraries(gait orocos-kdl)
+
+
+
+##functions
+function(echo_all_cmake_variable_values)
+  message(STATUS "")
+  get_cmake_property(vs VARIABLES)
+  foreach(v ${vs})
+    message(STATUS "${v}='${${v}}'")
+  endforeach(v)
+  message(STATUS "")
+endfunction()
+
+
+#echo_all_cmake_variable_values()
