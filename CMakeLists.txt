@@ -3,7 +3,7 @@ cmake_minimum_required(VERSION 2.8)
 project(fcontrol)
 
 
-# source files for gait
+# source files for fcontrol
 aux_source_directory(src FCONTROL_SRCS)
 #INCLUDE_DIRECTORIES(src)
 
@@ -32,16 +32,6 @@ configure_file(
 
 add_custom_target(uninstall
     COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
-
-
-#orocos kdl
-#  message(STATUS "kdl libraries")
-#  add_subdirectory(external/orocos_kinematics_dynamics/orocos_kdl/)
-#  set(KDL_INCLUDE_DIR external/orocos_kinematics_dynamics/orocos_kdl/src/ ${KDL_INCLUDE_DIR})
-#    include_directories(${KDL_INCLUDE_DIR})
-
-#link with orocos
-#target_link_libraries(gait orocos-kdl)
 
 
 
