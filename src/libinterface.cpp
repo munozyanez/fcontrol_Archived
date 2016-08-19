@@ -1,6 +1,6 @@
 #include "libinterface.h"
 
-
+fftw_complex a;
 
 bool li::fft(const std::vector<double> &signal, std::vector<double> &fReal, std::vector<double> &fImag)
 {
