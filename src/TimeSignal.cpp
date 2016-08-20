@@ -3,7 +3,7 @@
 TimeSignal::TimeSignal()
 {
     //default signal is 256 points sampled at 1 Hz
-    Initialize(1,256);
+    Initialize(256,1);
 }
 
 TimeSignal::TimeSignal(double init_fs, unsigned int init_size)
@@ -35,8 +35,13 @@ double TimeSignal::getFs() const
     return fs;
 }
 
-double TimeSignal::getSize() const
+double TimeSignal::getN() const
 {
     return N;
+}
+
+double TimeSignal::getDts() const
+{
+    return dts;
 }
 

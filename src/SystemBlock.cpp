@@ -48,7 +48,7 @@ bool SystemBlock::TimeResponse(const TimeSignal &input, TimeSignal &output)
 {
 
     //check signal parameters
-    if( (input.getFs()!=sFs)|(input.getSize()!=sN) )
+    if( (input.getFs()!=sFs)|(input.getN()!=sN) )
     {
         SignalParams(input);
         std::cout << "New signal parameters. Storing the new parameters in the block." << std::endl;

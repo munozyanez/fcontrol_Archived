@@ -13,8 +13,6 @@ find_package(FFTW REQUIRED)
 
 # source files for fcontrol
 aux_source_directory(src FCONTROL_SRCS)
-#INCLUDE_DIRECTORIES(src)
-
 # include files for fcontrol
 FILE(GLOB_RECURSE FCONTROL_INCLUDE_LIST src/*.h src/*.hpp)
 

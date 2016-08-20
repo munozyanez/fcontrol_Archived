@@ -19,8 +19,10 @@ public:
 
     double getFs() const;
 
-    double getSize() const;
+    double getN() const;
 
+
+    double getDts() const;
 
 private:
     double fs;//frequency of sampling
