@@ -25,7 +25,6 @@ public:
                 const std::vector<double> &new_numExps, const std::vector<double> &new_denExps);
 
     bool TimeResponse(const TimeSignal &input, TimeSignal &output);
-    bool SignalParams(const TimeSignal &new_signalParams);
 
 
 private:
@@ -40,6 +39,8 @@ private:
     //signal parameters
     double sFs,sDts;
     unsigned int sN, jwN;
+
+    bool SignalParams(const TimeSignal &new_signalParams);
 
     bool Initialize(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef,
             const std::vector<double> &new_numExps, const std::vector<double> &new_denExps);

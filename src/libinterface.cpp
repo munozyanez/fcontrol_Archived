@@ -1,12 +1,17 @@
 #include "libinterface.h"
 
-fftw_complex a;
+fftw_complex * a;
+std::complex<double> * b;
+
 
 bool li::fft(const std::vector<double> &signal, std::vector<double> &fReal, std::vector<double> &fImag)
 {
     //TODO call library and return signals correct
+
     fReal=signal;
     fImag=signal;
+    a=reinterpret_cast<fftw_complex*>(b);
+
 
 }
 
