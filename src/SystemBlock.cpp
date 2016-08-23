@@ -51,11 +51,12 @@ bool SystemBlock::TimeResponse(const TimeSignal &input, TimeSignal &output)
     if( (input.getFs()!=sFs)|(input.getN()!=sN) )
     {
         SignalParams(input);
+        li::fft_params(input.data, spectral);
         std::cout << "New signal parameters. Storing the new parameters in the block." << std::endl;
     }
 
     //get the fft from input
-    li::fft(input.data,rI,iI);
+    li::fft(input.data,spectral);
 
     //operate frequencies with transfer function (just rI needed, and first iI value)
     rI.push_back(iI[0]);
@@ -67,7 +68,7 @@ bool SystemBlock::TimeResponse(const TimeSignal &input, TimeSignal &output)
         //multiply jw by numerators
         for (int j=0; j<numCoef.size(); j++)
         {
-            rO[i]+=numCoef[j]*li::complex_pow(0,jw[i],numExps[j]);
+            //rO[i]+=numCoef[j]*li::complex_pow(0,jw[i],numExps[j]);
         }
 
     }
@@ -96,6 +97,11 @@ bool SystemBlock::SignalParams(const TimeSignal &new_signalParams)
         jw[i]=2*M_PI*(i*sFs);
 
     }
+
+    spectral.clear();
+    spectral.resize(jwN);
+
+
 
     rI.clear();
     rI.resize(sN/2);

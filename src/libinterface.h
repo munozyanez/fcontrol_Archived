@@ -8,15 +8,16 @@
 #include <complex>
 #include <fftw3.h>
 
+#define std_complex std::complex<double>
+
 namespace li
 {
 
 //fftw lib
-bool fft(const std::vector<double> &signal, std::vector<double> &fReal, std::vector<double> &fImag);
+bool fft_params(const std::vector<double> &signal_sample, std::vector<std_complex > &spectral_sample);
+bool fft(const std::vector<double> &signal, std::vector<std_complex > &spectral);
 bool ifft(const std::vector<double> &fReal,const std::vector<double> &fImag, std::vector<double> &signal);
 
-//maths lib
-bool complex_pow(double realC, double imagC, double power);
 
 }// end namespace li
 

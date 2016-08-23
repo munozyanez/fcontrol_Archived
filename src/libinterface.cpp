@@ -2,14 +2,12 @@
 
 fftw_complex * a;
 std::complex<double> * b;
+std_complex c;
 
-
-bool li::fft(const std::vector<double> &signal, std::vector<double> &fReal, std::vector<double> &fImag)
+bool li::fft(const std::vector<double> &signal, std::vector<std_complex> &spectral)
 {
     //TODO call library and return signals correct
 
-    fReal=signal;
-    fImag=signal;
     a=reinterpret_cast<fftw_complex*>(b);
 
 
@@ -23,7 +21,7 @@ bool li::ifft(const std::vector<double> &fReal,const std::vector<double> &fImag,
 
 }
 
-bool li::complex_pow(double realC, double imagC, double power)
+bool li::fft_params(const std::vector<double> &signal_sample, std::vector<std::complex<double> > &spectral_sample)
 {
-    //TODO: fin lib and interface function.
+
 }

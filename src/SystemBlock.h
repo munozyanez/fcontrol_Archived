@@ -32,6 +32,8 @@ private:
     std::vector<double> numCoef,denCoef;//numerator and denominator coefficients
     std::vector<double> numExps,denExps;//numerator and denominator jw powers
 
+    std::vector< std::complex<double> > spectral;
+
     std::vector<double> rI,iI;//frecuency values of input (real and imag)
     std::vector<double> rO,iO;//frecuency values of output (real and imag)
     std::vector<double> jw;//jw are imaginary part only numbers. If jw[i]=b means b*j.
