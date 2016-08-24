@@ -24,7 +24,7 @@ public:
     SystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef,
                 const std::vector<double> &new_numExps, const std::vector<double> &new_denExps);
 
-    bool TimeResponse(const TimeSignal &input, TimeSignal &output);
+    bool TimeResponse(TimeSignal &input, TimeSignal &output);
 
 
 private:

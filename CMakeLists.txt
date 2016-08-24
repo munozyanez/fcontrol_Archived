@@ -50,6 +50,10 @@ else("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
 
 endif()
 
+
+target_link_libraries( ${PROJECT_NAME} ${FFTW_LIBRARIES})
+
+
 ##functions
 function(echo_all_cmake_variable_values)
   message(STATUS "")

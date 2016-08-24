@@ -44,14 +44,14 @@ SystemBlock::SystemBlock(const std::vector<double> &new_numCoef, const std::vect
     Initialize(new_numCoef,new_denCoef,new_numExps,new_denExps);
 }
 
-bool SystemBlock::TimeResponse(const TimeSignal &input, TimeSignal &output)
+bool SystemBlock::TimeResponse(TimeSignal &input, TimeSignal &output)
 {
 
     //check signal parameters
     if( (input.getFs()!=sFs)|(input.getN()!=sN) )
     {
         SignalParams(input);
-        li::fft_params(input.data, spectral);
+        //li::fft_params(input.data, spectral);
         std::cout << "New signal parameters. Storing the new parameters in the block." << std::endl;
     }
 
