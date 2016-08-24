@@ -2,6 +2,7 @@
 #define LIBINTERFACE_H
 
 #include <vector>
+#include <iostream>
 
 //if you #include <complex.h> before <fftw3.h>, then fftw_complex is defined to be the native complex type (std::complex)
 //and you can manipulate it with ordinary arithmetic (e.g. x = y * (3+4*I) (http://www.fftw.org/fftw3_doc/Complex-numbers.html#Complex-numbers);

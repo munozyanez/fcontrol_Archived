@@ -23,15 +23,16 @@ SystemBlock::SystemBlock(const std::vector<double> &new_numCoef, const std::vect
     dE.clear();
 
 
-    for (int i=new_numCoef.size(); i<0; i--)
+    for (int i=0; i<new_numCoef.size(); i++)
     {
         nE.push_back(i);
     }
 
-    for (int i=new_denCoef.size(); i<0; i--)
+    for (int i=0; i<new_denCoef.size(); i++)
     {
         dE.push_back(i);
     }
+
 
     Initialize(new_numCoef,new_denCoef,nE,dE);
 
@@ -55,26 +56,28 @@ bool SystemBlock::TimeResponse(TimeSignal &input, TimeSignal &output)
         std::cout << "New signal parameters. Storing the new parameters in the block." << std::endl;
     }
 
-    //get the fft from input and save in spectral.
+    for (int i=0; i<input.getN(); i++)
+    {
+
+        //std::cout << input.data[i];
+
+    }
+    //get the fft from input and save at IN.
     li::fft(input.data,IN);
 
-    //operate frequencies with transfer function (just rI needed, and first iI value)
-    //rI.push_back(iI[0]);
 
+    //operate IN with transfer function G
     for (int i=0; i<JW.size(); i++)
     {
-        //clear old values
-        OUT[i]=C_0;
-        //multiply jw by numerators
-        for (int j=0; j<numCoef.size(); j++)
-        {
-            OUT[i]+=numCoef[j];
-        }
+        OUT[i]=IN[i]*G[i];
+        //std::cout << IN[i] << " from IN at " << i << std::endl;
+        //std::cout << OUT[i] << " from OUT at " << i << std::endl;
 
     }
 
 
     //get the ifft from result
+    li::ifft(OUT, output.data);
     //and store at output
     //discard bad values?
 
@@ -104,9 +107,15 @@ bool SystemBlock::SignalParams(const TimeSignal &new_signalParams)
     OUT.clear();
     OUT.resize(jwN);
 
+    G.clear();
+    G.resize(jwN);
+
     //compute G based on num, den, and JW
     std::complex<double> numGi, denGi;
-    for (int i=0; i<JW.size(); i++)
+
+    //TODO: deal with constant value JW[0]=0 , and division by 0.
+    G[0]=1;
+    for (int i=1; i<JW.size(); i++)
     {
         //clear old values
         numGi=C_0;
@@ -116,12 +125,16 @@ bool SystemBlock::SignalParams(const TimeSignal &new_signalParams)
         for (int j=0; j<numCoef.size(); j++)
         {
             numGi += numCoef[j]*pow(JW[i],numExps[j]);
-        }
 
+        }
+        //compute denominator
         for (int j=0; j<denCoef.size(); j++)
         {
-            numGi += denCoef[j]*pow(JW[i],denExps[j]);
+            denGi += denCoef[j]*pow(JW[i],denExps[j]);
+
         }
+        G[i]=numGi/denGi;
+        //std::cout << G[i] << " at " << i << std::endl;
 
     }
 
@@ -147,5 +160,7 @@ bool SystemBlock::Initialize(const std::vector<double> &new_numCoef, const std::
     denExps=new_denExps;
 
     sN=0;
+
+
 
 }

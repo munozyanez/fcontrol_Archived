@@ -6,6 +6,8 @@ std::complex<double> * b;
 std_complex c;
 double * signalAddress=NULL;
 int signalSize=0;
+std_complex * spectralAddress=NULL;
+int spectralSize=0;
 
 
 bool li::fft(std::vector<double> &signal, std::vector<std_complex> &spectral)
@@ -13,14 +15,27 @@ bool li::fft(std::vector<double> &signal, std::vector<std_complex> &spectral)
     static fftw_plan fft_d;
 
 
+
     //call library and return signals
     if ( (signalAddress!=signal.data()) | (signalSize!=signal.size()) )
     {
+        std::cout << "New signal. Updating plan." << std::endl;
+
+        //save signal as next plan function will empty the vector
+        std::vector<double> signalSave(signal);
         fft_d=fftw_plan_dft_r2c_1d(signal.size(),
                                         signal.data(), //real amplitude vector
                                         reinterpret_cast<fftw_complex*>(spectral.data()), //complex frequency vector
                                         FFTW_PRESERVE_INPUT);
 
+        //now restore the signal. Remember not to change vector address.
+        for (int i=0; i<signal.size(); i++)
+        {
+
+            signal[i]=signalSave[i];
+            //std::cout << signal[i];
+
+        }
     }
 
 
@@ -39,18 +54,37 @@ bool li::ifft(std::vector<std_complex> &spectral, std::vector<double> &signal)
 
 
     //call library and return signals
-    if ( (signalAddress!=signal.data()) | (signalSize!=signal.size()) )
+    if ( (spectralAddress!=spectral.data()) | (spectralSize!=spectral.size()) )
     {
+        std::cout << "New spectral. Updating plan." << std::endl;
+
+        //save spectral as next plan function will empty the vector
+        std::vector<std_complex> spectralSave(spectral);
+
         fft_i=fftw_plan_dft_c2r_1d(signal.size(),
                                    reinterpret_cast<fftw_complex*>(spectral.data()), //complex frequency vector
                                    signal.data(), //real amplitude vector
                                    FFTW_PRESERVE_INPUT);
+        //now restore the signal. Remember not to change vector address.
+        for (int i=0; i<spectral.size(); i++)
+        {
 
+            spectral[i]=spectralSave[i];
+            //std::cout << spectral[i];
+
+        }
     }
 
 
     fftw_execute(fft_i);
 
+    // rescale
+    for (int i=0; i<signal.size(); i++)
+    {
+
+        signal[i]=signal[i]/signal.size();
+
+    }
 
     return true;
 
