@@ -55,20 +55,20 @@ bool SystemBlock::TimeResponse(TimeSignal &input, TimeSignal &output)
         std::cout << "New signal parameters. Storing the new parameters in the block." << std::endl;
     }
 
-    //get the fft from input
-    li::fft(input.data,spectral);
+    //get the fft from input and save in spectral.
+    li::fft(input.data,IN);
 
     //operate frequencies with transfer function (just rI needed, and first iI value)
-    rI.push_back(iI[0]);
+    //rI.push_back(iI[0]);
 
-    for (int i=0; i<jw.size(); i++)
+    for (int i=0; i<JW.size(); i++)
     {
         //clear old values
-        rO[i]=0;
+        OUT[i]=C_0;
         //multiply jw by numerators
         for (int j=0; j<numCoef.size(); j++)
         {
-            //rO[i]+=numCoef[j]*li::complex_pow(0,jw[i],numExps[j]);
+            OUT[i]+=numCoef[j];
         }
 
     }
@@ -90,18 +90,40 @@ bool SystemBlock::SignalParams(const TimeSignal &new_signalParams)
     sDts = 1/sFs;
     jwN=((sN/2)+1);
 
-    jw.clear();
-    jw.resize( (sN/2)+1 );
-    for(int i=0; i<jw.size(); i++)
+    JW.clear();
+    JW.resize( (sN/2)+1 );
+    for(int i=0; i<JW.size(); i++)
     {
-        jw[i]=2*M_PI*(i*sFs);
+        JW[i]=2*M_PI*(i*sFs)*C_I;
 
     }
 
-    spectral.clear();
-    spectral.resize(jwN);
+    IN.clear();
+    IN.resize(jwN);
 
+    OUT.clear();
+    OUT.resize(jwN);
 
+    //compute G based on num, den, and JW
+    std::complex<double> numGi, denGi;
+    for (int i=0; i<JW.size(); i++)
+    {
+        //clear old values
+        numGi=C_0;
+        denGi=C_0;
+
+        //compute numerator
+        for (int j=0; j<numCoef.size(); j++)
+        {
+            numGi += numCoef[j]*pow(JW[i],numExps[j]);
+        }
+
+        for (int j=0; j<denCoef.size(); j++)
+        {
+            numGi += denCoef[j]*pow(JW[i],denExps[j]);
+        }
+
+    }
 
     rI.clear();
     rI.resize(sN/2);
