@@ -39,14 +39,15 @@ if("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
     add_custom_target(uninstall
         COMMAND ${CMAKE_COMMAND} -P ${CMAKE_CURRENT_BINARY_DIR}/cmake_uninstall.cmake)
 
-#Set Library variables if subdirectory (called from add_subdirectory(${PROJECT_SOURCE_DIR}/lib/${PROJECT_NAME}) )
+#Set Library variables if subdirectory (called from add_subdirectory() )
 else("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
     message(STATUS "Configuring " ${PROJECT_NAME} " as sub-project in " ${CMAKE_CURRENT_SOURCE_DIR})
     find_path(FCONTROL_INCLUDE_DIR fcontrol.h
         HINTS ${CMAKE_CURRENT_SOURCE_DIR} PATH_SUFFIXES include src)
-    find_library(FCONTROL_LIBRARY NAMES ${PROJECT_NAME} lib${PROJECT_NAME}
-        HINTS ${CMAKE_CURRENT_BINARY_DIR} )
-
+#    find_library(FCONTROL_LIBRARY NAMES ${PROJECT_NAME} lib${PROJECT_NAME}
+#        HINTS ${CMAKE_CURRENT_BINARY_DIR} )
+#message(STATUS "found " ${FCONTROL_INCLUDE_DIR} " in " ${CMAKE_CURRENT_BINARY_DIR})
+#message(STATUS "found " ${FCONTROL_LIBRARY} " in " ${CMAKE_CURRENT_BINARY_DIR})
 
 endif()
 
