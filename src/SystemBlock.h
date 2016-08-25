@@ -29,6 +29,7 @@ public:
                 const std::vector<double> &new_numExps, const std::vector<double> &new_denExps);
 
     bool TimeResponse(TimeSignal &input, TimeSignal &output);
+    double TimeResponseUpdate(const TimeSignal &old_input, const double &new_value);
 
 
 private:
@@ -41,7 +42,8 @@ private:
     std::vector<double> rI,iI;//frecuency values of input (real and imag)
     std::vector<double> rO,iO;//frecuency values of output (real and imag)
     std::vector< std::complex<double> > JW;//jw are imaginary numbers.
-    std::vector< std::complex<double> > G;//Processed Gain spectral values.
+    std::vector< std::complex<double> > G;//Processed Gain spectral values. Frequency block transference function.
+    std::vector<double> g;//Processed gain time values. Time block transference function.
 
     //signal parameters
     double sFs,sDts;

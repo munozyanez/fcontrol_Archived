@@ -86,6 +86,29 @@ bool SystemBlock::TimeResponse(TimeSignal &input, TimeSignal &output)
 
 }
 
+double SystemBlock::TimeResponseUpdate(const TimeSignal &old_input, const double &new_value)
+{
+    double response=0;
+    //check signal parameters
+    if( (old_input.getFs()!=sFs)|(old_input.getN()!=sN) )
+    {
+        SignalParams(old_input);
+        //li::fft_params(input.data, spectral);
+        std::cout << "New signal parameters. Storing the new parameters in the block." << std::endl;
+    }
+
+    //apply convolution only to updated value (new_value). As an update, older values are known.
+    //start from 1, as first value will drop from new convolution.
+    for (int i=1; i<sN; i++)
+    {
+        response += g[sN-i]*old_input.data[i];
+    }
+    //now add the last value
+    response += g[0]*new_value;
+
+    return response;
+}
+
 bool SystemBlock::SignalParams(const TimeSignal &new_signalParams)
 {
 
@@ -137,6 +160,11 @@ bool SystemBlock::SignalParams(const TimeSignal &new_signalParams)
         //std::cout << G[i] << " at " << i << std::endl;
 
     }
+
+    //compute g based on G
+    g.clear();
+    g.resize(sN);
+    li::ifft(G,g);
 
     rI.clear();
     rI.resize(sN/2);
