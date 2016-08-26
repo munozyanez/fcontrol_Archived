@@ -3,5 +3,7 @@
 
 #include "SystemBlock.h"
 #include "ControllerBlock.h"
+#include "TransferFunction.h"
+
 
 #endif // FCONTROL_H
