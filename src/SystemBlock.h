@@ -11,6 +11,7 @@
 
 #include "libinterface.h"
 #include "TimeSignal.h"
+#include "TransferFunction.h"
 
 
 /**
@@ -27,6 +28,7 @@ public:
     SystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef);
     SystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef,
                 const std::vector<double> &new_numExps, const std::vector<double> &new_denExps);
+    SystemBlock(const TransferFunction &newH);
 
     bool TimeResponse(TimeSignal &input, TimeSignal &output);
     double TimeResponseUpdate(const TimeSignal &old_input, const double &new_value);

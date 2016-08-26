@@ -4,11 +4,11 @@
 SystemBlock::SystemBlock()
 {
 
-    std::vector<double> nC,nE,dC,dE;
-    nC.clear();
-    nE.clear();
-    dC.clear();
-    dE.clear();
+
+    std::vector<double> nC = {1};
+    std::vector<double> nE = {0};
+    std::vector<double> dC = {1};
+    std::vector<double> dE = {0};
     InitSystemBlock(nC,dC,nE,dE);
 
 }
@@ -43,6 +43,12 @@ SystemBlock::SystemBlock(const std::vector<double> &new_numCoef, const std::vect
                              const std::vector<double> &new_numExps, const std::vector<double> &new_denExps)
 {
     InitSystemBlock(new_numCoef,new_denCoef,new_numExps,new_denExps);
+}
+
+SystemBlock::SystemBlock(const TransferFunction &newH)
+{
+
+    InitSystemBlock(newH.getNumCoef(), newH.getDenCoef(), newH.getNumExps(), newH.getDenExps());
 }
 
 bool SystemBlock::TimeResponse(TimeSignal &input, TimeSignal &output)
@@ -98,7 +104,7 @@ double SystemBlock::TimeResponseUpdate(const TimeSignal &old_input, const double
     }
 
     //apply convolution only to updated value (new_value). As an update, older values are known.
-    //start from 1, as first value will drop from new convolution.
+    //start from 1, due to old first value will drop from new convolution.
     for (int i=1; i<sN; i++)
     {
         response += g[sN-i]*old_input.data[i];

@@ -9,19 +9,28 @@ class TransferFunction
 {
 public:
     TransferFunction();
-    TransferFunction(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef);
+    TransferFunction(const std::vector<double> &new_num, const std::vector<double> &new_den);
     TransferFunction(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef,
                 const std::vector<double> &new_numExps, const std::vector<double> &new_denExps);
-    TransferFunction(int numSize, int denSize, double num[], double den[]);
 
+
+
+
+    std::vector<double> getNumCoef() const;
+
+    std::vector<double> getDenCoef() const;
+
+    std::vector<double> getNumExps() const;
+
+    std::vector<double> getDenExps() const;
 
 private:
+
 
     //transfer function G
     //numerator and denominator coefficients and exponents
     std::vector<double> numCoef,denCoef;
     std::vector<double> numExps,denExps;
-
 
 
     std::vector< std::complex<double> > G;//Processed Gain spectral values. Frequency numeric transfer function.

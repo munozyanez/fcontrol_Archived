@@ -3,37 +3,41 @@
 TransferFunction::TransferFunction()
 {
 
-    std::vector<double> nC,nE,dC,dE;
-    nC.clear();
-    nE.clear();
-    dC.clear();
-    dE.clear();
+    std::vector<double> nC = {1};
+    std::vector<double> nE = {0};
+    std::vector<double> dC = {1};
+    std::vector<double> dE = {0};
+
     InitTransferFunction(nC,dC,nE,dE);
 
 }
 
-TransferFunction::TransferFunction(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef)
+TransferFunction::TransferFunction(const std::vector<double> &new_num, const std::vector<double> &new_den)
 {
 
-    std::vector<double> nE,dE;
+    std::vector<double> nC,dC,nE,dE;
 
+    nC.clear();
     nE.clear();
 
+    dC.clear();
     dE.clear();
 
 
-    for (int i=0; i<new_numCoef.size(); i++)
+    for (int i=0; i<new_num.size(); i=i+2)
     {
-        nE.push_back(i);
+        nC.push_back(new_num[i]);
+        nE.push_back(new_num[i+1]);
     }
 
-    for (int i=0; i<new_denCoef.size(); i++)
+    for (int i=0; i<new_den.size(); i=i+2)
     {
-        dE.push_back(i);
+        dC.push_back(new_den[i]);
+        dE.push_back(new_den[i+1]);
     }
 
 
-    InitTransferFunction(new_numCoef,new_denCoef,nE,dE);
+    InitTransferFunction(nC,dC,nE,dE);
 
 }
 
@@ -44,13 +48,31 @@ TransferFunction::TransferFunction(const std::vector<double> &new_numCoef, const
     InitTransferFunction(new_numCoef,new_denCoef,new_numExps,new_denExps);
 }
 
-TransferFunction::TransferFunction(int numSize, int denSize, double num[], double den[])
+std::vector<double> TransferFunction::getNumCoef() const
 {
+    return numCoef;
+}
 
+std::vector<double> TransferFunction::getDenCoef() const
+{
+    return denCoef;
+}
+
+std::vector<double> TransferFunction::getNumExps() const
+{
+    return numExps;
+}
+
+std::vector<double> TransferFunction::getDenExps() const
+{
+    return denExps;
 }
 
 
-bool TransferFunction::InitTransferFunction(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef, const std::vector<double> &new_numExps, const std::vector<double> &new_denExps)
+
+
+bool TransferFunction::InitTransferFunction(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef,
+                                            const std::vector<double> &new_numExps, const std::vector<double> &new_denExps)
 {
     if ( (new_numCoef.size()!=new_numExps.size())|(new_denCoef.size()!=new_denExps.size()) )
     {
