@@ -51,7 +51,7 @@ private:
 
     bool SignalParams(const TimeSignal &new_signalParams);
 
-    bool Initialize(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef,
+    bool InitSystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef,
             const std::vector<double> &new_numExps, const std::vector<double> &new_denExps);
 
 

@@ -19,6 +19,11 @@ bool TimeSignal::Initialize(unsigned int new_size, double new_fs)
     data.clear();
     data.resize(N);
 
+    for (int i=0; i<N; i++)
+    {
+        data[i]=0;
+    }
+
     return true;
 
 }

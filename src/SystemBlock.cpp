@@ -9,7 +9,7 @@ SystemBlock::SystemBlock()
     nE.clear();
     dC.clear();
     dE.clear();
-    Initialize(nC,dC,nE,dE);
+    InitSystemBlock(nC,dC,nE,dE);
 
 }
 
@@ -34,7 +34,7 @@ SystemBlock::SystemBlock(const std::vector<double> &new_numCoef, const std::vect
     }
 
 
-    Initialize(new_numCoef,new_denCoef,nE,dE);
+    InitSystemBlock(new_numCoef,new_denCoef,nE,dE);
 
 }
 
@@ -42,7 +42,7 @@ SystemBlock::SystemBlock(const std::vector<double> &new_numCoef, const std::vect
 SystemBlock::SystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef,
                              const std::vector<double> &new_numExps, const std::vector<double> &new_denExps)
 {
-    Initialize(new_numCoef,new_denCoef,new_numExps,new_denExps);
+    InitSystemBlock(new_numCoef,new_denCoef,new_numExps,new_denExps);
 }
 
 bool SystemBlock::TimeResponse(TimeSignal &input, TimeSignal &output)
@@ -179,7 +179,7 @@ bool SystemBlock::SignalParams(const TimeSignal &new_signalParams)
 
 }
 
-bool SystemBlock::Initialize(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef, const std::vector<double> &new_numExps, const std::vector<double> &new_denExps)
+bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef, const std::vector<double> &new_numExps, const std::vector<double> &new_denExps)
 {
     numCoef=new_numCoef;
     denCoef=new_denCoef;
