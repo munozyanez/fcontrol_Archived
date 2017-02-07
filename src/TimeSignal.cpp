@@ -6,9 +6,9 @@ TimeSignal::TimeSignal()
     Initialize(256,1);
 }
 
-TimeSignal::TimeSignal(double init_fs, unsigned int init_size)
+TimeSignal::TimeSignal( unsigned int init_size, double init_fs)
 {
-    Initialize(init_fs,init_size);
+    Initialize(init_size,init_fs);
 }
 
 bool TimeSignal::Initialize(unsigned int new_size, double new_fs)

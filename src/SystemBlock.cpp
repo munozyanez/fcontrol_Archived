@@ -51,6 +51,11 @@ SystemBlock::SystemBlock(const TransferFunction &newH)
     InitSystemBlock(newH.getNumCoef(), newH.getDenCoef(), newH.getNumExps(), newH.getDenExps());
 }
 
+SystemBlock::SystemBlock(const TimeSignal &timeStepResponse)
+{
+
+}
+
 bool SystemBlock::TimeResponse(TimeSignal &input, TimeSignal &output)
 {
 

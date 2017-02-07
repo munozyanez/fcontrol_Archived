@@ -7,7 +7,7 @@ class TimeSignal
 {
 public:
     TimeSignal();
-    TimeSignal(double init_fs, unsigned int init_size);
+    TimeSignal(unsigned int init_size, double init_fs);
 
     bool Initialize(unsigned int new_size, double new_fs);
     bool GetParams(unsigned int &out_size, double &out_fs) const;
