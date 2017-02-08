@@ -29,10 +29,12 @@ public:
     SystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef,
                 const std::vector<double> &new_numExps, const std::vector<double> &new_denExps);
     SystemBlock(const TransferFunction &newH);
-    SystemBlock(const TimeSignal &timeStepResponse);
+    SystemBlock(const TimeSignal &timeImpulseResponse);
 
     bool TimeResponse(TimeSignal &input, TimeSignal &output);
     double TimeResponseUpdate(const TimeSignal &old_input, const double &new_value);
+    double OutputUpdate(const TimeSignal &old_input, const double &new_value);
+
 
 
 private:
@@ -56,6 +58,9 @@ private:
 
     bool InitSystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef,
             const std::vector<double> &new_numExps, const std::vector<double> &new_denExps);
+
+    //state values
+    std::vector<double> oldStates;
 
 
 };

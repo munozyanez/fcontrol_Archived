@@ -51,8 +51,16 @@ SystemBlock::SystemBlock(const TransferFunction &newH)
     InitSystemBlock(newH.getNumCoef(), newH.getDenCoef(), newH.getNumExps(), newH.getDenExps());
 }
 
-SystemBlock::SystemBlock(const TimeSignal &timeStepResponse)
+SystemBlock::SystemBlock(const TimeSignal &timeImpulseResponse)
 {
+
+    g.clear();
+    for (int i=0; i<timeImpulseResponse.data.size(); i++)
+    {
+        g.push_back(timeImpulseResponse.data[i]);
+        std::cout << "i : " << i << ",g[i] : " << g[i] << std::endl;
+    }
+    std::cout << std::endl;
 
 }
 
@@ -113,9 +121,40 @@ double SystemBlock::TimeResponseUpdate(const TimeSignal &old_input, const double
     for (int i=1; i<sN; i++)
     {
         response += g[sN-i]*old_input.data[i];
+        std::cout << "i = " << i<< " ,sN-i:" << sN-i  << " ,g[sN-i]:" << g[sN-i] << " ,old_input.data[i]:"<< old_input.data[i] << std::endl;
     }
     //now add the last value
     response += g[0]*new_value;
+
+    return response;
+}
+
+double SystemBlock::OutputUpdate(const TimeSignal &old_input, const double &new_value)
+{
+    double response=0;
+    //check signal parameters
+
+    //apply only to updated value (new_value). As an update, older values are known.
+    //start from 1, due to old first value will drop from new.
+
+    //int N=numCoef.size();
+
+
+    for (int i=1; i<numCoef.size(); i++)
+    {
+        response += numCoef[i]*old_input.data[i-1];
+    }
+    response += numCoef[0]*new_value;
+    //N=denCoef.size();
+    for (int i=1; i<denCoef.size(); i++)
+    {
+        response -= denCoef[i]*old_input.data[i-1];
+    }
+    //response=response/numCoef.back();
+    //delete first value
+    oldStates.erase(oldStates.begin());
+    //now add the last value
+    oldStates.push_back(response);
 
     return response;
 }
@@ -200,6 +239,8 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
 
     sN=0;
 
+    oldStates.clear();
+    oldStates.resize(denCoef.size());
 
 
 }
