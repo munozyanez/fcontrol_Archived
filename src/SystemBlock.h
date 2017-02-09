@@ -34,6 +34,7 @@ public:
     bool TimeResponse(TimeSignal &input, TimeSignal &output);
     double TimeResponseUpdate(const TimeSignal &old_input, const double &new_value);
     double OutputUpdate(const TimeSignal &old_input, const double &new_value);
+    double OutputUpdate(double new_input);
 
 
 
@@ -61,6 +62,8 @@ private:
 
     //state values
     std::vector<double> oldStates;
+    std::vector<double> oldInputs;
+
 
 
 };

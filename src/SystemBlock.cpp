@@ -159,6 +159,38 @@ double SystemBlock::OutputUpdate(const TimeSignal &old_input, const double &new_
     return response;
 }
 
+double SystemBlock::OutputUpdate(double new_input)
+{
+    double response=0;
+    //check signal parameters
+
+    //apply only to updated value (new_value). As an update, older values are known.
+    //start from 1, due to old first value will drop from new.
+
+    //int N=numCoef.size();
+    oldInputs.erase(oldInputs.begin());
+    //now add the last value
+    oldInputs.push_back(new_input);
+
+    for (int i=0; i<numCoef.size(); i++)
+    {
+        response += numCoef[i]*oldInputs[i];
+    }
+
+    //N=denCoef.size();
+    for (int i=1; i<denCoef.size(); i++)
+    {
+        response -= denCoef[i]*oldInputs[i];
+    }
+    //response=response/numCoef.back();
+    //delete first value
+    oldStates.erase(oldStates.begin());
+    //now add the last value
+    oldStates.push_back(response);
+
+    return response;
+}
+
 bool SystemBlock::SignalParams(const TimeSignal &new_signalParams)
 {
 
@@ -231,8 +263,31 @@ bool SystemBlock::SignalParams(const TimeSignal &new_signalParams)
 
 bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef, const std::vector<double> &new_numExps, const std::vector<double> &new_denExps)
 {
+
     numCoef=new_numCoef;
     denCoef=new_denCoef;
+
+    //normalize for denominator highest exponent coefficient = 1
+    //all functions will behave like it.
+    double divisor = denCoef.back();
+    std::cout << "normalizing Block with: " << divisor << std::endl;
+    std::cout << "numCoef : [";
+    for (int i=0; i<new_numCoef.size();i++)
+    {
+        numCoef[i]=new_numCoef[i]/divisor;
+        std::cout << numCoef[i] << "," ;
+    }
+    std::cout << "]" << std::endl;
+
+    std::cout << "denCoef : [";
+    for (int i=0; i<new_denCoef.size();i++)
+    {
+        denCoef[i]=new_denCoef[i]/divisor;
+        std::cout << denCoef[i] << "," ;
+
+    }
+    std::cout << "]" << std::endl;
+
 
     numExps=new_numExps;
     denExps=new_denExps;
@@ -240,7 +295,15 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
     sN=0;
 
     oldStates.clear();
-    oldStates.resize(denCoef.size());
+    for(int i=0;i<denCoef.size();i++)
+    {
+        oldStates.push_back(0.0);
+    }
+    oldInputs.clear();
+    for(int i=0;i<denCoef.size();i++)
+    {
+        oldInputs.push_back(0.0);
+    }
 
 
 }
