@@ -180,7 +180,7 @@ double SystemBlock::OutputUpdate(double new_input)
     //N=denCoef.size();
     for (int i=1; i<denCoef.size(); i++)
     {
-        response -= denCoef[i]*oldInputs[i];
+        response -= denCoef[i]*oldStates[i];
     }
     //response=response/numCoef.back();
     //delete first value
