@@ -178,7 +178,7 @@ double SystemBlock::OutputUpdate(double new_input)
     }
 
     //N=denCoef.size();
-    for (int i=1; i<denCoef.size(); i++)
+    for (int i=0; i<denCoef.size()-1; i++)
     {
         response -= denCoef[i]*oldStates[i];
     }
