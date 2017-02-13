@@ -172,21 +172,22 @@ double SystemBlock::OutputUpdate(double new_input)
     //now add the last value
     oldInputs.push_back(new_input);
 
-    for (int i=0; i<numCoef.size(); i++)
+    for (int i=0; i<oldInputs.size(); i++)
     {
         response += numCoef[i]*oldInputs[i];
     }
 
     //N=denCoef.size();
-    for (int i=0; i<denCoef.size()-1; i++)
+    for (int i=0; i<oldStates.size(); i++)
     {
         response -= denCoef[i]*oldStates[i];
     }
     //response=response/numCoef.back();
-    //delete first value
-    oldStates.erase(oldStates.begin());
     //now add the last value
     oldStates.push_back(response);
+    //delete first value
+    oldStates.erase(oldStates.begin());
+
 
     return response;
 }
@@ -295,12 +296,12 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
     sN=0;
 
     oldStates.clear();
-    for(int i=0;i<denCoef.size();i++)
+    for(int i=0;i<denCoef.size()-1;i++)
     {
         oldStates.push_back(0.0);
     }
     oldInputs.clear();
-    for(int i=0;i<denCoef.size();i++)
+    for(int i=0;i<numCoef.size();i++)
     {
         oldInputs.push_back(0.0);
     }

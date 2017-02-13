@@ -17,7 +17,7 @@
 /**
  * @brief The SystemBlock class:
  * This class encapsulates a system control block, defined by its transference function G.
- * Library uses fourier transform, so the function must be a quotient of fourier transforms.
+ * .
  */
 
 
