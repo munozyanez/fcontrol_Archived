@@ -30,6 +30,7 @@ public:
                 const std::vector<double> &new_numExps, const std::vector<double> &new_denExps);
     SystemBlock(const TransferFunction &newH);
     SystemBlock(const TimeSignal &timeImpulseResponse);
+    SystemBlock(double b0,double b1,double a0,double a1);
 
     bool TimeResponse(TimeSignal &input, TimeSignal &output);
     double TimeResponseUpdate(const TimeSignal &old_input, const double &new_value);

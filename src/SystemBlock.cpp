@@ -64,6 +64,22 @@ SystemBlock::SystemBlock(const TimeSignal &timeImpulseResponse)
 
 }
 
+SystemBlock::SystemBlock(double b0, double b1, double a0, double a1)
+{
+    std::vector<double> num(2,0);
+    std::vector<double> den(2,0);
+
+    den[0] = a0;
+    den[1] = a1;
+    num[0] = b0;
+    num[1] = b1;
+
+    std::vector<double> nE(2,1),dE(2,1);
+
+    InitSystemBlock(num,den,nE,dE);
+
+}
+
 bool SystemBlock::TimeResponse(TimeSignal &input, TimeSignal &output)
 {
 

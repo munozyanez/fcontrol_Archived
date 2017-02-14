@@ -4,6 +4,7 @@
 #include "SystemBlock.h"
 #include "ControllerBlock.h"
 #include "TransferFunction.h"
+#include "PIDBlock.h"
 
 
 #endif // FCONTROL_H
