@@ -12,12 +12,12 @@ list(APPEND CMAKE_MODULE_PATH ${fcontrol_MODULE_PATH})
 find_package(FFTW REQUIRED)
 
 # source files for fcontrol
-aux_source_directory(src FCONTROL_SRCS)
+aux_source_directory(./src FCONTROL_SRCS)
 # include files for fcontrol
-FILE(GLOB_RECURSE FCONTROL_INCLUDE_LIST src/*.h src/*.hpp)
+FILE(GLOB_RECURSE FCONTROL_INCLUDE_DIR src/*.h src/*.hpp)
 
 
-ADD_LIBRARY(${PROJECT_NAME} SHARED ${FCONTROL_SRCS} ${FCONTROL_INCLUDE_LIST})
+ADD_LIBRARY(${PROJECT_NAME} SHARED ${FCONTROL_SRCS} ${FCONTROL_INCLUDE_DIR})
 
 
 
@@ -28,7 +28,7 @@ if("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
     install(TARGETS ${PROJECT_NAME}
         RUNTIME DESTINATION bin/${PROJECT_NAME}
         LIBRARY DESTINATION lib/${PROJECT_NAME})
-    install(FILES ${FCONTROL_INCLUDE_LIST}
+    install(FILES ${FCONTROL_INCLUDE_DIR}
         DESTINATION include/${PROJECT_NAME})
 
     # uninstall target
@@ -42,8 +42,13 @@ if("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
 #Set Library variables if subdirectory (called from add_subdirectory() )
 else("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
     message(STATUS "Configuring " ${PROJECT_NAME} " as sub-project in " ${CMAKE_CURRENT_SOURCE_DIR})
-    find_path(FCONTROL_INCLUDE_DIR fcontrol.h
-        HINTS ${CMAKE_CURRENT_SOURCE_DIR} PATH_SUFFIXES include src)
+#    find_path(FCONTROL_SOURCE_DIR fcontrol.h
+#        HINTS ${CMAKE_CURRENT_SOURCE_DIR} PATH_SUFFIXES include src)
+#    find_path(FCONTROL_INCLUDE_DIR fcontrol.h
+#        HINTS ${CMAKE_CURRENT_SOURCE_DIR} PATH_SUFFIXES include src)
+
+  #  set(SUBDIR_INCLUDE_DIRECTORIES ${SUBDIR_INCLUDE_DIRECTORIES} ${FCONTROL_INCLUDE_DIR} PARENT_SCOPE)
+
 #    find_library(FCONTROL_LIBRARY NAMES ${PROJECT_NAME} lib${PROJECT_NAME}
 #        HINTS ${CMAKE_CURRENT_BINARY_DIR} )
 #message(STATUS "found " ${FCONTROL_INCLUDE_DIR} " in " ${CMAKE_CURRENT_BINARY_DIR})
