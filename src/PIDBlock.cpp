@@ -26,3 +26,9 @@ double PIDBlock::UpdateControl(double input)
     return cp+ci+cd;
 
 }
+
+double PIDBlock::OutputUpdate(double input)
+{
+
+    UpdateControl(input);
+}

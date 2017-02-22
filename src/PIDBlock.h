@@ -11,6 +11,7 @@ public:
     PIDBlock(double kp, double ki, double kd, double Ts);
     double UpdateControl(double input);
 
+    double OutputUpdate(double input);
 private:
     SystemBlock iBlock;
     SystemBlock dBlock;
