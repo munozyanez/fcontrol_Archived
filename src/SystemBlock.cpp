@@ -199,6 +199,11 @@ double SystemBlock::OutputUpdate(double new_input)
         response -= denCoef[i]*oldStates[i];
     }
     //response=response/numCoef.back();
+    if (maxOut!=0 | minOut!=0)
+    {
+        response = std::min(response,maxOut);
+        response = std::max(response,minOut);
+    }
     //now add the last value
     oldStates.push_back(response);
     //delete first value
@@ -206,6 +211,13 @@ double SystemBlock::OutputUpdate(double new_input)
 
 
     return response;
+}
+
+long SystemBlock::SetSaturation(double low, double high)
+{
+    maxOut = high;
+    minOut = low;
+
 }
 
 bool SystemBlock::SignalParams(const TimeSignal &new_signalParams)
@@ -310,6 +322,8 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
     denExps=new_denExps;
 
     sN=0;
+    maxOut = 0;
+    minOut = 0;
 
     oldStates.clear();
     for(int i=0;i<denCoef.size()-1;i++)

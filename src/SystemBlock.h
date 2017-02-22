@@ -37,6 +37,8 @@ public:
     double OutputUpdate(const TimeSignal &old_input, const double &new_value);
     double OutputUpdate(double new_input);
 
+    long SetSaturation(double low, double high);
+
 
 
 private:
@@ -64,6 +66,9 @@ private:
     //state values
     std::vector<double> oldStates;
     std::vector<double> oldInputs;
+
+    //saturation values
+    double maxOut, minOut;
 
 
 
