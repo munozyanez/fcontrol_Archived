@@ -10,7 +10,7 @@ PIDBlock::PIDBlock(double kp, double ki, double kd, double Ts)
 {
 
     iBlock = SystemBlock(ki*0,ki*Ts*1,-1,1);
-  //  dBlock = SystemBlock(kd*-1,kd*1,0,Ts*1);
+    //dBlock = SystemBlock(kd*-1,kd*1,0,Ts*1);
     // LPF implementation
     double N = 20;    // LPFfilter N
     dBlock = SystemBlock(kd*-1*N,kd*1*N,-1,1+N*Ts*1);
