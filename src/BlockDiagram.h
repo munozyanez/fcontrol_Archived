@@ -1,7 +1,6 @@
 #ifndef BLOCKDIAGRAM_H
 #define BLOCKDIAGRAM_H
 
-#include <vector>
 #include "Block.h"
 
 class BlockDiagram

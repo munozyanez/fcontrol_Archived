@@ -16,6 +16,7 @@ private:
     SystemBlock iBlock;
     SystemBlock dBlock;
     double pBlock;
+    SystemBlock pidBlock;
 };
 
 #endif // PIDBLOCK_H

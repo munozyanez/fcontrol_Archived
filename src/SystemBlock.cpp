@@ -80,6 +80,25 @@ SystemBlock::SystemBlock(double b0, double b1, double a0, double a1)
 
 }
 
+double SystemBlock::GetNumOrder() const
+{
+    return numCoef.size();
+
+}
+
+double SystemBlock::GetDenOrder() const
+{
+    return denCoef.size();
+
+}
+
+long SystemBlock::GetTransfer(std::vector<double> &numCoefficients, std::vector<double> &denCoefficients) const
+{
+    numCoefficients = numCoef;
+    denCoefficients = denCoef;
+
+}
+
 bool SystemBlock::TimeResponse(TimeSignal &input, TimeSignal &output)
 {
 
@@ -161,12 +180,24 @@ double SystemBlock::OutputUpdate(const TimeSignal &old_input, const double &new_
         response += numCoef[i]*old_input.data[i-1];
     }
     response += numCoef[0]*new_value;
+    //apply gain (only numerator)
+    response = response*gain;
     //N=denCoef.size();
     for (int i=1; i<denCoef.size(); i++)
     {
         response -= denCoef[i]*old_input.data[i-1];
     }
-    //response=response/numCoef.back();
+
+    //apply saturation
+    if (maxOut!=0)
+    {
+        response = std::min(response,maxOut);
+    }
+    //apply saturation
+    if (minOut!=0)
+    {
+        response = std::max(response,minOut);
+    }
     //delete first value
     oldStates.erase(oldStates.begin());
     //now add the last value
@@ -192,16 +223,22 @@ double SystemBlock::OutputUpdate(double new_input)
     {
         response += numCoef[i]*oldInputs[i];
     }
-
+    //apply gain (only numerator)
+    response = response*gain;
     //N=denCoef.size();
     for (int i=0; i<oldStates.size(); i++)
     {
         response -= denCoef[i]*oldStates[i];
     }
-    //response=response/numCoef.back();
-    if (maxOut!=0 | minOut!=0)
+
+    //apply saturation
+    if (maxOut!=0)
     {
         response = std::min(response,maxOut);
+    }
+    //apply saturation
+    if (minOut!=0)
+    {
         response = std::max(response,minOut);
     }
     //now add the last value
@@ -219,6 +256,27 @@ long SystemBlock::SetSaturation(double low, double high)
     minOut = low;
 
 }
+
+SystemBlock SystemBlock::operator*(const SystemBlock & sys)
+{
+    std::vector<double> numResult(numCoef.size()-1+sys.GetNumOrder()-1);
+    std::vector<double> denResult(denCoef.size()-1+sys.GetDenOrder()-1);
+
+    std::vector<double> numSys,denSys;
+    sys.GetTransfer(numSys, denSys);
+
+    std::cout << "[UNDER CONSTRUCTION!!]]" << std::endl;
+
+
+}
+
+//void SystemBlock::operator>>(double &output)
+//{
+//    output = oldStates.back();
+
+//}
+
+
 
 bool SystemBlock::SignalParams(const TimeSignal &new_signalParams)
 {
@@ -298,12 +356,14 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
 
     //normalize for denominator highest exponent coefficient = 1
     //all functions will behave like it.
-    double divisor = denCoef.back();
-    std::cout << "normalizing Block with: " << divisor << std::endl;
+    double numGain = numCoef.back();
+    double denGain = denCoef.back();
+    gain = numGain/denGain;
+    std::cout << "Block gain: " << gain << std::endl;
     std::cout << "numCoef : [";
     for (int i=0; i<new_numCoef.size();i++)
     {
-        numCoef[i]=new_numCoef[i]/divisor;
+        numCoef[i]=new_numCoef[i]/numGain;
         std::cout << numCoef[i] << "," ;
     }
     std::cout << "]" << std::endl;
@@ -311,7 +371,7 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
     std::cout << "denCoef : [";
     for (int i=0; i<new_denCoef.size();i++)
     {
-        denCoef[i]=new_denCoef[i]/divisor;
+        denCoef[i]=new_denCoef[i]/denGain;
         std::cout << denCoef[i] << "," ;
 
     }
@@ -336,5 +396,30 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
         oldInputs.push_back(0.0);
     }
 
+
+}
+
+std::vector<double> SystemBlock::polyprod(std::vector<double> p, std::vector<double> q)
+{
+
+    //long newdeg = p.size()-1 + q.size()-1; // degree of p*q
+
+    // Special case for a polynomial of size 0
+    if (p.size() == 0 or q.size() == 0)
+    {
+        return std::vector<double>(0);
+    }
+
+    std::vector<double> r(p.size()-1 + q.size()-1);
+
+    for (int i = 0; i < p.size(); ++i)
+    {
+        for (int j = 0; j < q.size(); ++j)
+        {
+            r[i + j] = r[i + j] + p[i]*q[j];
+        }
+    }
+
+    return r;
 
 }
