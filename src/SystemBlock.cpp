@@ -270,11 +270,17 @@ SystemBlock SystemBlock::operator*(const SystemBlock & sys)
 
 }
 
-//void SystemBlock::operator>>(double &output)
-//{
-//    output = oldStates.back();
+void SystemBlock::operator>>(double &output)
+{
+    output = oldStates.back();
 
-//}
+}
+
+void SystemBlock::operator>>(SystemBlock &output)
+{
+    output.OutputUpdate(oldStates.back());
+
+}
 
 
 

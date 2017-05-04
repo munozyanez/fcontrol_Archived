@@ -12,6 +12,7 @@
 #include "libinterface.h"
 #include "TimeSignal.h"
 #include "TransferFunction.h"
+#include "Block.h"
 
 
 /**
@@ -21,7 +22,7 @@
  */
 
 
-class SystemBlock
+class SystemBlock : Block
 {
 public:
     SystemBlock();
@@ -44,7 +45,8 @@ public:
     long SetSaturation(double low, double high);
 
     SystemBlock operator*(const SystemBlock & sys);
-//    void operator>>(double & output);
+    void operator>>(double & output);
+    void operator>>(SystemBlock & output);
 
 
 

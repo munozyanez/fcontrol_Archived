@@ -12,10 +12,15 @@ public:
     double UpdateControl(double input);
 
     double OutputUpdate(double input);
+
+    void operator>>(double & output);
+    void operator>>(SystemBlock & output);
+
 private:
     SystemBlock iBlock;
     SystemBlock dBlock;
     double pBlock;
+    double state;
     SystemBlock pidBlock;
 };
 
