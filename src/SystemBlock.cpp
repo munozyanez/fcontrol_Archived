@@ -99,6 +99,12 @@ long SystemBlock::GetTransfer(std::vector<double> &numCoefficients, std::vector<
 
 }
 
+double SystemBlock::GetState()
+{
+    return state;
+
+}
+
 bool SystemBlock::TimeResponse(TimeSignal &input, TimeSignal &output)
 {
 
@@ -202,6 +208,7 @@ double SystemBlock::OutputUpdate(const TimeSignal &old_input, const double &new_
     oldStates.erase(oldStates.begin());
     //now add the last value
     oldStates.push_back(response);
+    state = response;
 
     return response;
 }
@@ -246,6 +253,7 @@ double SystemBlock::OutputUpdate(double new_input)
     //delete first value
     oldStates.erase(oldStates.begin());
 
+    state = response;
 
     return response;
 }
@@ -270,16 +278,29 @@ SystemBlock SystemBlock::operator*(const SystemBlock & sys)
 
 }
 
-void SystemBlock::operator>>(double &output)
+
+
+SystemBlock& SystemBlock::operator >> (SystemBlock &output)
 {
-    output = oldStates.back();
+    output.OutputUpdate(GetState());
+    return output;
 
 }
 
-void SystemBlock::operator>>(SystemBlock &output)
+SystemBlock& SystemBlock::operator <<=(double &input)
 {
-    output.OutputUpdate(oldStates.back());
+    OutputUpdate(input);
+    return *this;
 
+}
+
+SystemBlock &SystemBlock::operator <<(SystemBlock &input)
+{
+
+    OutputUpdate(input.GetState());
+    std::cout  << state << "..." << input.GetState() << std::endl;
+
+    return *this;
 }
 
 

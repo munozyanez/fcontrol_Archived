@@ -17,6 +17,7 @@ public:
 
 private:
 
+    double state;
     TimeSignal errorSignal;
     //TransferFunction transfer;
     bool InitControllerBlock(TimeSignal init_signal);

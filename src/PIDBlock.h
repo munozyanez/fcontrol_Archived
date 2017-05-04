@@ -13,8 +13,10 @@ public:
 
     double OutputUpdate(double input);
 
-    void operator>>(double & output);
-    void operator>>(SystemBlock & output);
+//    void operator>>(double & output);
+//    void operator>>(SystemBlock & output);
+
+    double GetState() const;
 
 private:
     SystemBlock iBlock;

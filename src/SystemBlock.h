@@ -36,6 +36,7 @@ public:
     double GetNumOrder() const;
     double GetDenOrder() const;
     long GetTransfer(std::vector<double> & numCoefficients, std::vector<double> & denCoefficients) const;
+    virtual double GetState();
 
     bool TimeResponse(TimeSignal &input, TimeSignal &output);
     double TimeResponseUpdate(const TimeSignal &old_input, const double &new_value);
@@ -45,10 +46,18 @@ public:
     long SetSaturation(double low, double high);
 
     SystemBlock operator*(const SystemBlock & sys);
-    void operator>>(double & output);
-    void operator>>(SystemBlock & output);
+    //SystemBlock& operator>>=(double & output);
+    SystemBlock& operator>>(SystemBlock & output);
 
+    SystemBlock& operator <<= (double& input);
+    SystemBlock& operator << (SystemBlock& input);
 
+    friend SystemBlock& operator >= (double &input, SystemBlock& output)
+    {
+        output.OutputUpdate(input);
+        return output;
+
+    }
 
 
 
@@ -77,6 +86,7 @@ private:
     std::vector<double> polyprod(std::vector<double> p, std::vector<double> q);
 
     //state values
+    double state;
     std::vector<double> oldStates;
     std::vector<double> oldInputs;
 

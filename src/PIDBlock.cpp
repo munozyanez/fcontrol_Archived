@@ -17,7 +17,6 @@ PIDBlock::PIDBlock(double kp, double ki, double kd, double Ts)
 
     pBlock = kp;
 
-
 }
 
 double PIDBlock::UpdateControl(double input)
@@ -30,6 +29,7 @@ double PIDBlock::UpdateControl(double input)
     //std::cout << "pid : " << cp << ","<< ci << ","<< cd << std::endl;
     state=cp+ci+cd;
     return state;
+    //std::cout << "pid : " <<state << std::endl;
 
 }
 
@@ -39,14 +39,19 @@ double PIDBlock::OutputUpdate(double input)
     UpdateControl(input);
 }
 
-void PIDBlock::operator>>(double &output)
+double PIDBlock::GetState() const
 {
-    output = state;
-
+    return state;
 }
 
-void PIDBlock::operator>>(SystemBlock &output)
-{
-    output.OutputUpdate(state);
+//void PIDBlock::operator>>(double &output)
+//{
+//    output = state;
 
-}
+//}
+
+//void PIDBlock::operator>>(SystemBlock &output)
+//{
+//    output.OutputUpdate(state);
+
+//}
