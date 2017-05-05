@@ -52,14 +52,16 @@ public:
     SystemBlock& operator <<= (double& input);
     SystemBlock& operator << (SystemBlock& input);
 
-    friend SystemBlock& operator >= (double &input, SystemBlock& output)
+    friend double operator > (double input, SystemBlock& output)
     {
-        output.OutputUpdate(input);
-        return output;
-
+        return output.OutputUpdate(input);
     }
 
-
+//    friend double& operator , (double input, double& output)
+//    {
+//        output=input;
+//        return output;
+//    }
 
 private:
     //transfer function G
