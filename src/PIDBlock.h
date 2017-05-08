@@ -15,6 +15,10 @@ public:
 
 //    void operator>>(double & output);
 //    void operator>>(SystemBlock & output);
+    friend double operator > (double input, PIDBlock& output)
+    {
+        return output.OutputUpdate(input);
+    }
 
     double GetState() const;
 
