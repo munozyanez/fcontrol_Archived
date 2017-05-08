@@ -29,7 +29,7 @@ double PIDBlock::UpdateControl(double input)
     //std::cout << "pid : " << cp << ","<< ci << ","<< cd << std::endl;
     state=cp+ci+cd;
     return state;
-    //std::cout << "pid : " <<state << std::endl;
+    std::cout << "pid : " <<state << std::endl;
 
 }
 
