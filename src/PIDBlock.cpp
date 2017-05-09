@@ -28,15 +28,17 @@ double PIDBlock::UpdateControl(double input)
     cd = dBlock.OutputUpdate(input);
     //std::cout << "pid : " << cp << ","<< ci << ","<< cd << std::endl;
     state=cp+ci+cd;
-    return state;
+
     std::cout << "pid : " <<state << std::endl;
+
+    return state;
 
 }
 
 double PIDBlock::OutputUpdate(double input)
 {
 
-    UpdateControl(input);
+    return UpdateControl(input);
 }
 
 double PIDBlock::GetState() const
