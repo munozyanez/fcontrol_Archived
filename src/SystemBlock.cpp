@@ -1,15 +1,16 @@
 #include "SystemBlock.h"
 
+#include <math.h>       /* isnormal */
 
 SystemBlock::SystemBlock()
 {
 
 
-    std::vector<double> nC = {1};
-    std::vector<double> nE = {0};
-    std::vector<double> dC = {1};
-    std::vector<double> dE = {0};
-    InitSystemBlock(nC,dC,nE,dE);
+//    std::vector<double> nC = {1};
+//    std::vector<double> nE = {0};
+//    std::vector<double> dC = {1};
+//    std::vector<double> dE = {0};
+//    InitSystemBlock(nC,dC,nE,dE);
 
 }
 
@@ -385,7 +386,34 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
     //all functions will behave like it.
     double numGain = numCoef.back();
     double denGain = denCoef.back();
+
     gain = numGain/denGain;
+
+    //if gain is not a number something fishy is going on
+    if(!std::isnormal(gain))
+    {
+
+        //maybe the highets exponent coefficient equals 0
+        //find the first coeff not 0
+        for (long i=numCoef.size(); i>=0; i--)
+        {
+            numGain = numCoef[i];
+            if(numGain!=0)
+            {
+                //found
+                gain = numGain/denGain;
+                break;
+            }
+            if (i==0)
+            {
+                std::cout << "Warning! 0 gain Block!" << std::endl;
+                gain = 0 ;
+                numGain = 1; //just to avoid division by zero.
+            }
+
+        }
+
+    }
     std::cout << "Block gain: " << gain << std::endl;
     std::cout << "numCoef : [";
     for (int i=0; i<new_numCoef.size();i++)
