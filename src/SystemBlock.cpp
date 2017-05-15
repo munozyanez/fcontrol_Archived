@@ -450,6 +450,7 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
     {
         oldInputs.push_back(0.0);
     }
+    state = 0;
 
 
 }
