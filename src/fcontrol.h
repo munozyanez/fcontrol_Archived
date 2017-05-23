@@ -5,6 +5,7 @@
 #include "ControllerBlock.h"
 #include "TransferFunction.h"
 #include "PIDBlock.h"
+#include "StateVariable.h"
 
 
 #endif // FCONTROL_H

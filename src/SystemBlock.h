@@ -22,7 +22,7 @@
  */
 
 
-class SystemBlock : Block
+class SystemBlock : public Block
 {
 public:
     SystemBlock();
@@ -52,10 +52,7 @@ public:
     SystemBlock& operator <<= (double& input);
     SystemBlock& operator << (SystemBlock& input);
 
-    friend double operator > (double input, SystemBlock& output)
-    {
-        return output.OutputUpdate(input);
-    }
+
 
 //    friend double& operator , (double input, double& output)
 //    {
