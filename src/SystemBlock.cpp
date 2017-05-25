@@ -385,41 +385,62 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
     //normalize for denominator highest exponent coefficient = 1
     //all functions will behave like it.
     double numGain = numCoef.back();
-    double denGain = denCoef.back();
 
-    gain = numGain/denGain;
 
-    //if gain is not a number something fishy is going on
-    if(!std::isnormal(gain))
+    if (numGain == 0)
     {
-
-        //maybe the highets exponent coefficient equals 0
         //find the first coeff not 0
-        for (long i=numCoef.size(); i>=0; i--)
+        for (long i=numCoef.size()-1; i>=0; i--)
         {
+
             numGain = numCoef[i];
             if(numGain!=0)
             {
                 //found
-                gain = numGain/denGain;
                 break;
-            }
-            if (i==0)
-            {
-                std::cout << "Warning! 0 gain Block!" << std::endl;
-                gain = 0 ;
-                numGain = 1; //just to avoid division by zero.
             }
 
         }
+    }
+
+    double denGain = denCoef.back();
+
+    if (denGain == 0)
+    {
+        //find the first coeff not 0
+        for (long i=denCoef.size()-1; i>=0; i--)
+        {
+            denGain = denCoef[i];
+            if(denGain!=0)
+            {
+                //found
+                break;
+            }
+
+        }
+    }
+
+    gain = numGain/denGain;
+
+    //if gain is not a number something fishy is going on
+    //probably denGain=0
+    if(!std::isnormal(gain))
+    {
+
+        std::cout << "Block gain error " << gain << std::endl;
+        std::cout << "Check Denominator " << std::endl;
+
 
     }
     std::cout << "Block gain: " << gain << std::endl;
     std::cout << "numCoef : [";
-    for (int i=0; i<new_numCoef.size();i++)
+    if (numGain !=0)
     {
-        numCoef[i]=new_numCoef[i]/numGain;
-        std::cout << numCoef[i] << "," ;
+        for (int i=0; i<new_numCoef.size();i++)
+        {
+            numCoef[i]=new_numCoef[i]/numGain;
+            std::cout << numCoef[i] << "," ;
+        }
     }
     std::cout << "]" << std::endl;
 

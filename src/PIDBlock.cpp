@@ -34,8 +34,8 @@ double PIDBlock::UpdateControl(double input)
     cd = dBlock.OutputUpdate(input);
     state=cp+ci+cd;
 
-    //std::cout << "pid : " << cp << ","<< ci << ","<< cd << std::endl;
-    //std::cout << "pid : " <<state << std::endl;
+    std::cout << "pid : " << cp << ","<< ci << ","<< cd << std::endl;
+    std::cout << "pid : " <<state << std::endl;
 
     return state;
 
