@@ -12,14 +12,14 @@ PIDBlock::PIDBlock(double kp, double ki, double kd, double Ts)
     iBlock = SystemBlock(
                 ki*Ts/2,   ki*Ts/2,
                 -1,        1);
-    dBlock = SystemBlock(
-                kd*-1,  kd*1,
-                0,      Ts*1);
-    // LPF implementation
-//    double N = 20;    // LPFfilter N
 //    dBlock = SystemBlock(
-//                kd*-1*N ,   kd*1*N,
-//                -1      ,   1+N*Ts*1);
+//                kd*-1,  kd*1,
+//                0,      Ts*1);
+    // LPF implementation
+    double N = 20;    // LPFfilter N
+    dBlock = SystemBlock(
+                kd*-1*N ,   kd*1*N,
+                -1      ,   1+N*Ts*1);
 
     pBlock = kp;
 
