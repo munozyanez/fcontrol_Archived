@@ -304,6 +304,20 @@ SystemBlock &SystemBlock::operator <<(SystemBlock &input)
     return *this;
 }
 
+long SystemBlock::Reset()
+{
+    for (int i=0; i<oldStates.size(); i++)
+    {
+        oldStates[i]=0;
+    }
+
+    for (int i=0; i<oldInputs.size(); i++)
+    {
+        oldInputs[i]=0;
+    }
+    state=0;
+}
+
 
 
 bool SystemBlock::SignalParams(const TimeSignal &new_signalParams)

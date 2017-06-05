@@ -53,6 +53,7 @@ public:
     SystemBlock& operator << (SystemBlock& input);
 
 
+    long Reset();
 
 //    friend double& operator , (double input, double& output)
 //    {

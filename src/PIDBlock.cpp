@@ -27,12 +27,24 @@ PIDBlock::PIDBlock(double kp, double ki, double kd, double Ts)
 
 double PIDBlock::UpdateControl(double input)
 {
-    double cp,ci,cd;
+    double cp,ci,cd,c;
 
     cp=input*pBlock;
     ci = iBlock.OutputUpdate(input);
     cd = dBlock.OutputUpdate(input);
-    state=cp+ci+cd;
+    c=cp+ci+cd;
+    if (signbit(state)==signbit(c))
+    {
+        state=c;
+    }
+    else
+    {
+        iBlock.Reset();
+        ci = iBlock.OutputUpdate(input);
+        c=cp+ci+cd;
+        state=c;
+
+    }
 
 //    std::cout << "pid : " << cp << ","<< ci << ","<< cd << std::endl;
 //    std::cout << "pid : " <<state << std::endl;
