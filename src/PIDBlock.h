@@ -8,7 +8,7 @@ class PIDBlock : public Block
 {
 public:
     PIDBlock();
-    PIDBlock(double kp, double ki, double kd, double Ts);
+    PIDBlock(double kp, double ki, double kd, double new_Ts);
     double UpdateControl(double input);
 
     double OutputUpdate(double input);
@@ -25,9 +25,10 @@ public:
 private:
     SystemBlock iBlock;
     SystemBlock dBlock;
-    double pBlock;
+    double pBlock,kp,ki,kd,Ts;
     double state;
     SystemBlock pidBlock;
+    long Initial(double new_Ts);
 };
 
 #endif // PIDBLOCK_H

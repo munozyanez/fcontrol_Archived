@@ -1,27 +1,47 @@
 #include "PIDBlock.h"
 
+
+long PIDBlock::Initial(double new_Ts)
+{
+
+    Ts=new_Ts;
+        std::cout << "Ts : " <<Ts << std::endl;
+    iBlock = SystemBlock(
+                std::vector<double> {Ts/2,Ts/2},
+                std::vector<double> {-1,1});
+//                std::vector<double> {0,Ts*1},
+//                std::vector<double> {-1,1});
+
+        // LPF implementation
+    double N = 20;    // LPFfilter N
+    dBlock = SystemBlock(
+                std::vector<double> {-1*N,1*N},
+                std::vector<double> {-1,1+N*Ts*1});
+//                std::vector<double> {-1,  1},
+//                std::vector<double> {0,      Ts*1});
+    return 0;
+}
+
 PIDBlock::PIDBlock()
 {
 
+    Initial(0.01);
+
+    kp=1;
+    ki=1;
+    kd=1;
 
 }
 
-PIDBlock::PIDBlock(double kp, double ki, double kd, double Ts)
+PIDBlock::PIDBlock(double new_kp, double new_ki, double new_kd, double new_Ts)
 {
+    Ts=new_Ts;
+    Initial(new_Ts);
 
-    iBlock = SystemBlock(
-                ki*Ts/2,   ki*Ts/2,
-                -1,        1);
-//    dBlock = SystemBlock(
-//                kd*-1,  kd*1,
-//                0,      Ts*1);
-    // LPF implementation
-    double N = 20;    // LPFfilter N
-    dBlock = SystemBlock(
-                kd*-1*N ,   kd*1*N,
-                -1      ,   1+N*Ts*1);
+    kp=new_kp;
+    ki=new_ki;
+    kd=new_kd;
 
-    pBlock = kp;
 
 }
 
@@ -29,14 +49,16 @@ double PIDBlock::UpdateControl(double input)
 {
     double cp,ci,cd;
 
-    cp=input*pBlock;
-    ci = iBlock.OutputUpdate(input);
-    cd = dBlock.OutputUpdate(input);
+    cp=input*kp;
+    ci = ki*iBlock.OutputUpdate(input);
+    cd = kd*dBlock.OutputUpdate(input);
 
     if (signbit(ci)!=signbit(input))
     {
         iBlock.Reset();
-        ci = iBlock.OutputUpdate(input);
+        ci = ki*iBlock.OutputUpdate(input);
+//        dBlock.Reset();
+//        cd = kd*dBlock.OutputUpdate(input);
     }
 
     state=cp+ci+cd;
