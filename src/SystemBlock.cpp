@@ -39,6 +39,18 @@ SystemBlock::SystemBlock(const std::vector<double> &new_numCoef, const std::vect
 
 }
 
+SystemBlock::SystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef, double new_gain)
+{
+    std::vector<double> nE(1,new_numCoef.size()),dE(1,new_denCoef.size());
+    InitSystemBlock(new_numCoef, new_denCoef,nE,dE);
+    if (this->gain!=1)
+    {
+        std::cerr << "Gain was not unit in transfer function. It was: " << gain << std::endl;
+    }
+    gain *= new_gain;
+    std::cout << "New gain: " << gain << std::endl;
+}
+
 
 SystemBlock::SystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef,
                              const std::vector<double> &new_numExps, const std::vector<double> &new_denExps)

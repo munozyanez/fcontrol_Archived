@@ -27,6 +27,7 @@ class SystemBlock : public Block
 public:
     SystemBlock();
     SystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef);
+    SystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef, double new_gain);
     SystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef,
                 const std::vector<double> &new_numExps, const std::vector<double> &new_denExps);
     SystemBlock(const TransferFunction &newH);
