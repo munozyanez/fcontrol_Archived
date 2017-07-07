@@ -9,15 +9,15 @@
 #include <complex>
 #include <fftw3.h>
 
-#define std_complex std::complex<double>
+#define complex_std std::complex<double>
 
 namespace li
 {
 
 //fftw lib
-bool fft_params(const std::vector<double> &signal_sample, std::vector<std_complex > &spectral_sample);
-bool fft(std::vector<double> &signal, std::vector<std_complex > &spectral);
-bool ifft(std::vector<std_complex > &spectral, std::vector<double> &signal);
+bool fft_params(const std::vector<double> &signal_sample, std::vector<complex_std > &spectral_sample);
+bool fft(std::vector<double> &signal, std::vector<complex_std > &spectral);
+bool ifft(std::vector<complex_std > &spectral, std::vector<double> &signal);
 
 
 }// end namespace li

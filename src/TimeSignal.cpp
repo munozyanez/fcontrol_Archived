@@ -11,6 +11,12 @@ TimeSignal::TimeSignal( unsigned int init_size, double init_fs)
     Initialize(init_size,init_fs);
 }
 
+TimeSignal::TimeSignal(std::vector<double> new_data, double new_dts)
+{
+    dts = new_dts;
+    data = new_data;
+}
+
 bool TimeSignal::Initialize(unsigned int new_size, double new_fs)
 {
     fs=new_fs;

@@ -3,14 +3,14 @@
 fftw_complex * a;
 
 std::complex<double> * b;
-std_complex c;
+complex_std c;
 double * signalAddress=NULL;
 int signalSize=0;
-std_complex * spectralAddress=NULL;
+complex_std * spectralAddress=NULL;
 int spectralSize=0;
 
 
-bool li::fft(std::vector<double> &signal, std::vector<std_complex> &spectral)
+bool li::fft(std::vector<double> &signal, std::vector<complex_std> &spectral)
 {
     static fftw_plan fft_d;
 
@@ -46,7 +46,7 @@ bool li::fft(std::vector<double> &signal, std::vector<std_complex> &spectral)
 
 }
 
-bool li::ifft(std::vector<std_complex> &spectral, std::vector<double> &signal)
+bool li::ifft(std::vector<complex_std> &spectral, std::vector<double> &signal)
 {
     //call library and return signals
 
@@ -59,7 +59,7 @@ bool li::ifft(std::vector<std_complex> &spectral, std::vector<double> &signal)
         std::cout << "New spectral. Updating plan." << std::endl;
 
         //save spectral as next plan function will empty the vector
-        std::vector<std_complex> spectralSave(spectral);
+        std::vector<complex_std> spectralSave(spectral);
 
         fft_i=fftw_plan_dft_c2r_1d(signal.size(),
                                    reinterpret_cast<fftw_complex*>(spectral.data()), //complex frequency vector

@@ -2,6 +2,7 @@
 #define FCONTROL_H
 
 #include "SystemBlock.h"
+#include "FSystemBlock.h"
 #include "ControllerBlock.h"
 #include "TransferFunction.h"
 #include "PIDBlock.h"

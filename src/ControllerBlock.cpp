@@ -28,10 +28,10 @@ ControllerBlock::ControllerBlock(TransferFunction new_transfer, TimeSignal new_s
 double ControllerBlock::ControlSignal(double new_error)
 {
 
-    double controlValue = TimeResponseUpdate(errorSignal, new_error);
-    errorSignal.data.erase(errorSignal.data.begin());
-    errorSignal.data.push_back(new_error);
-    return controlValue;
+//    double controlValue = TimeResponseUpdate(errorSignal, new_error);
+//    errorSignal.data.erase(errorSignal.data.begin());
+//    errorSignal.data.push_back(new_error);
+//    return controlValue;
 }
 
 bool ControllerBlock::InitControllerBlock(TimeSignal init_signal)

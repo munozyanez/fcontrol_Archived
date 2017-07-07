@@ -8,6 +8,7 @@ class TimeSignal
 public:
     TimeSignal();
     TimeSignal(unsigned int init_size, double init_fs);
+    TimeSignal(std::vector<double> new_data, double new_dts);
 
     bool Initialize(unsigned int new_size, double new_fs);
     bool GetParams(unsigned int &out_size, double &out_fs) const;
