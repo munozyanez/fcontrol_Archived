@@ -1,13 +1,10 @@
 #ifndef SYSTEMBLOCK_H
 #define SYSTEMBLOCK_H
 
-#include <vector>
-#include <math.h>
-#include <iostream>
 
 
 
-#include "libinterface.h"
+
 #include "TransferFunction.h"
 #include "Block.h"
 

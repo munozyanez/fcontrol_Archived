@@ -3,7 +3,10 @@
 
 
 #include <vector>
-
+#include <deque>
+#include <valarray>
+#include <math.h>
+#include <iostream>
 
 class Block
 {

@@ -10,13 +10,14 @@ FSystemBlock::FSystemBlock()
 FSystemBlock::FSystemBlock(const TimeSignal &timeImpulseResponse)
 {
 
-    g.clear();
-    for (int i=0; i<timeImpulseResponse.data.size(); i++)
-    {
-        g.push_back(timeImpulseResponse.data[i]);
-        std::cout << "i : " << i << ",g[i] : " << g[i] << std::endl;
-    }
-    std::cout << std::endl;
+//    g.clear();
+//    for (int i=0; i<timeImpulseResponse.data.size(); i++)
+//    {
+//        g.push_back(timeImpulseResponse.data[i]);
+//        std::cout << "i : " << i << ",g[i] : " << g[i] << std::endl;
+//    }
+//    std::cout << std::endl;
+    g=timeImpulseResponse.data;
 
 }
 
@@ -91,29 +92,10 @@ double FSystemBlock::TimeResponseUpdate(const TimeSignal &old_input, const doubl
     return response;
 }
 
-double FSystemBlock::OutputUpdate(const TimeSignal &old_input, const double &new_value)
+double FSystemBlock::OutputUpdate(double new_input)
 {
     double response=0;
-    //check signal parameters
 
-    //apply only to updated value (new_value). As an update, older values are known.
-    //start from 1, due to old first value will drop from new.
-
-    //int N=numCoef.size();
-
-
-    for (int i=1; i<numCoef.size(); i++)
-    {
-        response += numCoef[i]*old_input.data[i-1];
-    }
-    response += numCoef[0]*new_value;
-    //apply gain (only numerator)
-    response = response*gain;
-    //N=denCoef.size();
-    for (int i=1; i<denCoef.size(); i++)
-    {
-        response -= denCoef[i]*old_input.data[i-1];
-    }
 
     //apply saturation
     if (maxOut!=0)
@@ -126,9 +108,11 @@ double FSystemBlock::OutputUpdate(const TimeSignal &old_input, const double &new
         response = std::max(response,minOut);
     }
     //delete first value
-    oldStates.erase(oldStates.begin());
+    //TODO: Check complexity for shift
+    //maybe deque is better for that operation
+    oldStates[0]=response;
+    oldStates = oldStates.cshift(1);
     //now add the last value
-    oldStates.push_back(response);
     state = response;
 
     return response;
@@ -143,7 +127,7 @@ bool FSystemBlock::SignalParams(const TimeSignal &new_signalParams)
     sDts = 1/sFs;
     jwN=((sN/2)+1);
 
-    JW.clear();
+    JW.resize(0);
     JW.resize( (sN/2)+1 );
     for(int i=0; i<JW.size(); i++)
     {
@@ -151,13 +135,13 @@ bool FSystemBlock::SignalParams(const TimeSignal &new_signalParams)
 
     }
 
-    IN.clear();
+    IN.resize(0);
     IN.resize(jwN);
 
-    OUT.clear();
+    OUT.resize(0);
     OUT.resize(jwN);
 
-    G.clear();
+    G.resize(0);
     G.resize(jwN);
 
     //compute G based on num, den, and JW
@@ -171,35 +155,35 @@ bool FSystemBlock::SignalParams(const TimeSignal &new_signalParams)
         numGi=C_0;
         denGi=C_0;
 
-        //compute numerator
-        for (int j=0; j<numCoef.size(); j++)
-        {
-            numGi += numCoef[j]*pow(JW[i],numExps[j]);
+//        //compute numerator
+//        for (int j=0; j<numCoef.size(); j++)
+//        {
+//            numGi += numCoef[j]*pow(JW[i],numExps[j]);
 
-        }
-        //compute denominator
-        for (int j=0; j<denCoef.size(); j++)
-        {
-            denGi += denCoef[j]*pow(JW[i],denExps[j]);
+//        }
+//        //compute denominator
+//        for (int j=0; j<denCoef.size(); j++)
+//        {
+//            denGi += denCoef[j]*pow(JW[i],denExps[j]);
 
-        }
+//        }
         G[i]=numGi/denGi;
         //std::cout << G[i] << " at " << i << std::endl;
 
     }
 
     //compute g based on G
-    g.clear();
+    g.resize(0);
     g.resize(sN);
     li::ifft(G,g);
 
-    rI.clear();
+    rI.resize(0);
     rI.resize(sN/2);
-    iI.clear();
+    iI.resize(0);
     iI.resize(sN/2);
-    rO.clear();
+    rO.resize(0);
     rO.resize(sN/2);
-    iO.clear();
+    iO.resize(0);
     iO.resize(sN/2);
 
     return true;

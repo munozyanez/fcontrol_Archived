@@ -2,6 +2,7 @@
 #define LIBINTERFACE_H
 
 #include <vector>
+#include <valarray>
 #include <iostream>
 
 //if you #include <complex.h> before <fftw3.h>, then fftw_complex is defined to be the native complex type (std::complex)
@@ -16,8 +17,8 @@ namespace li
 
 //fftw lib
 bool fft_params(const std::vector<double> &signal_sample, std::vector<complex_std > &spectral_sample);
-bool fft(std::vector<double> &signal, std::vector<complex_std > &spectral);
-bool ifft(std::vector<complex_std > &spectral, std::vector<double> &signal);
+bool fft(std::valarray<double> &signal, std::valarray<std::complex<double> > &spectral);
+bool ifft(std::valarray<std::complex<double> > &spectral, std::valarray<double> &signal);
 
 
 }// end namespace li

@@ -14,6 +14,12 @@ TimeSignal::TimeSignal( unsigned int init_size, double init_fs)
 TimeSignal::TimeSignal(std::vector<double> new_data, double new_dts)
 {
     dts = new_dts;
+    data = std::valarray<double>(new_data.data(),new_data.size());
+}
+
+TimeSignal::TimeSignal(std::valarray<double> new_data, double new_dts)
+{
+    dts = new_dts;
     data = new_data;
 }
 
@@ -22,7 +28,7 @@ bool TimeSignal::Initialize(unsigned int new_size, double new_fs)
     fs=new_fs;
     dts=1/fs;
     N=new_size;
-    data.clear();
+    data.resize(0);
     data.resize(N);
 
     for (int i=0; i<N; i++)

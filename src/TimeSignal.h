@@ -2,6 +2,7 @@
 #define TIMESIGNAL_H
 
 #include <vector>
+#include <valarray>
 
 class TimeSignal
 {
@@ -9,14 +10,16 @@ public:
     TimeSignal();
     TimeSignal(unsigned int init_size, double init_fs);
     TimeSignal(std::vector<double> new_data, double new_dts);
+    TimeSignal(std::valarray<double> new_data, double new_dts);
+
 
     bool Initialize(unsigned int new_size, double new_fs);
     bool GetParams(unsigned int &out_size, double &out_fs) const;
 
     //variables exposed
     //data must be exposed for better performance.
-    //Think of this class as an improved std::vector.
-    std::vector<double> data;
+    //Think of this class as an improved std::valarray.
+    std::valarray<double> data;
 
     double getFs() const;
 
