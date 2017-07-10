@@ -17,12 +17,20 @@ FSystemBlock::FSystemBlock(const TimeSignal &timeImpulseResponse)
 //        std::cout << "i : " << i << ",g[i] : " << g[i] << std::endl;
 //    }
 //    std::cout << std::endl;
-    g=timeImpulseResponse.data;
+    FSystemBlockInit(timeImpulseResponse);
 
 }
 
-long FSystemBlock::FSystemBlockInit()
+long FSystemBlock::FSystemBlockInit(const TimeSignal &init)
 {
+
+    g=init.data;
+    dts=init.getDts();
+    N=g.size();
+    oldInputs.resize(0);
+    oldInputs.resize(N);
+    oldStates.resize(0);
+    oldStates.resize(N);
 
 }
 
@@ -107,13 +115,19 @@ double FSystemBlock::OutputUpdate(double new_input)
     {
         response = std::max(response,minOut);
     }
-    //delete first value
-    //TODO: Check complexity for shift
-    //maybe deque is better for that operation
-    oldStates[0]=response;
-    oldStates = oldStates.cshift(1);
-    //now add the last value
+
+    //TODO: Check complexity for cshift: maybe deque is better for that operation
+
+    //prepare the array for multiplication
+    oldInputs[0]=new_input; //overwrite first value
+    oldInputs = oldInputs.cshift(1); //make the first value be the last one (make it i_n)
+    //compute response
+    convolution_n = (oldInputs*g);
+    response = convolution_n.sum();
+
     state = response;
+    oldStates[0]=response;//overwrite first value
+    oldStates = oldStates.cshift(1); //make the first value be the last one (make it i_n)
 
     return response;
 }
@@ -124,7 +138,7 @@ bool FSystemBlock::SignalParams(const TimeSignal &new_signalParams)
 {
 
     new_signalParams.GetParams(sN, sFs);
-    sDts = 1/sFs;
+    dts = 1/sFs;
     jwN=((sN/2)+1);
 
     JW.resize(0);

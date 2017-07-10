@@ -23,7 +23,8 @@ public:
 
     bool SignalParams(const TimeSignal &new_signalParams);
 private:
-    long FSystemBlockInit();
+    long FSystemBlockInit(const TimeSignal &init);
+
     std::valarray< std::complex<double> > IN,OUT; //spectral values of input and output.
 
     std::valarray<double> rI,iI;//frecuency values of input (real and imag).
@@ -31,13 +32,15 @@ private:
     std::valarray< std::complex<double> > JW;//jw are imaginary numbers.
     std::valarray< std::complex<double> > G;//Processed Gain spectral values. Frequency block transference function.
     std::valarray<double> g;//Processed gain time values. Time block transference function (impulse response).
+    std::valarray<double> convolution_n;
 
     //signal parameters
-    double sFs,sDts;
+    double sFs,dts;
     unsigned int sN, jwN;
+    double N;
 
     //state values
-    double state;
+    double state;    
     std::valarray<double> oldStates;
     std::valarray<double> oldInputs;
 
