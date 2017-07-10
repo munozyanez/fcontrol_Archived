@@ -35,7 +35,6 @@ public:
 
     double OutputUpdate(double new_input);
 
-    long SetSaturation(double low, double high);
 
 //    SystemBlock operator*(const SystemBlock & sys);
 //    //SystemBlock& operator>>=(double & output);
@@ -71,8 +70,7 @@ private:
     std::vector<double> oldStates;
     std::vector<double> oldInputs;
 
-    //saturation values
-    double maxOut, minOut; // 0 values disables saturation
+
 
 
 

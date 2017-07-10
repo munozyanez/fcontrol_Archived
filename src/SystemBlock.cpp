@@ -153,13 +153,6 @@ double SystemBlock::OutputUpdate(double new_input)
     return response;
 }
 
-long SystemBlock::SetSaturation(double low, double high)
-{
-    maxOut = high;
-    minOut = low;
-
-}
-
 //SystemBlock SystemBlock::operator*(const SystemBlock & sys)
 //{
 //    std::vector<double> numResult(numCoef.size()-1+sys.GetNumOrder()-1);

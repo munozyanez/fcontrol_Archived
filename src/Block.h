@@ -17,9 +17,17 @@ public:
     {
         return output.OutputUpdate(input);
     }
+
+    long SetSaturation(double low, double high);
+
+protected:
+    double maxOut, minOut; // 0 values disables saturation
+
+
 private:
 
     double saturation;
+    //saturation values
 
     virtual double OutputUpdate(double new_input)=0;
 
