@@ -1,18 +1,21 @@
 var indexSectionsWithContent =
 {
-  0: "bcfpst",
-  1: "bcfpst"
+  0: "bcfpstz",
+  1: "bcfpst",
+  2: "fpz"
 };
 
 var indexSectionNames =
 {
   0: "all",
-  1: "classes"
+  1: "classes",
+  2: "pages"
 };
 
 var indexSectionLabels =
 {
   0: "All",
-  1: "Classes"
+  1: "Classes",
+  2: "Pages"
 };
 
