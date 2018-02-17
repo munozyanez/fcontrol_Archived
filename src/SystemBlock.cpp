@@ -127,8 +127,8 @@ double SystemBlock::OutputUpdate(double new_input)
     }
     //apply gain (only numerator)
     response = response*gain;
-    //N=denCoef.size();
-    for (int i=0; i<oldStates.size(); i++)
+    //N=denCoef.size();//use all outputs but actual (at the end of vector)
+    for (int i=0; i<oldStates.size()-1; i++)
     {
         response -= denCoef[i]*oldStates[i];
     }
@@ -223,10 +223,10 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
         for (long i=numCoef.size()-1; i>=0; i--)
         {
 
-            numGain = numCoef[i];
-            if(numGain!=0)
+            if(numCoef[i]!=0)
             {
                 //found
+                numGain = numCoef[i];
                 break;
             }
 
@@ -240,10 +240,10 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
         //find the first coeff not 0
         for (long i=denCoef.size()-1; i>=0; i--)
         {
-            denGain = denCoef[i];
-            if(denGain!=0)
+            if(denCoef[i]!=0)
             {
                 //found
+                denGain = denCoef[i];
                 break;
             }
 
