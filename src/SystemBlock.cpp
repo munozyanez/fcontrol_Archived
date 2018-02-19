@@ -128,7 +128,8 @@ double SystemBlock::OutputUpdate(double new_input)
     //apply gain (only numerator)
     response = response*gain;
     //N=denCoef.size();//use all outputs but actual (at the end of vector)
-    for (int i=0; i<oldStates.size()-1; i++)
+    //std::cout<<"BROKE "<< (int(oldStates.size())-1) <<""<<std::endl;
+    for (int i=0; i<int(oldStates.size()); i++)
     {
         response -= denCoef[i]*oldStates[i];
     }
