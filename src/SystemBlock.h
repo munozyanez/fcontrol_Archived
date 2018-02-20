@@ -45,6 +45,8 @@ public:
 
 
     long Reset();
+    long Reset(double new_state);
+
 
 //    friend double& operator , (double input, double& output)
 //    {

@@ -206,6 +206,19 @@ long SystemBlock::Reset()
     state=0;
 }
 
+long SystemBlock::Reset(double new_state)
+{
+    for (int i=0; i<oldStates.size(); i++)
+    {
+        oldStates[i]=new_state;
+    }
+
+    for (int i=0; i<oldInputs.size(); i++)
+    {
+        oldInputs[i]=0;
+    }
+    state=new_state;
+}
 
 bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef, const std::vector<double> &new_numExps, const std::vector<double> &new_denExps)
 {
