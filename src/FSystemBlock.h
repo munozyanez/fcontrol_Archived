@@ -22,6 +22,7 @@ public:
 
 
     bool SignalParams(const TimeSignal &new_signalParams);
+    double GetState();
 private:
     long FSystemBlockInit(const TimeSignal &init);
 

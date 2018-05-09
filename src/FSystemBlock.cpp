@@ -24,13 +24,21 @@ FSystemBlock::FSystemBlock(const TimeSignal &timeImpulseResponse)
 long FSystemBlock::FSystemBlockInit(const TimeSignal &init)
 {
 
-    g=init.data;
     dts=init.getDts();
-    N=g.size();
+    N=init.data.size();
+    g.resize(N);
+    for (int i=0; i<N; i++)
+    {
+        g[i]=init.data[N-i-1];
+
+    }
+
+
     oldInputs.resize(0);
     oldInputs.resize(N);
     oldStates.resize(0);
     oldStates.resize(N);
+
 
 }
 
@@ -132,7 +140,11 @@ double FSystemBlock::OutputUpdate(double new_input)
     return response;
 }
 
+double FSystemBlock::GetState()
+{
+    return state;
 
+}
 
 bool FSystemBlock::SignalParams(const TimeSignal &new_signalParams)
 {
