@@ -1,5 +1,7 @@
 #include "FSystemBlock.h"
 
+using namespace std;
+
 FSystemBlock::FSystemBlock()
 {
 
@@ -34,8 +36,8 @@ long FSystemBlock::FSystemBlockInit(const TimeSignal &init)
     }
 
 
-    oldInputs.resize(0);
-    oldInputs.resize(N);
+    oldInputs = valarray<double>(N);
+    //oldInputs.resize(N);
     oldStates.resize(0);
     oldStates.resize(N);
 
@@ -127,15 +129,30 @@ double FSystemBlock::OutputUpdate(double new_input)
     //TODO: Check complexity for cshift: maybe deque is better for that operation
 
     //prepare the array for multiplication
-    oldInputs[0]=new_input; //overwrite first value
-    oldInputs = oldInputs.cshift(1); //make the first value be the last one (make it i_n)
+    oldInputs = oldInputs.shift(1); //move all data one position left
+    oldInputs[oldInputs.size()-1]=new_input; //overwrite last value
+
     //compute response
     convolution_n = (oldInputs*g);
     response = convolution_n.sum();
 
+    cout  << "[ ";
+    for (int i=0; i<oldInputs.size(); i++)
+    {
+        cout << oldInputs[i] << ", " ;
+    }
+    cout  << "] "<< endl;
+
     state = response;
     oldStates[0]=response;//overwrite first value
     oldStates = oldStates.cshift(1); //make the first value be the last one (make it i_n)
+
+    cout  << "[ ";
+    for (int i=0; i<oldStates.size(); i++)
+    {
+        cout << oldStates[i] << ", " ;
+    }
+    cout  << "] "<< endl;
 
     return response;
 }

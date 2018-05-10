@@ -127,8 +127,7 @@ double SystemBlock::OutputUpdate(double new_input)
     }
     //apply gain (only numerator)
     response = response*gain;
-    //N=denCoef.size();//use all outputs but actual (at the end of vector)
-    //std::cout<<"BROKE "<< (int(oldStates.size())-1) <<""<<std::endl;
+    //use all outputs but actual (the vector is sized with -1 in order to that)
     for (int i=0; i<int(oldStates.size()); i++)
     {
         response -= denCoef[i]*oldStates[i];
@@ -144,7 +143,7 @@ double SystemBlock::OutputUpdate(double new_input)
     {
         response = std::max(response,minOut);
     }
-    //now add the last value
+    //now add the last value after compute response
     oldStates.push_back(response);
     //delete first value
     oldStates.erase(oldStates.begin());
@@ -305,6 +304,7 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
     minOut = 0;
 
     oldStates.clear();
+    //size oldstates one less position to remove actual state (z^-0)
     for(int i=0;i<denCoef.size()-1;i++)
     {
         oldStates.push_back(0.0);
