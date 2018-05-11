@@ -23,6 +23,7 @@ public:
 
     bool SignalParams(const TimeSignal &new_signalParams);
     double GetState();
+    long Reset();
 private:
     long FSystemBlockInit(const TimeSignal &init);
 
@@ -38,7 +39,7 @@ private:
     //signal parameters
     double sFs,dts;
     unsigned int sN, jwN;
-    double N;
+    double N,n;
 
     //state values
     double state;    

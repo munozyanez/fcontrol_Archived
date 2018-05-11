@@ -113,7 +113,13 @@ double FSystemBlock::TimeResponseUpdate(const TimeSignal &old_input, const doubl
 double FSystemBlock::OutputUpdate(double new_input)
 {
     double response=0;
+//    n++;
+//    if (N<n)
+//    {
+//        n=0;
+//        Reset();
 
+//    }
 
     //apply saturation
     if (maxOut!=0)
@@ -136,12 +142,12 @@ double FSystemBlock::OutputUpdate(double new_input)
     convolution_n = (oldInputs*g);
     response = convolution_n.sum();
 
-    cout  << "[ ";
-    for (int i=0; i<oldInputs.size(); i++)
-    {
-        cout << oldInputs[i] << ", " ;
-    }
-    cout  << "] "<< endl;
+//    cout  << "[ ";
+//    for (int i=0; i<oldInputs.size(); i++)
+//    {
+//        cout << oldInputs[i] << ", " ;
+//    }
+//    cout  << "] "<< endl;
 
     state = response;
     oldStates[0]=response;//overwrite first value
@@ -160,6 +166,13 @@ double FSystemBlock::OutputUpdate(double new_input)
 double FSystemBlock::GetState()
 {
     return state;
+
+}
+
+long FSystemBlock::Reset()
+{
+    oldInputs = valarray<double>(N);
+    oldStates = valarray<double>(N);
 
 }
 
