@@ -153,12 +153,12 @@ double FSystemBlock::OutputUpdate(double new_input)
     oldStates[0]=response;//overwrite first value
     oldStates = oldStates.cshift(1); //make the first value be the last one (make it i_n)
 
-    cout  << "[ ";
-    for (int i=0; i<oldStates.size(); i++)
-    {
-        cout << oldStates[i] << ", " ;
-    }
-    cout  << "] "<< endl;
+//    cout  << "[ ";
+//    for (int i=0; i<oldStates.size(); i++)
+//    {
+//        cout << oldStates[i] << ", " ;
+//    }
+//    cout  << "] "<< endl;
 
     return response;
 }
