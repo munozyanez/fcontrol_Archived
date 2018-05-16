@@ -3,7 +3,7 @@
 
 
 
-
+using namespace std;
 
 #include "TransferFunction.h"
 #include "Block.h"

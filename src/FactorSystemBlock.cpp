@@ -11,6 +11,11 @@ FactorSystemBlock::FactorSystemBlock(const std::vector<double> &new_zeros, const
     InitFactorSystemBlock(new_zeros, new_poles, new_gain);
 }
 
+double FactorSystemBlock::GetState() const
+{
+    return state;
+}
+
 long FactorSystemBlock::InitFactorSystemBlock(const std::vector<double> &new_zeros, const std::vector<double> &new_poles, double new_gain)
 {
 
@@ -40,7 +45,7 @@ long FactorSystemBlock::InitFactorSystemBlock(const std::vector<double> &new_zer
     //compute tf as factors
     gs.clear();
 
-    std::cout << "->tf as factors" << std::endl;
+    std::cout << " - > tf as factors. Order " << order <<  std::endl;
 
     for (int i=0; i<order; i++)
     {
@@ -51,7 +56,7 @@ long FactorSystemBlock::InitFactorSystemBlock(const std::vector<double> &new_zer
 
     gain = new_gain;
 
-    std::cout << "<-tf as factors gain: " << gain <<  std::endl;
+    std::cout << " < - tf as factors. gain: " << gain <<  std::endl;
 //    std::cout << "]" << std::endl;
 
 //    std::cout << "denCoef : [";

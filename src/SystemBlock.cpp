@@ -127,7 +127,7 @@ double SystemBlock::OutputUpdate(double new_input)
     }
     //apply gain (only numerator)
     response = response*gain;
-    //use all outputs but actual (the vector is sized with -1 in order to that)
+    //use all outputs but actual (the vector is sized with -1 in order to fix that)
     for (int i=0; i<int(oldStates.size()); i++)
     {
         response -= denCoef[i]*oldStates[i];
@@ -303,17 +303,19 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
     maxOut = 0;
     minOut = 0;
 
-    oldStates.clear();
-    //size oldstates one less position to remove actual state (z^-0)
-    for(int i=0;i<denCoef.size()-1;i++)
-    {
-        oldStates.push_back(0.0);
-    }
-    oldInputs.clear();
-    for(int i=0;i<numCoef.size();i++)
-    {
-        oldInputs.push_back(0.0);
-    }
+    oldStates = vector<double>(denCoef.size()-1,0);
+    oldInputs = vector<double>(numCoef.size(),0);
+//    oldStates.clear();
+//    //size oldstates one less position to remove actual state (z^-0)
+//    for(int i=0;i<denCoef.size()-1;i++)
+//    {
+//        oldStates.push_back(0.0);
+//    }
+//    oldInputs.clear();
+//    for(int i=0;i<numCoef.size();i++)
+//    {
+//        oldInputs.push_back(0.0);
+//    }
     state = 0;
 
 

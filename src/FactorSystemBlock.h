@@ -15,6 +15,8 @@ public:
 
 
     FactorSystemBlock(const std::vector<double> &new_zeros, const std::vector<double> &new_poles, double new_gain);
+    double GetState() const;
+
 private:
 
     double response;
