@@ -44,7 +44,7 @@ long FactorSystemBlock::InitFactorSystemBlock(const std::vector<double> &new_zer
 
     for (int i=0; i<order; i++)
     {
-        SystemBlock g(zeros[i],1,poles[i],1);
+        SystemBlock g(-zeros[i],1,-poles[i],1);
         gs.push_back(g);
 
     }
