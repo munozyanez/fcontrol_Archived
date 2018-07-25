@@ -53,13 +53,13 @@ double PIDBlock::UpdateControl(double input)
     ci = ki*iBlock.OutputUpdate(input);
     cd = kd*dBlock.OutputUpdate(input);
 
-    if (signbit(ci)!=signbit(input))
-    {
-        iBlock.Reset();
-        ci = ki*iBlock.OutputUpdate(input);
-//        dBlock.Reset();
-//        cd = kd*dBlock.OutputUpdate(input);
-    }
+//    if (signbit(ci)!=signbit(input))
+//    {
+//        iBlock.Reset();
+//        ci = ki*iBlock.OutputUpdate(input);
+////        dBlock.Reset();
+////        cd = kd*dBlock.OutputUpdate(input);
+//    }
 
     state=cp+ci+cd;
 
