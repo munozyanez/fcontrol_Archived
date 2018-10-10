@@ -44,6 +44,7 @@ bool TimeSignal::GetParams(unsigned int &out_size, double &out_fs) const
 {
     out_fs = fs;
     out_size = N;
+    return 0;
 
 }
 

@@ -98,6 +98,7 @@ long SystemBlock::GetTransfer(std::vector<double> &numCoefficients, std::vector<
 {
     numCoefficients = numCoef;
     denCoefficients = denCoef;
+    return 0;
 
 }
 
@@ -203,6 +204,8 @@ long SystemBlock::Reset()
         oldInputs[i]=0;
     }
     state=0;
+    return 0;
+
 }
 
 long SystemBlock::Reset(double new_state)
@@ -217,6 +220,8 @@ long SystemBlock::Reset(double new_state)
         oldInputs[i]=0;
     }
     state=new_state;
+    return 0;
+
 }
 
 bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef, const std::vector<double> &new_numExps, const std::vector<double> &new_denExps)
@@ -317,6 +322,7 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
 //        oldInputs.push_back(0.0);
 //    }
     state = 0;
+    return 0;
 
 
 }

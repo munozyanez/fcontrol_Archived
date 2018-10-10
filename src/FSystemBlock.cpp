@@ -41,6 +41,7 @@ long FSystemBlock::FSystemBlockInit(const TimeSignal &init)
     oldStates.resize(0);
     oldStates.resize(N);
 
+    return 0;
 
 }
 
@@ -173,6 +174,7 @@ long FSystemBlock::Reset()
 {
     oldInputs = valarray<double>(N);
     oldStates = valarray<double>(N);
+    return 0;
 
 }
 

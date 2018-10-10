@@ -21,5 +21,6 @@ bool SystemBlockChain::TimeResponse(double fs, const std::vector<double> &input,
     {
 
     }
+    return 0;
 
 }

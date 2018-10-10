@@ -32,6 +32,8 @@ double ControllerBlock::ControlSignal(double new_error)
 //    errorSignal.data.erase(errorSignal.data.begin());
 //    errorSignal.data.push_back(new_error);
 //    return controlValue;
+    return 0;
+
 }
 
 bool ControllerBlock::InitControllerBlock(TimeSignal init_signal)

@@ -93,5 +93,6 @@ bool li::ifft(std::valarray<complex_std> &spectral, std::valarray<double> &signa
 
 bool li::fft_params(const std::vector<double> &signal_sample, std::vector<std::complex<double> > &spectral_sample)
 {
+    return 0;
 
 }
