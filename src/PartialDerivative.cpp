@@ -29,6 +29,7 @@ long PartialDerivative::Init(double new_exp, double new_dts)
     {
         bi = tgamma(exp+1) / (tgamma(i+1)*tgamma(exp-i+1));
         //implement here gl discrete
+        //TODO!
         //printf ("tgamma(%f) = %f\n", param, result );
 
     }
