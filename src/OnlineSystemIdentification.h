@@ -2,7 +2,7 @@
 #define ONLINESYSTEMIDENTIFICATION_H
 
 
-#define rlms_z (1)                //Number of input past values
+#define rlms_z (1)                //Number of input past values including current input
 #define rlms_p 2					//Number of output past values
 #define rlms_N (rlms_z+rlms_p)      //phi dimension
 
