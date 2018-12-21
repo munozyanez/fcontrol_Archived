@@ -122,6 +122,8 @@ double SystemBlock::OutputUpdate(double new_input)
     //now add the last value
     oldInputs.push_back(new_input);
 
+    /*this product, taken the storing of oldinputs mean that coefficients assumes that
+     vector should is ordered from 0 to N, in positive powers of z (opposite as you write)*/
     for (int i=0; i<oldInputs.size(); i++)
     {
         response += numCoef[i]*oldInputs[i];

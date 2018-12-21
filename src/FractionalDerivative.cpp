@@ -3,7 +3,7 @@
 FractionalDerivative::FractionalDerivative()
 {
 
-    Init(0.01,1);
+    Init(1,0.01);
 }
 
 
@@ -12,20 +12,23 @@ FractionalDerivative::FractionalDerivative(double new_exp, double new_dts)
 
     if (new_exp > 1)
     {
-        cout << "Cant use exponents greater than one. Using integer derivative combined with fractional." << endl;
-        exp=modf(new_exp,&iexp);
-        cout << "Integer exponent" << iexp << " fractional exponent: " << exp << endl;
-        Init(exp,new_dts);
+        cout << "Cant use exponents greater than one. Use another option." << endl;
+//        exp=modf(new_exp,&iexp);
+//        cout << "Integer exponent" << iexp << " fractional exponent: " << exp << endl;
+        Init(1,new_dts);
+        return;
     }
-    if (new_exp < 0)
+    if (new_exp < -1)
     {
-        cout << "Cant use negative exponents. Using integer integral combined with fractional derivative." << endl;
-        exp=modf(new_exp,&iexp);
-        cout << "Integer exponent" << iexp << " fractional exponent: " << exp << endl;
-        Init(exp,new_dts);
+        cout << "Cant use exponents lesser than minus one. Use another option." << endl;
+//        exp=modf(new_exp,&iexp);
+//        cout << "Integer exponent" << iexp << " fractional exponent: " << exp << endl;
+        Init(-1,new_dts);
+        return;
     }
 
     Init(new_exp,new_dts);
+    return;
 }
 
 
@@ -35,7 +38,7 @@ long FractionalDerivative::Init(double new_exp, double new_dts)
 {
 
     dts=new_dts;
-    exp=new_exp;
+    exp=new_exp+1; //WHY IT NEEDS TO ADD ONE ???????????
 
     double bi=0;
 

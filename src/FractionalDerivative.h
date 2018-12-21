@@ -19,7 +19,7 @@ public:
 private:
     long Init(double new_exp, double new_dts);
     double exp;
-    double iexp;
+
     double dts;
     double firtol;
     valarray<double> fir;

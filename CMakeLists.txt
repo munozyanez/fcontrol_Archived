@@ -8,7 +8,12 @@ project(fcontrol)
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 #deps
+#1-fftw
 find_package(FFTW REQUIRED)
+#2-eigen
+find_package(Eigen3 REQUIRED NO_MODULE)
+message(STATUS "EIGEN: " ${EIGEN3_VERSION} " (internal)")
+include_directories(${EIGEN3_INCLUDE_DIR})
 
 # source files for fcontrol
 aux_source_directory(./src FCONTROL_SRCS)
@@ -18,6 +23,7 @@ FILE(GLOB_RECURSE FCONTROL_INCLUDE_FILES src/*.h src/*.hpp)
 set(SUBDIR_LINK_NAMES ${SUBDIR_LINK_NAMES} ${PROJECT_NAME} PARENT_SCOPE)
 set(SUBDIR_INCLUDE_DIRECTORIES ${SUBDIR_INCLUDE_DIRECTORIES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
+    ${EIGEN3_INCLUDE_DIR}
     PARENT_SCOPE)
 
 ADD_LIBRARY(${PROJECT_NAME} SHARED ${FCONTROL_SRCS} ${FCONTROL_INCLUDE_FILES})
@@ -60,5 +66,5 @@ else("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
 endif()
 
 
-target_link_libraries( ${PROJECT_NAME} ${FFTW_LIBRARIES})
+target_link_libraries( ${PROJECT_NAME} ${FFTW_LIBRARIES} ${Eigen3_LIBRARIES})
 

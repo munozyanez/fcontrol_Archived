@@ -34,6 +34,8 @@
 #include "TransferFunction.h"
 #include "PIDBlock.h"
 #include "StateVariable.h"
+#include "FractionalController1DOF.h"
+#include "FractionalDerivative.h"
 
 
 #endif // FCONTROL_H
