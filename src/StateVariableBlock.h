@@ -4,7 +4,7 @@
 #include "Block.h"
 #include "StateVariable.h"
 
-class StateVariableBlock : public Block
+class StateVariableBlock : public BaseBlock
 {
 public:
     StateVariableBlock();

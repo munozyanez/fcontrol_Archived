@@ -4,7 +4,7 @@
 #include "fcontrol.h"
 
 
-class PIDBlock : public Block
+class PIDBlock : public BaseBlock
 {
 public:
     PIDBlock();

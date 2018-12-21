@@ -5,7 +5,7 @@
 
 using namespace std;
 
-class FactorSystemBlock : public Block
+class FactorSystemBlock : public BaseBlock
 {
 public:
     FactorSystemBlock();

@@ -10,7 +10,7 @@
 #include "Block.h"
 #include "TimeSignal.h"
 
-class FSystemBlock : public Block
+class FSystemBlock : public BaseBlock
 {
 public:
     FSystemBlock();

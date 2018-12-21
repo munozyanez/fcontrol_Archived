@@ -36,6 +36,7 @@
 #include "StateVariable.h"
 #include "FractionalController1DOF.h"
 #include "FractionalDerivative.h"
+#include "OnlineSystemIdentification.h"
 
 
 #endif // FCONTROL_H

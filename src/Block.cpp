@@ -1,12 +1,12 @@
 #include "Block.h"
 
-Block::Block()
+BaseBlock::BaseBlock()
 {
 
 }
 
 
-long Block::SetSaturation(double low, double high)
+long BaseBlock::SetSaturation(double low, double high)
 {
     maxOut = high;
     minOut = low;

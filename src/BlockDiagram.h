@@ -7,10 +7,10 @@ class BlockDiagram
 {
 public:
     BlockDiagram();
-    BlockDiagram(std::vector<Block*> &new_chain);
+    BlockDiagram(std::vector<BaseBlock*> &new_chain);
 
 private:
-    std::vector<Block *> chain;
+    std::vector<BaseBlock *> chain;
 };
 
 #endif // BLOCKDIAGRAM_H

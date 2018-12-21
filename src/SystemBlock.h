@@ -16,7 +16,7 @@ using namespace std;
  */
 
 
-class SystemBlock : public Block
+class SystemBlock : public BaseBlock
 {
 public:
     SystemBlock();

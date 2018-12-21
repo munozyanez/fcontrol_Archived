@@ -8,12 +8,12 @@
 #include <math.h>
 #include <iostream>
 
-class Block
+class BaseBlock
 {
 public:
-    Block();
+    BaseBlock();
 
-    friend double operator > (double input, Block& output)
+    friend double operator > (double input, BaseBlock& output)
     {
         return output.OutputUpdate(input);
     }
