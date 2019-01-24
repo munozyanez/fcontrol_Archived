@@ -49,6 +49,14 @@ FractionalController1DOF::FractionalController1DOF(double new_exp, double new_dt
 
 }
 
+double FractionalController1DOF::OutputUpdate(double new_input)
+{
+    fpart.OutputUpdate(new_input);
+
+    return 0;
+
+}
+
 
 long FractionalController1DOF::Init(double new_exp, double new_dts)
 {
