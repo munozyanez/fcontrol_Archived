@@ -3,29 +3,31 @@
 FractionalDerivative::FractionalDerivative()
 {
 
-    Init(1,0.01);
+    Init(0,0.01);
 }
 
 
 FractionalDerivative::FractionalDerivative(double new_exp, double new_dts)
 {
 
-    if (new_exp > 1)
-    {
-        cout << "Cant use exponents greater than one. Use another option." << endl;
+    //no need to use this
+//    if (new_exp > 1)
+//    {
+//        cout << "Cant use exponents greater than one. Use another option." << endl;
 //        exp=modf(new_exp,&iexp);
 //        cout << "Integer exponent" << iexp << " fractional exponent: " << exp << endl;
-        Init(1,new_dts);
-        return;
-    }
+//        Init(0,new_dts);
+//        return;
+//    }
     if (new_exp < 0)
     {
         cout << "Cant use exponents lesser than zero. Use another option." << endl;
 //        exp=modf(new_exp,&iexp);
 //        cout << "Integer exponent" << iexp << " fractional exponent: " << exp << endl;
-        Init(-1,new_dts);
+        Init(0,new_dts);
         return;
     }
+        cout << "Fractional derivative exponent: " << new_exp << endl;
 
     Init(new_exp,new_dts);
     return;
@@ -38,12 +40,14 @@ long FractionalDerivative::Init(double new_exp, double new_dts)
 {
 
     dts=new_dts;
-    exp=new_exp+1; //WHY IT NEEDS TO ADD ONE ???????????
+    exp=new_exp;
 
     double bi=0;
 
     firtol=0.01; //default. otherwise assign with setter
     vector<double> tmp;
+//    cout << "Fractional derivative FIR: "<<endl;
+
     for (int i=0; i<FRACTIONALDERIVATIVE_MAXSIZE; i++)
     {
         bi = tgamma(exp+1) / (tgamma(i+1)*tgamma(exp-i+1));
@@ -51,6 +55,7 @@ long FractionalDerivative::Init(double new_exp, double new_dts)
         if(abs(tmp[i])<firtol) break;
 //        cout << tmp[i] << ", ";
     }
+//    cout << endl<< endl;
 
     N=tmp.size();
 
@@ -62,10 +67,8 @@ long FractionalDerivative::Init(double new_exp, double new_dts)
     for (int i=0; i<N; i++)
     {
         fir[i]=tmp[N-i-1];
-        cout << fir[i] << ", ";
-
+//        cout << fir[i] << ", ";
     }
-cout << endl;
 
 
 
