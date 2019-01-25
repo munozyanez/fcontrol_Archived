@@ -7,10 +7,11 @@
 #include <iostream>      //cout
 #include <math.h>       //tgamma
 #include <vector>       //vector
+#include "Block.h"
 
 using namespace std;
 
-class FractionalDerivative
+class FractionalDerivative : public BaseBlock
 {
 public:
     FractionalDerivative();

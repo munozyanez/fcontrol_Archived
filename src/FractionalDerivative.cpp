@@ -18,9 +18,9 @@ FractionalDerivative::FractionalDerivative(double new_exp, double new_dts)
         Init(1,new_dts);
         return;
     }
-    if (new_exp < -1)
+    if (new_exp < 0)
     {
-        cout << "Cant use exponents lesser than minus one. Use another option." << endl;
+        cout << "Cant use exponents lesser than zero. Use another option." << endl;
 //        exp=modf(new_exp,&iexp);
 //        cout << "Integer exponent" << iexp << " fractional exponent: " << exp << endl;
         Init(-1,new_dts);
@@ -62,10 +62,10 @@ long FractionalDerivative::Init(double new_exp, double new_dts)
     for (int i=0; i<N; i++)
     {
         fir[i]=tmp[N-i-1];
-//        cout << fir[i] << ", ";
+        cout << fir[i] << ", ";
 
     }
-
+cout << endl;
 
 
 

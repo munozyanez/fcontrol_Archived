@@ -21,6 +21,7 @@ private:
     double iexp;
     double exp;
     double dts;
+    double state;
 
 };
 
