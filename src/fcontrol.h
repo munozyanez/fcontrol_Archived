@@ -37,6 +37,8 @@
 #include "FractionalController1DOF.h"
 #include "FractionalDerivative.h"
 #include "OnlineSystemIdentification.h"
+#include "ToolsFControl.h"
+
 
 
 #endif // FCONTROL_H
