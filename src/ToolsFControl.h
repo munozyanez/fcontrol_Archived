@@ -19,7 +19,7 @@ private:
 //    long timeAlreadyWaited; //in nanoseconds
     long dts; //sampling time nanoseconds.
     chrono::nanoseconds dtsWait, tWaited;
-    chrono::system_clock clock;
+//    chrono::system_clock clock;
 
 };
 
