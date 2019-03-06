@@ -120,16 +120,20 @@ double SystemBlock::OutputUpdate(double new_input)
     //int N=numCoef.size();
     oldInputs.erase(oldInputs.begin());
     //now add the last value
-    oldInputs.push_back(new_input);
+    oldInputs.push_back((double)new_input);
 
     /*this product, taken the storing of oldinputs mean that coefficients assumes that
      vector should is ordered from 0 to N, in positive powers of z (opposite as you write)*/
     for (int i=0; i<oldInputs.size(); i++)
     {
         response += numCoef[i]*oldInputs[i];
+//        std::cout << "response : " << response << std::endl;
+
     }
+
     //apply gain (only numerator)
     response = response*gain;
+
     //use all outputs but actual (the vector is sized with -1 in order to fix that)
     for (int i=0; i<int(oldStates.size()); i++)
     {
@@ -152,6 +156,7 @@ double SystemBlock::OutputUpdate(double new_input)
     oldStates.erase(oldStates.begin());
 
     state = response;
+//    std::cout << "state : " <<state << std::endl;
 
     return response;
 }
