@@ -23,9 +23,10 @@ public:
     OnlineSystemIdentification();
     long UpdateSystem(double input, double output);
 
+    OnlineSystemIdentification(double new_ff);
 private:
 
-    double ff;
+    double ff; //forgetting factor
 
     Matrix<double,rlms_N,rlms_N> P;
     Matrix<double,rlms_N,1> phi;

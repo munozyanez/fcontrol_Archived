@@ -13,6 +13,19 @@ OnlineSystemIdentification::OnlineSystemIdentification()
 
 }
 
+OnlineSystemIdentification::OnlineSystemIdentification(double new_ff)
+{
+    ff=0.98;
+
+    P=P.Random();
+    phi=phi.setOnes();
+    L=L.setZero();
+    phi=phi.Random();
+    OnlineSystemIdentification();
+
+
+}
+
 long OnlineSystemIdentification::UpdateSystem(double input, double output)
 {
 
