@@ -30,10 +30,16 @@ long ToolsFControl::WaitSamplingTime()
     tWaited = actualTimeValue.time_since_epoch() - lastTimeValue.time_since_epoch();
 //    tWaited = actualTimeValue-lastTimeValue;//chrono::nanoseconds( long(difftime(lastTimeValue,actualTimeValue)*1000*1000) );
 
-//    cout << "dtsWait: " << dtsWait.count() << ", tWaited: " <<  tWaited.count() << endl;
-//    cout << "Total time: " << actualTimeValue.time_since_epoch().count() << endl;
+    if(dtsWait > tWaited)
+    {
+        this_thread::sleep_for(dtsWait - tWaited);
+    }
+    else
+    {
+        cout << "dtsWait: " << dec <<dtsWait.count() << ", tWaited: " <<  tWaited.count() << endl;
+        cout << "Total time: " << actualTimeValue.time_since_epoch().count() << endl;
+    }
 
-    this_thread::sleep_for(dtsWait - tWaited);
 
     lastTimeValue = chrono::system_clock::now();
 
