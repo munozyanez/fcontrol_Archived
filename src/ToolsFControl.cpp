@@ -36,8 +36,8 @@ long ToolsFControl::WaitSamplingTime()
     }
     else
     {
-        cout << "dtsWait: " << dec <<dtsWait.count() << ", tWaited: " <<  tWaited.count() << endl;
-        cout << "Total time: " << actualTimeValue.time_since_epoch().count() << endl;
+        //cout << "dtsWait: " << dec <<dtsWait.count() << ", tWaited: " <<  tWaited.count() << endl;
+        //cout << "Total time: " << actualTimeValue.time_since_epoch().count() << endl;
     }
 
 
