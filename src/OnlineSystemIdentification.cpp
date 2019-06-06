@@ -113,6 +113,26 @@ long OnlineSystemIdentification::GetZTransferFunction(vector<double> &num, vecto
     return 0;
 }
 
+long OnlineSystemIdentification::PrintZTransferFunction(double dts)
+{
+    cout << "G=tf([ " << th(1) ;
+    for (int i=1; i<numOrder; i++)
+    {
+        cout << ", " << th(i);
+    }
+    cout << "],[ "<< th(1+numOrder);
+    for (int i=1; i<denOrder; i++)
+    {
+        cout << ", " << th(i+numOrder);
+
+    }
+    cout << "]," <<dts<< ")"<< endl;
+    return 0;
+
+}
+
+
+
 vector<double> OnlineSystemIdentification::GetParamsVector()
 {
     vector<double> params(order);
