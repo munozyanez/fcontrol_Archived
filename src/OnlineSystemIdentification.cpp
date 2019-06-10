@@ -57,7 +57,7 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
 
 }
 
-long OnlineSystemIdentification::UpdateSystem(double input, double output)
+double OnlineSystemIdentification::UpdateSystem(double input, double output)
 {
 
 ti++;
@@ -92,11 +92,11 @@ ti++;
     //and add the actual value
     phi(0)=output;
 
-    return 0;
+    return err;
 
 }
 
-long OnlineSystemIdentification::GetZTransferFunction(vector<double> &num, vector<double> &den)
+double OnlineSystemIdentification::GetZTransferFunction(vector<double> &num, vector<double> &den)
 {
 
     for (int i=0; i<numOrder; i++)
@@ -110,10 +110,10 @@ long OnlineSystemIdentification::GetZTransferFunction(vector<double> &num, vecto
         den[i]=th(i+numOrder);
 //        cout << "den i= " << i << " den: " << den[i] << " th: " << th(i+numOrder)<<endl;
     }
-    return 0;
+    return err;
 }
 
-long OnlineSystemIdentification::PrintZTransferFunction(double dts)
+double OnlineSystemIdentification::PrintZTransferFunction(double dts)
 {
     cout << "G=tf([ " << th(1) ;
     for (int i=1; i<numOrder; i++)
@@ -127,7 +127,7 @@ long OnlineSystemIdentification::PrintZTransferFunction(double dts)
 
     }
     cout << "]," <<dts<< ")"<< endl;
-    return 0;
+    return err;
 
 }
 

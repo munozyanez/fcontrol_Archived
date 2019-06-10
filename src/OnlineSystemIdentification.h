@@ -23,9 +23,9 @@ class OnlineSystemIdentification
 public:
     OnlineSystemIdentification();
     OnlineSystemIdentification(long new_numOrder, long new_denOrder, double new_ff = 0.98);
-    long UpdateSystem(double input, double output);
-    long GetZTransferFunction(vector<double>& num,vector<double>& den);
-    long PrintZTransferFunction(double dts);
+    double UpdateSystem(double input, double output);
+    double GetZTransferFunction(vector<double>& num,vector<double>& den);
+    double PrintZTransferFunction(double dts);
     vector<double> GetParamsVector();
 
 private:
