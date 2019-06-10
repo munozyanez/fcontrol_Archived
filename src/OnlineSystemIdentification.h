@@ -28,6 +28,7 @@ public:
     double PrintZTransferFunction(double dts);
     vector<double> GetParamsVector();
 
+    double PrintParamsVector();
 private:
 
     long numOrder,denOrder, order;
