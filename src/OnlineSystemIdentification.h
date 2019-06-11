@@ -32,6 +32,7 @@ public:
 private:
 
     long numOrder,denOrder, order;
+    long phiNumIndex,phiLastIndex;
 
 //    Matrix<double,Dynamic,Dynamic> P;
 //    Matrix<double,Dynamic,1> phi;
@@ -44,6 +45,7 @@ private:
     Matrix<double, Dynamic, 1, 0, rlms_N, 1> phi; //max order rlms_N
     Matrix<double, Dynamic, 1, 0, rlms_N, 1>  L;//max order rlms_N
     Matrix<double, Dynamic, 1, 0, rlms_N, 1> th;//max order rlms_N
+    Matrix<double, Dynamic, Dynamic, 0, rlms_N, rlms_N> R; //max order rlms_N #defined
 
     double err;
     double ti; //time index
