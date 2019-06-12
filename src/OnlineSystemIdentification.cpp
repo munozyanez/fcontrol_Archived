@@ -131,8 +131,10 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
 //    cout << "R: " << R << endl;
 
     th = th + R.inverse()*phi*(output - phi.transpose()*th);
-    cout << "th: " << th << endl;
+    cout << "th: " << th.transpose() << endl;
 
+    cout << "phi: " << phi.transpose() << endl;
+    cout << "test: phiT*theta " << phi.transpose()*th << endl;
 
     //move all phi output data one position backwards for the next iteration
     for (int i=denOrder-1; i>0; i--)
@@ -141,7 +143,7 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
     }
     //and add the actual value
     phi(0)=-output;
-//    cout << "phi: " << phi.transpose() << endl;
+
 
 
     return err;
