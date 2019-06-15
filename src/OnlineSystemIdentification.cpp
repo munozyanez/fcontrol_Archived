@@ -39,9 +39,9 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
         }
     }
 
-    order = numOrder+1 + denOrder;//+1 to include actual input
-    phiNumIndex = denOrder-1+1;
-    phiLastIndex = order-1; //starts at zero.
+    order = numOrder+1 + denOrder; //+1 include numerator actual input
+    phiNumIndex = denOrder+1-1;//num next to den +1 and starts at zero -1.
+    phiLastIndex = order-1; //starts at zero -1.
 
 //    //    P.resize(order,NoChange); //no longer needed
 //    P=P.Random(order,order);
@@ -58,7 +58,7 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
 
     //    P.resize(order,NoChange); //no longer needed
     R=R.Random(order,order);
-    cout << "--> Initial P <--" << endl << P << endl;
+    cout << "--> Initial R <--" << endl << R << endl;
     //    phi.resize(order,order); //no longer needed
     phi=phi.Random(order,1);
     cout << "--> Initial phi <--" << endl << phi << endl;
@@ -119,7 +119,7 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
     for (int i=phiLastIndex; i>phiNumIndex; i--) //order-1 is full phi size
     {
         //input indexes can start from zero to include actual input??
-//        cout << "phiLastIndex: " << phiLastIndex << " ; phiNumIndex: " << phiNumIndex << endl;
+       // cout << "phiLastIndex: " << phiLastIndex << " ; phiNumIndex: " << phiNumIndex << endl;
         phi[i] = phi[i-1];
     }
     phi(phiNumIndex)=input;
@@ -127,24 +127,25 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
 //            cout << "b0 " << (output[ti]-phi.transpose()*th)/input[ti] << ", at step: " <<  ti << endl;
 //    cout << "phi: " << phi.transpose() << endl;
 
+
+
     R = ff*R + phi*phi.transpose();
 //    cout << "R: " << R << endl;
 
     th = th + R.inverse()*phi*(output - phi.transpose()*th);
-    cout << "th: " << th.transpose() << endl;
+//    cout << "th: " << th.transpose() << endl;
 
-    cout << "phi: " << phi.transpose() << endl;
-    cout << "test: phiT*theta " << phi.transpose()*th << endl;
+//    cout << "phi: " << phi.transpose() << endl;
+//    cout << "test: phiT*theta " << phi.transpose()*th << endl;
 
-    //move all phi output data one position backwards for the next iteration
+
+    //move all phi output data one position backwards for next iteration
     for (int i=denOrder-1; i>0; i--)
     {
         phi[i] = phi[i-1];
     }
     //and add the actual value
     phi(0)=-output;
-
-
 
     return err;
 
@@ -153,18 +154,42 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
 double OnlineSystemIdentification::GetZTransferFunction(vector<double> &num, vector<double> &den)
 {
 
-    for (int i=0; i<numOrder; i++)
-    {
-        num[i]=th[i];
-        //        cout << "num i= " << i << " num: " << num[i] << " th: " << th(i)<<endl;
-    }
+//    for (int i=0; i<numOrder; i++)
+//    {
+//        num[i]=th[i];
+//        //        cout << "num i= " << i << " num: " << num[i] << " th: " << th(i)<<endl;
+//    }
 
-    for (int i=0; i<denOrder; i++)
+//    for (int i=0; i<denOrder; i++)
+//    {
+//        den[i]=th[i+numOrder];
+//        //        cout << "den i= " << i << " den: " << den[i] << " th: " << th(i+numOrder)<<endl;
+//    }
+//    return err;
+    cout << "th: " << th.transpose() << endl;
+
+    num[0]=th[phiLastIndex];
+    cout << "G=tf([ "  ;
+    for (int i=1; i<=phiNumIndex; i++)
     {
-        den[i]=th[i+numOrder];
-        //        cout << "den i= " << i << " den: " << den[i] << " th: " << th(i+numOrder)<<endl;
+        num[i]=th[phiLastIndex-i];
+        cout << num[i]<< ", " ;
     }
+    cout  << num[0] << "],[ ";
+
+
+    for (int i=0; i<phiNumIndex; i++)
+    {
+        den[i]=th[phiNumIndex-1-i];
+        cout << den[i]<< ", " ;
+
+    }
+    cout << 1 << "], ";
+    den[phiNumIndex]=1;
+    cout  << ")"<< endl;
+
     return err;
+
 }
 
 
