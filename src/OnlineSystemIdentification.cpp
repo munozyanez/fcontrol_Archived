@@ -169,24 +169,23 @@ double OnlineSystemIdentification::GetZTransferFunction(vector<double> &num, vec
     cout << "th: " << th.transpose() << endl;
 
     num[0]=th[phiLastIndex];
-    cout << "G=tf([ "  ;
-    for (int i=1; i<=phiNumIndex; i++)
+    cout << "fcontrol num=[ " ;//<< num[0] ;
+    for (int i=0; i<=numOrder; i++)
     {
         num[i]=th[phiLastIndex-i];
         cout << num[i]<< ", " ;
     }
-    cout  << num[0] << "],[ ";
+    cout  << "], den=[ ";
 
 
-    for (int i=0; i<phiNumIndex; i++)
+    for (int i=0; i<denOrder; i++)
     {
         den[i]=th[phiNumIndex-1-i];
         cout << den[i]<< ", " ;
 
     }
-    cout << 1 << "], ";
-    den[phiNumIndex]=1;
-    cout  << ")"<< endl;
+    den[denOrder]=1;
+    cout << den[denOrder] << "] "<< endl;
 
     return err;
 
@@ -210,7 +209,7 @@ double OnlineSystemIdentification::PrintZTransferFunction(double dts)
 //    }
 //    cout << "]," <<dts<< ")"<< endl;
 
-    cout << "G=tf([ " << th[phiNumIndex] ;
+    cout << "matlab G=tf([ " << th[phiNumIndex] ;
     for (int i=phiNumIndex+1; i<=phiLastIndex; i++)
     {
         cout << ", " << th[i];
