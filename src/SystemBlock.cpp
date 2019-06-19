@@ -84,13 +84,13 @@ SystemBlock::SystemBlock(double b0, double b1, double a0, double a1)
 
 double SystemBlock::GetNumOrder() const
 {
-    return numCoef.size();
+    return numCoef.size()-1;
 
 }
 
 double SystemBlock::GetDenOrder() const
 {
-    return denCoef.size();
+    return denCoef.size()-1;
 
 }
 

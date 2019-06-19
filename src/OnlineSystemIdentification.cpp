@@ -129,8 +129,18 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
 
 
 
+
     R = ff*R + phi*phi.transpose();
-//    cout << "R: " << R << endl;
+//    cout << "R: " << endl << R << endl;
+//    cout << "R^-1: " << endl << R.inverse() << endl;
+//    cout << "|R|: " << R.determinant() << endl;
+
+    if (abs(R.determinant()) < 1)
+    {
+        cout << "|R|: " << R.determinant() << endl;
+        return 0;
+    }
+
 
     th = th + R.inverse()*phi*(output - phi.transpose()*th);
 //    cout << "th: " << th.transpose() << endl;
