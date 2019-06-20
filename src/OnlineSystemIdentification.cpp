@@ -60,7 +60,7 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
     R=R.Random(order,order);
     cout << "--> Initial R <--" << endl << R << endl;
     //    phi.resize(order,order); //no longer needed
-    phi=phi.Random(order,1);
+    phi=100*phi.Random(order,1);
     cout << "--> Initial phi <--" << endl << phi << endl;
     //    L.resize(order,NoChange);//no longer needed
     L=L.setZero(order,1);
@@ -135,11 +135,11 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
 //    cout << "R^-1: " << endl << R.inverse() << endl;
 //    cout << "|R|: " << R.determinant() << endl;
 
-//    if (abs(R.determinant()) < 1)
-//    {
-//        cout << "|R|: " << R.determinant() << endl;
-//        return 0;
-//    }
+    if (abs(R.determinant()) < 100)
+    {
+        cout << "|R|: " << R.determinant() << endl;
+        return 0;
+    }
 
 
     th = th + R.inverse()*phi*(output - phi.transpose()*th);
