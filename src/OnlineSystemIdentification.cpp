@@ -62,6 +62,8 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
     //    phi.resize(order,order); //no longer needed
     phi=100*phi.Random(order,1);
     cout << "--> Initial phi <--" << endl << phi << endl;
+    phiEigenvalues=100*phiEigenvalues.Random(order,1);
+    cout << "--> Initial phi <--" << endl << phi << endl;
     //    L.resize(order,NoChange);//no longer needed
     L=L.setZero(order,1);
     cout << "--> Initial L <--" << endl << L  << endl;
@@ -129,18 +131,26 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
 
 
 
+    phiEigenvalues=((phi*phi.transpose()).eigenvalues()).real();
 
     R = ff*R + phi*phi.transpose();
 //    cout << "R: " << endl << R << endl;
 //    cout << "R^-1: " << endl << R.inverse() << endl;
 //    cout << "|R|: " << R.determinant() << endl;
 
-    if (abs(R.determinant()) < 100)
+//    if (abs(R.determinant()) < 100)
+//    {
+//        cout << "|R|: " << R.determinant() << endl;
+//        return 0;
+//    }
+
+
+
+    if (phiEigenvalues.prod()<-0)
     {
-        cout << "|R|: " << R.determinant() << endl;
+        cout << "PHI NOT POSITIVE (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
         return 0;
     }
-
 
     th = th + R.inverse()*phi*(output - phi.transpose()*th);
 //    cout << "th: " << th.transpose() << endl;
