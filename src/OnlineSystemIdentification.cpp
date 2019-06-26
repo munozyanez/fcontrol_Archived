@@ -131,6 +131,7 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
 
 
 
+
     phiEigenvalues=((phi*phi.transpose()).eigenvalues()).real();
 
     R = ff*R + phi*phi.transpose();
@@ -146,9 +147,9 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
 
 
 
-    if (phiEigenvalues.prod()<-0)
+    if (phiEigenvalues.prod()<0)// && phiEigenvalues.sum()<100)
     {
-        cout << "PHI NOT POSITIVE (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
+//        cout << "PHI NOT POSITIVE (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
         return 0;
     }
 
@@ -157,7 +158,6 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
 
 //    cout << "phi: " << phi.transpose() << endl;
 //    cout << "test: phiT*theta " << phi.transpose()*th << endl;
-
 
     //move all phi output data one position backwards for next iteration
     for (int i=denOrder-1; i>0; i--)
@@ -228,6 +228,8 @@ double OnlineSystemIdentification::PrintZTransferFunction(double dts)
 
 //    }
 //    cout << "]," <<dts<< ")"<< endl;
+
+    cout << "th: " << th.transpose() << endl;
 
     cout << "matlab G=tf([ " << th[phiNumIndex] ;
     for (int i=phiNumIndex+1; i<=phiLastIndex; i++)
