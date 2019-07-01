@@ -134,6 +134,13 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
 
     phiEigenvalues=((phi*phi.transpose()).eigenvalues()).real();
 
+    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
+    {
+        cout << "PHI NOT POSITIVE (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
+        return 0;
+    }
+
+
     R = ff*R + phi*phi.transpose();
 //    cout << "R: " << endl << R << endl;
 //    cout << "R^-1: " << endl << R.inverse() << endl;
@@ -146,12 +153,6 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
 //    }
 
 
-
-    if (phiEigenvalues.prod()<0)// && phiEigenvalues.sum()<100)
-    {
-//        cout << "PHI NOT POSITIVE (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
-        return 0;
-    }
 
     th = th + R.inverse()*phi*(output - phi.transpose()*th);
 //    cout << "th: " << th.transpose() << endl;
