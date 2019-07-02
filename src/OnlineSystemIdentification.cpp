@@ -134,9 +134,12 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
 
     phiEigenvalues=((phi*phi.transpose()).eigenvalues()).real();
 
-    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
+//    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
+    if (phiEigenvalues.minCoeff()<-1E-15)
     {
-        cout << "PHI NOT POSITIVE (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
+//        cout << "phi (" << phi.transpose() <<  endl;
+        cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
+        phi(0)=-output;
         return 0;
     }
 
