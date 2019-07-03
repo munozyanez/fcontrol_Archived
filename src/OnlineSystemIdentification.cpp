@@ -72,8 +72,18 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
     cout << "--> Initial th <--" << endl << th << endl << "--------------order : " << numOrder << " / " << denOrder << endl;
 
 
+    filterOn=0;
 
 }
+
+long OnlineSystemIdentification::SetFilter(SystemBlock filter)
+{
+    inFilter = SystemBlock(filter);
+    outFilter = SystemBlock(filter);
+    filterOn=1;
+    return 0;
+}
+
 
 //double OnlineSystemIdentification::UpdateSystem(double input, double output)
 //{
@@ -113,8 +123,74 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
 
 //}
 
+/*
+//Version not considering actual input
 double OnlineSystemIdentification::UpdateSystem(double input, double output)
 {
+
+    ti++;
+    //move all phi input data one position backwards to have inputs from actual to last needed past values.
+    for (int i=phiLastIndex; i>0; i--)
+    {
+//        cout << "phiLastIndex: " << phiLastIndex << " ; phiNumIndex: " << phiNumIndex << endl;
+        phi[i] = phi[i-1];
+    }
+    phi(phiNumIndex)=input;
+    phi(0)=-output;
+//            cout << "b0 " << (output[ti]-phi.transpose()*th)/input[ti] << ", at step: " <<  ti << endl;
+    cout << "phi: " << phi.transpose() << endl;
+
+
+    phiEigenvalues=((phi*phi.transpose()).eigenvalues()).real();
+
+    R = ff*R + phi*phi.transpose();
+//    cout << "R: " << endl << R << endl;
+//    cout << "R^-1: " << endl << R.inverse() << endl;
+//    cout << "|R|: " << R.determinant() << endl;
+
+//    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
+    if (phiEigenvalues.minCoeff()<-1E-15 || phiEigenvalues.maxCoeff()<0.1)
+    {
+//        cout << "phi (" << phi.transpose() <<  endl;
+        cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
+//        phi(0)=-output;
+        return 0;
+    }
+
+
+
+
+
+
+    th = th + R.inverse()*phi*(output - phi.transpose()*th);
+//    cout << "th: " << th.transpose() << endl;
+//    cout << "phi: " << phi.transpose() << endl;
+//    cout << "test: phiT*theta " << phi.transpose()*th << endl;
+
+
+    return err;
+
+}*/
+
+
+//Version considering actual input
+double OnlineSystemIdentification::UpdateSystem(double new_input, double new_output)
+{
+
+    if (filterOn)
+    {
+        input=new_input > inFilter;
+        output=new_output > outFilter;
+//            cout << "phi(phiNumIndex): " << phi(phiNumIndex) << endl;
+
+    }
+    else
+    {
+        input=new_input;
+        output=new_output;
+//            cout << "phi(phiNumIndex): " << phi(phiNumIndex) << endl;
+
+    }
 
     ti++;
     //move all phi input data one position backwards to have inputs from actual to last needed past values.
@@ -124,7 +200,9 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
        // cout << "phiLastIndex: " << phiLastIndex << " ; phiNumIndex: " << phiNumIndex << endl;
         phi[i] = phi[i-1];
     }
+
     phi(phiNumIndex)=input;
+
 
 //            cout << "b0 " << (output[ti]-phi.transpose()*th)/input[ti] << ", at step: " <<  ti << endl;
 //    cout << "phi: " << phi.transpose() << endl;
@@ -132,16 +210,6 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
 
 
 
-    phiEigenvalues=((phi*phi.transpose()).eigenvalues()).real();
-
-//    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
-    if (phiEigenvalues.minCoeff()<-1E-15)
-    {
-//        cout << "phi (" << phi.transpose() <<  endl;
-        cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
-        phi(0)=-output;
-        return 0;
-    }
 
 
     R = ff*R + phi*phi.transpose();
@@ -157,6 +225,17 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
 
 
 
+    phiEigenvalues=((phi*phi.transpose()).eigenvalues()).real();
+
+//    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
+    if (phiEigenvalues.minCoeff()<-1E-15 || phiEigenvalues.maxCoeff()<0.1)
+    {
+//        cout << "phi (" << phi.transpose() <<  endl;
+        cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
+        phi(0)=-output;
+        return 0;
+    }
+
     th = th + R.inverse()*phi*(output - phi.transpose()*th);
 //    cout << "th: " << th.transpose() << endl;
 
@@ -168,8 +247,11 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
     {
         phi[i] = phi[i-1];
     }
-    //and add the actual value
+
     phi(0)=-output;
+
+    //and add the actual value
+
 
     return err;
 

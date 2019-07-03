@@ -12,6 +12,7 @@
 #include <Eigen/Dense>
 #define Success 0 //as in http://eigen.tuxfamily.org/bz/show_bug.cgi?id=253
 #include <iostream>
+#include "SystemBlock.h"
 
 using namespace std;
 using namespace Eigen;
@@ -24,7 +25,9 @@ class OnlineSystemIdentification
 public:
     OnlineSystemIdentification();
     OnlineSystemIdentification(long new_numOrder, long new_denOrder, double new_ff = 0.98);
-    double UpdateSystem(double input, double output);
+    long SetFilter(SystemBlock filter);
+
+    double UpdateSystem(double new_input, double new_output);
     double GetZTransferFunction(vector<double>& num,vector<double>& den);
     double PrintZTransferFunction(double dts);
     vector<double> GetParamsVector();
@@ -34,6 +37,9 @@ private:
 
     long numOrder,denOrder, order;
     long phiNumIndex,phiLastIndex;
+
+    SystemBlock inFilter, outFilter;
+    bool filterOn;
 
 //    Matrix<double,Dynamic,Dynamic> P;
 //    Matrix<double,Dynamic,1> phi;
@@ -53,6 +59,7 @@ private:
     double err;
     double ti; //time index
 
+    double output, input;
     vector<double> oldOuts, oldIns;
 
 };
