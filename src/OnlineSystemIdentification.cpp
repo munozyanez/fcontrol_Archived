@@ -15,14 +15,14 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
     denOrder= new_denOrder;
     numOrder= new_numOrder;
 
-    if(denOrder < numOrder)
+    if(denOrder <= numOrder)
     {
-        numOrder = denOrder;
+        numOrder = denOrder-1;
         cout << "Only causal systems!!! Reducing numerator to order: " << numOrder << endl;
     } //now it is causal, numOrder <= denOrder
 
     //share orders available, allowing den use numerator unused orders.
-    if( denOrder + numOrder > rlms_N)
+    if( (denOrder + numOrder ) > rlms_N)
     {
         if (numOrder < rlms_N/2) //Give num orders to den.
         {
@@ -31,8 +31,8 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
         }
         else //The only possibility is to reduce both to maximum size.
         {
-            numOrder = rlms_N/2;
-            denOrder = numOrder;
+            denOrder = rlms_N/2;
+            numOrder = denOrder-1;
             cout << "Maximum order reached. Reducing orders to: num = " << numOrder << ", den = " << denOrder << endl;
 
 
@@ -58,24 +58,36 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
 
     //    P.resize(order,NoChange); //no longer needed
     R=R.Random(order,order);
-    cout << "--> Initial R <--" << endl << R << endl;
     //    phi.resize(order,order); //no longer needed
     phi=100*phi.Random(order,1);
-    cout << "--> Initial phi <--" << endl << phi << endl;
     phiEigenvalues=100*phiEigenvalues.Random(order,1);
-    cout << "--> Initial phi <--" << endl << phi << endl;
     //    L.resize(order,NoChange);//no longer needed
     L=L.setZero(order,1);
-    cout << "--> Initial L <--" << endl << L  << endl;
 
     th=th.setZero(order,1);
-    cout << "--> Initial th <--" << endl << th << endl << "--------------order : " << numOrder << " / " << denOrder << endl;
 
+
+//    cout << "--> Initial R <--" << endl << R << endl;
+//    cout << "--> Initial phi <--" << endl << phi << endl;
+    cout << "--> Initial th <--" << endl << th << endl << "--------------order : " << numOrder << " / " << denOrder << endl;
+//    cout << "--> Initial L <--" << endl << L  << endl;
+
+    idNum.resize(numOrder+1);
+    idDen.resize(denOrder+1);
 
     filterOn=0;
 
 }
 
+OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long new_denOrder,SystemBlock new_filter)
+: OnlineSystemIdentification(new_numOrder,new_denOrder,0.98)
+{
+
+    SetFilter(new_filter);
+    //Default params: order 1, forgetting factor 0.98
+
+
+}
 
 long OnlineSystemIdentification::SetFilter(SystemBlock filter)
 {
@@ -128,12 +140,16 @@ long OnlineSystemIdentification::SetFilter(SystemBlock filter)
 //Version not considering actual input
 double OnlineSystemIdentification::UpdateSystemDT1(double input, double output)
 {
+    //!!!Not working, needs revision!!!
 
+    //Assuming that input refers to u_{t-1} and output refers to y_{t-1]
     ti++;
     //move all phi input data one position backwards to have inputs from actual to last needed past values.
     for (int i=phiLastIndex; i>0; i--)
     {
 //        cout << "phiLastIndex: " << phiLastIndex << " ; phiNumIndex: " << phiNumIndex << endl;
+//        cout << "i: " << i << " ; phi[i]: " << phi[i] << endl;
+
         phi[i] = phi[i-1];
     }
     phi(phiNumIndex)=input;
@@ -142,19 +158,23 @@ double OnlineSystemIdentification::UpdateSystemDT1(double input, double output)
     cout << "phi: " << phi.transpose() << endl;
 
 
-    phiEigenvalues=((phi*phi.transpose()).eigenvalues()).real();
 
     R = ff*R + phi*phi.transpose();
 //    cout << "R: " << endl << R << endl;
 //    cout << "R^-1: " << endl << R.inverse() << endl;
 //    cout << "|R|: " << R.determinant() << endl;
 
+
+    phiEigenvalues=((phi*phi.transpose()).eigenvalues()).real();
+
+
 //    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
-    if (phiEigenvalues.minCoeff()<-1E-15 || phiEigenvalues.maxCoeff()<0.1)
+//    if (phiEigenvalues.minCoeff()<-1E-15 || phiEigenvalues.maxCoeff()<0.1)
+    if (phiEigenvalues.minCoeff()<=0 || phiEigenvalues.maxCoeff()<0.1)
     {
 //        cout << "phi (" << phi.transpose() <<  endl;
         cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
-//        phi(0)=-output;
+        phi(0)=-output;
         return 0;
     }
 
@@ -174,9 +194,11 @@ double OnlineSystemIdentification::UpdateSystemDT1(double input, double output)
 }
 
 
-//Version considering actual input
+//Version considering actual output y_{t} previous input u_{t-1}
 double OnlineSystemIdentification::UpdateSystem(double new_input, double new_output)
 {
+
+    //Assuming that input refers to u_{t-1} and output refers to y_{t}
 
     if (filterOn)
     {
@@ -194,7 +216,8 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
     }
 
     ti++;
-    //move all phi input data one position backwards to have inputs from actual to last needed past values.
+
+    //Update phi input data
     for (int i=phiLastIndex; i>phiNumIndex; i--) //order-1 is full phi size
     {
         //input indexes can start from zero to include actual input??
@@ -233,7 +256,7 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
     if (phiEigenvalues.minCoeff()<=0 || phiEigenvalues.maxCoeff()<0.1)
     {
 //        cout << "phi (" << phi.transpose() <<  endl;
-        cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
+//        cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
         phi(0)=-output;
         return 0;
     }
@@ -244,7 +267,7 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
 //    cout << "phi: " << phi.transpose() << endl;
 //    cout << "test: phiT*theta " << phi.transpose()*th << endl;
 
-    //move all phi output data one position backwards for next iteration
+    //Update phi output data for next iteration
     for (int i=denOrder-1; i>0; i--)
     {
         phi[i] = phi[i-1];
@@ -317,22 +340,40 @@ double OnlineSystemIdentification::PrintZTransferFunction(double dts)
 //    }
 //    cout << "]," <<dts<< ")"<< endl;
 
-    cout << "th: " << th.transpose() << endl;
+//    cout << "th: " << th.transpose() << endl;
 
-    cout << "matlab G=tf([ " << th[phiNumIndex] ;
-    for (int i=phiNumIndex+1; i<=phiLastIndex; i++)
+//    cout << "matlab G=tf([ " << th[phiNumIndex] ;
+//    for (int i=phiNumIndex+1; i<=phiLastIndex; i++)
+//    {
+//        cout << ", " << th[i];
+//    }
+//    cout << "],[ " << 1;
+//    for (int i=0; i<phiNumIndex; i++)
+//    {
+//        cout << ", " << th[i];
+
+//    }
+//    cout << "]," <<dts<< ")"<< endl;
+
+
+    GetZTransferFunction(idNum,idDen);
+
+    cout << "matlab G=tf([ " << idNum.back() ;
+    for (int i=idNum.size()-2; i>=0; i--)
     {
-        cout << ", " << th[i];
+        cout << ", " << idNum[i];
     }
-    cout << "],[ " << 1;
-    for (int i=0; i<phiNumIndex; i++)
+    cout << "],[ " << idDen.back();
+    for (int i=idDen.size()-2; i>=0; i--)
     {
-        cout << ", " << th[i];
+        cout << ", " << idDen[i];
 
     }
     cout << "]," <<dts<< ")"<< endl;
 
     return err;
+
+
 
 }
 

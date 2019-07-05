@@ -25,6 +25,7 @@ class OnlineSystemIdentification
 public:
     OnlineSystemIdentification();
     OnlineSystemIdentification(long new_numOrder, long new_denOrder, double new_ff = 0.98);
+    OnlineSystemIdentification(long new_numOrder, long new_denOrder, SystemBlock new_filter);
     long SetFilter(SystemBlock filter);
 
     double UpdateSystem(double new_input, double new_output);
@@ -65,6 +66,8 @@ private:
 
     double output, input;
     vector<double> oldOuts, oldIns;
+    vector<double> idNum, idDen;
+
 
 };
 
