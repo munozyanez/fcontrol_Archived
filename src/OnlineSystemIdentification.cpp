@@ -142,6 +142,8 @@ double OnlineSystemIdentification::UpdateSystemDT1(double input, double output)
 {
     //!!!Not working, needs revision!!!
 
+    cout <<    "!!!Not working, needs revision!!!" << endl;
+
     //Assuming that input refers to u_{t-1} and output refers to y_{t-1]
     ti++;
     //move all phi input data one position backwards to have inputs from actual to last needed past values.
@@ -297,26 +299,26 @@ double OnlineSystemIdentification::GetZTransferFunction(vector<double> &num, vec
 //        //        cout << "den i= " << i << " den: " << den[i] << " th: " << th(i+numOrder)<<endl;
 //    }
 //    return err;
-    cout << "th: " << th.transpose() << endl;
+//    cout << "th: " << th.transpose() << endl;
 
     num[0]=th[phiLastIndex];
-    cout << "fcontrol num=[ " ;//<< num[0] ;
+//    cout << "fcontrol num=[ " ;//<< num[0] ;
     for (int i=0; i<=numOrder; i++)
     {
         num[i]=th[phiLastIndex-i];
-        cout << num[i]<< ", " ;
+//        cout << num[i]<< ", " ;
     }
-    cout  << "], den=[ ";
+//    cout  << "], den=[ ";
 
 
     for (int i=0; i<denOrder; i++)
     {
         den[i]=th[phiNumIndex-1-i];
-        cout << den[i]<< ", " ;
+//        cout << den[i]<< ", " ;
 
     }
     den[denOrder]=1;
-    cout << den[denOrder] << "] "<< endl;
+//    cout << den[denOrder] << "] "<< endl;
 
     return err;
 
