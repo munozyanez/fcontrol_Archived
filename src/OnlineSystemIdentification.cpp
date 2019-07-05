@@ -76,6 +76,7 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
 
 }
 
+
 long OnlineSystemIdentification::SetFilter(SystemBlock filter)
 {
     inFilter = SystemBlock(filter);
@@ -123,9 +124,9 @@ long OnlineSystemIdentification::SetFilter(SystemBlock filter)
 
 //}
 
-/*
+
 //Version not considering actual input
-double OnlineSystemIdentification::UpdateSystem(double input, double output)
+double OnlineSystemIdentification::UpdateSystemDT1(double input, double output)
 {
 
     ti++;
@@ -170,7 +171,7 @@ double OnlineSystemIdentification::UpdateSystem(double input, double output)
 
     return err;
 
-}*/
+}
 
 
 //Version considering actual input
@@ -228,7 +229,8 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
     phiEigenvalues=((phi*phi.transpose()).eigenvalues()).real();
 
 //    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
-    if (phiEigenvalues.minCoeff()<-1E-15 || phiEigenvalues.maxCoeff()<0.1)
+//    if (phiEigenvalues.minCoeff()<-1E-15 || phiEigenvalues.maxCoeff()<0.1)
+    if (phiEigenvalues.minCoeff()<=0 || phiEigenvalues.maxCoeff()<0.1)
     {
 //        cout << "phi (" << phi.transpose() <<  endl;
         cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;

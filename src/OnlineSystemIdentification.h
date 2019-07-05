@@ -28,7 +28,11 @@ public:
     long SetFilter(SystemBlock filter);
 
     double UpdateSystem(double new_input, double new_output);
+    double UpdateSystemDT1(double new_input, double new_output);
+
+
     double GetZTransferFunction(vector<double>& num,vector<double>& den);
+
     double PrintZTransferFunction(double dts);
     vector<double> GetParamsVector();
 
