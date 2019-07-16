@@ -21,7 +21,7 @@ long ToolsFControl::SetSamplingTime(double new_dts)
     return 0;
 }
 
-long ToolsFControl::WaitSamplingTime()
+double ToolsFControl::WaitSamplingTime()
 {
     actualTimeValue = chrono::system_clock::now();
 
@@ -44,5 +44,5 @@ long ToolsFControl::WaitSamplingTime()
 
     lastTimeValue = chrono::system_clock::now();
 
-    return 0;
+    return (dtsWait - tWaited).count()/1000000;
 }

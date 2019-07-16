@@ -12,7 +12,7 @@ public:
     ToolsFControl();
     long ToolsFControlInit();
     long SetSamplingTime(double new_dts);
-    long WaitSamplingTime();
+    double WaitSamplingTime();
 
 private:
     chrono::system_clock::time_point actualTimeValue, lastTimeValue; //last time value
