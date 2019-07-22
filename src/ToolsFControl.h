@@ -4,6 +4,9 @@
 #include <chrono>
 #include <thread>
 #include <iostream>
+#include <vector>
+#include <fstream>      // std::ifstream
+#include <sstream>      // std::istringstream
 
 using namespace std;
 class ToolsFControl
@@ -12,7 +15,7 @@ public:
     ToolsFControl();
     long ToolsFControlInit();
     long SetSamplingTime(double new_dts);
-    long WaitSamplingTime();
+    double WaitSamplingTime();
 
 private:
     chrono::system_clock::time_point actualTimeValue, lastTimeValue; //last time value
@@ -20,6 +23,18 @@ private:
     long dts; //sampling time nanoseconds.
     chrono::nanoseconds dtsWait, tWaited;
 //    chrono::system_clock clock;
+
+};
+
+class TableInterpolation
+{
+public:
+//    TableInterpolation(): TableInterpolation("empty");
+    TableInterpolation(string new_table);
+    double GetTableValue(long row, long col);
+private:
+    long getData(string fileName);
+    vector < vector<double> > lookupTable;
 
 };
 

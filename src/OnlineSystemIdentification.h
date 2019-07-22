@@ -38,6 +38,9 @@ public:
     vector<double> GetParamsVector();
 
     double PrintParamsVector();
+
+    long GetMagnitudeAndPhase(double w, double & magnitude, double & phase);
+
 private:
 
     long numOrder,denOrder, order;
@@ -45,6 +48,9 @@ private:
 
     SystemBlock inFilter, outFilter;
     bool filterOn;
+
+    complex<double> z,nz,dz;
+
 
 //    Matrix<double,Dynamic,Dynamic> P;
 //    Matrix<double,Dynamic,1> phi;
@@ -55,11 +61,13 @@ private:
     double ff;
     Matrix<double, Dynamic, Dynamic, 0, rlms_N, rlms_N> P; //max order rlms_N #defined
     Matrix<double, Dynamic, 1, 0, rlms_N, 1> phi; //max order rlms_N
-    Matrix<double, Dynamic, 1, 0, rlms_N, 1> phiEigenvalues; //max order rlms_N
+    Matrix<double, Dynamic, 1, 0, rlms_N, 1> R_ev; //max order rlms_N
 
     Matrix<double, Dynamic, 1, 0, rlms_N, 1>  L;//max order rlms_N
     Matrix<double, Dynamic, 1, 0, rlms_N, 1> th;//max order rlms_N
     Matrix<double, Dynamic, Dynamic, 0, rlms_N, rlms_N> R; //max order rlms_N #defined
+    Matrix<double, Dynamic, Dynamic, 0, rlms_N, rlms_N> newR; //max order rlms_N #defined
+
 
     double err;
     double ti; //time index

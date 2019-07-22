@@ -60,7 +60,7 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
     R=R.Random(order,order);
     //    phi.resize(order,order); //no longer needed
     phi=100*phi.Random(order,1);
-    phiEigenvalues=100*phiEigenvalues.Random(order,1);
+    R_ev=100*R_ev.Random(order,1);
     //    L.resize(order,NoChange);//no longer needed
     L=L.setZero(order,1);
 
@@ -76,6 +76,8 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
     idDen.resize(denOrder+1);
 
     filterOn=0;
+
+
 
 }
 
@@ -167,15 +169,15 @@ double OnlineSystemIdentification::UpdateSystemDT1(double input, double output)
 //    cout << "|R|: " << R.determinant() << endl;
 
 
-    phiEigenvalues=((phi*phi.transpose()).eigenvalues()).real();
+    R_ev=((phi*phi.transpose()).eigenvalues()).real();
 
 
 //    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
 //    if (phiEigenvalues.minCoeff()<-1E-15 || phiEigenvalues.maxCoeff()<0.1)
-    if (phiEigenvalues.minCoeff()<=0 || phiEigenvalues.maxCoeff()<0.1)
+    if (R_ev.minCoeff()<=0 || R_ev.maxCoeff()<0.1)
     {
 //        cout << "phi (" << phi.transpose() <<  endl;
-        cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
+        cout << "PHI BAD POSED (" << R_ev.transpose() << ") at: " << ti << endl;
         phi(0)=-output;
         return 0;
     }
@@ -236,9 +238,10 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
 
 
 
+    newR = phi*phi.transpose();
 
 
-    R = ff*R + phi*phi.transpose();
+
 //    cout << "R: " << endl << R << endl;
 //    cout << "R^-1: " << endl << R.inverse() << endl;
 //    cout << "|R|: " << R.determinant() << endl;
@@ -251,17 +254,21 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
 
 
 
-    phiEigenvalues=((phi*phi.transpose()).eigenvalues()).real();
+    R_ev=(newR.eigenvalues()).real();
 
 //    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
 //    if (phiEigenvalues.minCoeff()<-1E-15 || phiEigenvalues.maxCoeff()<0.1)
-    if (phiEigenvalues.minCoeff()<=0 || phiEigenvalues.maxCoeff()<0.1)
+    if (R_ev.minCoeff()<=0 || R_ev.maxCoeff()<0.1)
     {
 //        cout << "phi (" << phi.transpose() <<  endl;
 //        cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
         phi(0)=-output;
-        return 0;
+        return -1;
     }
+
+    //updating R after check keeps it unchanged for non persistent exciting inputs
+    R = ff*R + newR;
+
 
     th = th + R.inverse()*phi*(output - phi.transpose()*th);
 //    cout << "th: " << th.transpose() << endl;
@@ -389,6 +396,41 @@ double OnlineSystemIdentification::PrintParamsVector()
     }
     cout << "]" << endl;
     return err;
+}
+
+long OnlineSystemIdentification::GetMagnitudeAndPhase(double w, double &magnitude, double &phase)
+{
+    z=exp(w*complex<double>(0,1));
+    double numi=0, deni=0;
+//    cout << "fcontrol num=[ " ;//<< num[0] ;
+    for (int i=0; i<=numOrder; i++)
+    {
+//        num[i]=th[phiLastIndex-i];
+//        cout << num[i]<< ", " ;
+        numi=th[phiLastIndex-i];
+        nz=nz+numi*pow(z,i);
+
+
+    }
+//    cout  << "], den=[ ";
+
+
+    for (int i=0; i<denOrder; i++)
+    {
+//        den[i]=th[phiNumIndex-1-i];
+//        cout << den[i]<< ", " ;
+        deni=th[phiNumIndex-1-i];
+        dz=dz+deni*pow(z,i);
+
+    }
+//    den[denOrder]=1;
+    dz=dz+pow(z,denOrder);
+
+    //phase and magnitude
+    magnitude = abs(nz/dz);
+    phase = arg(nz/dz);
+
+    return 0;
 }
 
 vector<double> OnlineSystemIdentification::GetParamsVector()

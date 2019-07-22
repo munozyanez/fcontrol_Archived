@@ -21,7 +21,7 @@ long ToolsFControl::SetSamplingTime(double new_dts)
     return 0;
 }
 
-long ToolsFControl::WaitSamplingTime()
+double ToolsFControl::WaitSamplingTime()
 {
     actualTimeValue = chrono::system_clock::now();
 
@@ -43,6 +43,57 @@ long ToolsFControl::WaitSamplingTime()
 
 
     lastTimeValue = chrono::system_clock::now();
+
+    return (dtsWait - tWaited).count()/1000000;
+}
+
+TableInterpolation::TableInterpolation(string new_table)
+{
+
+    getData(new_table);
+}
+
+double TableInterpolation::GetTableValue(long row, long col)
+{
+    return lookupTable[row][col];
+
+}
+
+
+/*
+* Parses through csv file line by line and returns the data
+* in vector of vector of strings.
+*/
+long TableInterpolation::getData(string fileName)
+{
+    fstream file(fileName);
+    string line = "";
+    vector<double> dline;
+    double value;
+
+    lookupTable.resize(0);
+
+    cout << "file open = " << file.is_open() << endl;
+    // Iterate through each line and split the content using delimeter
+    while (getline(file, line))
+    {
+//        cout << line << endl;
+        istringstream ss(line);
+        dline.resize(0);
+//        cout << "row = " ;
+
+//        cout << "ss: " << ss.str() << endl;
+        while (ss >> value)
+        {
+//            cout << value <<", ";
+            dline.push_back(value);
+        }
+        lookupTable.push_back(dline);
+
+//        cout  << endl;
+    }
+    // Close the File
+    file.close();
 
     return 0;
 }
