@@ -31,8 +31,9 @@ class TableInterpolation
 public:
 //    TableInterpolation(): TableInterpolation("empty");
     TableInterpolation(string new_table);
-    long getData(string fileName);
+    double GetTableValue(long row, long col);
 private:
+    long getData(string fileName);
     vector < vector<double> > lookupTable;
 
 };

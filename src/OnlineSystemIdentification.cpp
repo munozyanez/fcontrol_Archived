@@ -77,6 +77,8 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
 
     filterOn=0;
 
+
+
 }
 
 OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long new_denOrder,SystemBlock new_filter)
@@ -394,6 +396,41 @@ double OnlineSystemIdentification::PrintParamsVector()
     }
     cout << "]" << endl;
     return err;
+}
+
+long OnlineSystemIdentification::GetMagnitudeAndPhase(double w, double &magnitude, double &phase)
+{
+    z=exp(w*complex<double>(0,1));
+    double numi=0, deni=0;
+//    cout << "fcontrol num=[ " ;//<< num[0] ;
+    for (int i=0; i<=numOrder; i++)
+    {
+//        num[i]=th[phiLastIndex-i];
+//        cout << num[i]<< ", " ;
+        numi=th[phiLastIndex-i];
+        nz=nz+numi*pow(z,i);
+
+
+    }
+//    cout  << "], den=[ ";
+
+
+    for (int i=0; i<denOrder; i++)
+    {
+//        den[i]=th[phiNumIndex-1-i];
+//        cout << den[i]<< ", " ;
+        deni=th[phiNumIndex-1-i];
+        dz=dz+deni*pow(z,i);
+
+    }
+//    den[denOrder]=1;
+    dz=dz+pow(z,denOrder);
+
+    //phase and magnitude
+    magnitude = abs(nz/dz);
+    phase = arg(nz/dz);
+
+    return 0;
 }
 
 vector<double> OnlineSystemIdentification::GetParamsVector()

@@ -38,6 +38,9 @@ public:
     vector<double> GetParamsVector();
 
     double PrintParamsVector();
+
+    long GetMagnitudeAndPhase(double w, double & magnitude, double & phase);
+
 private:
 
     long numOrder,denOrder, order;
@@ -45,6 +48,9 @@ private:
 
     SystemBlock inFilter, outFilter;
     bool filterOn;
+
+    complex<double> z,nz,dz;
+
 
 //    Matrix<double,Dynamic,Dynamic> P;
 //    Matrix<double,Dynamic,1> phi;
