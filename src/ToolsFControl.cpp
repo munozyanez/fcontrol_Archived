@@ -63,7 +63,8 @@ TableInterpolation::TableInterpolation(string new_table)
     }
     else
     {
-    getData(new_table);
+        cout << "Data table: " << new_table << endl;
+        getData(new_table);
     }
 }
 

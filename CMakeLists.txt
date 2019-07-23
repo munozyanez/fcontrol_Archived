@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(fcontrol)
 
-
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/files/phi.m_exp.csv ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 # Pick up cmake modules - they all must be in the cmake subdirectory
 # let cmake use them
