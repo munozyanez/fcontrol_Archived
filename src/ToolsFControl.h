@@ -29,7 +29,7 @@ private:
 class TableInterpolation
 {
 public:
-//    TableInterpolation(): TableInterpolation("empty");
+    TableInterpolation();
     TableInterpolation(string new_table);
     double GetTableValue(long row, long col);
 private:

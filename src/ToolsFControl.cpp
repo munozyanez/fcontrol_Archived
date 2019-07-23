@@ -47,10 +47,24 @@ double ToolsFControl::WaitSamplingTime()
     return (dtsWait - tWaited).count()/1000000;
 }
 
+TableInterpolation::TableInterpolation() : TableInterpolation("")
+{
+
+
+}
+
 TableInterpolation::TableInterpolation(string new_table)
 {
 
+
+    if (new_table.size()==0)
+    {
+        cout << "Empty data table" << endl;
+    }
+    else
+    {
     getData(new_table);
+    }
 }
 
 double TableInterpolation::GetTableValue(long row, long col)
