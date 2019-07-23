@@ -400,7 +400,7 @@ double OnlineSystemIdentification::PrintParamsVector()
 
 long OnlineSystemIdentification::GetMagnitudeAndPhase(double w, double &magnitude, double &phase)
 {
-    z=exp(w*complex<double>(0,1));
+    z=exp(0.02*w*complex<double>(0,1));
     double numi=0, deni=0;
 //    cout << "fcontrol num=[ " ;//<< num[0] ;
     for (int i=0; i<=numOrder; i++)
