@@ -16,3 +16,9 @@ FPDTuner::FPDTuner(double new_pm = 60, double new_wcg = 1)
 
 }
 
+long FPDTuner::Tune(double new_phi, double new_gain)
+{
+
+
+}
+
