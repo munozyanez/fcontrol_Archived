@@ -41,6 +41,7 @@ public:
 
     long GetMagnitudeAndPhase(double dts, double w, double & magnitude, double & phase);
 
+    long GetSystemBlock(SystemBlock &idsys);
 private:
 
     long numOrder,denOrder, order;

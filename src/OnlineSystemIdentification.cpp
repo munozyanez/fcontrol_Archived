@@ -291,6 +291,16 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
 
 }
 
+
+long OnlineSystemIdentification::GetSystemBlock(SystemBlock & idsys)
+{
+    vector<double> num(numOrder+1),den(denOrder+1);
+    GetZTransferFunction(num,den);
+    idsys = SystemBlock(num,den);
+    return 0;
+}
+
+
 double OnlineSystemIdentification::GetZTransferFunction(vector<double> &num, vector<double> &den)
 {
 
