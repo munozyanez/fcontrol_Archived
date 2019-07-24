@@ -84,13 +84,13 @@ SystemBlock::SystemBlock(double b0, double b1, double a0, double a1)
 
 double SystemBlock::GetNumOrder() const
 {
-    return numCoef.size()-1;
+    return numOrder;
 
 }
 
 double SystemBlock::GetDenOrder() const
 {
-    return denCoef.size()-1;
+    return denOrder;
 
 }
 
@@ -231,18 +231,21 @@ long SystemBlock::Reset(double new_state)
 
 }
 
-long SystemBlock::GetMagnitudeAndPhase(double dts, double w, double &magnitude, double &phase)
+long SystemBlock::GetMagnitudeAndPhase(double dts, double w, double &magnitude, double &phase) const
 {
+    complex<double> z,nz,dz;
     z=exp(dts*w*complex<double>(0,1));
 
     for (int i=0; i<=numOrder; i++)
     {
         nz=nz+numCoef[i]*pow(z,i);
+//        cout << nz << endl;
     }
 
     for (int i=0; i<=denOrder; i++)
     {
         dz=dz+denCoef[i]*pow(z,i);
+//        cout << dz << endl;
     }
 
     //phase and magnitude
@@ -258,6 +261,11 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
 
     numCoef=new_numCoef;
     denCoef=new_denCoef;
+
+    numOrder = numCoef.size()-1;
+    denOrder = denCoef.size()-1;
+
+
 
     //normalize for denominator highest exponent coefficient = 1
     //all functions will behave like it.
@@ -310,7 +318,6 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
 
     }
 
-    numOrder = new_numCoef.size()-1;
 
     std::cout << "Block gain: " << gain << std::endl;
     std::cout << "numCoef : [";
@@ -324,7 +331,6 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
     }
     std::cout << "]" << std::endl;
 
-    denOrder = new_denCoef.size()-1;
 
     std::cout << "denCoef : [";
     for (int i=0; i<new_denCoef.size();i++)

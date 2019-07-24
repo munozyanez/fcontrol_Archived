@@ -90,6 +90,8 @@ long TableInterpolation::getData(string fileName)
     lookupTable.resize(0);
 
     cout << "file open = " << file.is_open() << endl;
+    cerr << "file open = " << file.is_open() << endl;
+
     // Iterate through each line and split the content using delimeter
     while (getline(file, line))
     {

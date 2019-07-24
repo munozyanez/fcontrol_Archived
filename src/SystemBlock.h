@@ -54,7 +54,7 @@ public:
 //        return output;
 //    }
 
-    long GetMagnitudeAndPhase(double dts, double w, double &magnitude, double &phase);
+    long GetMagnitudeAndPhase(double dts, double w, double &magnitude, double &phase) const;
 private:
     //transfer function G
     double gain; //the gain for the transfer function.
@@ -76,7 +76,7 @@ private:
     std::vector<double> oldInputs;
 
 
-    complex<double> z,nz,dz;
+
 //    double dts; //Maybe some day.
 
 

@@ -17,13 +17,14 @@ private:
 
     double wcg;     //desired omega cross gain in radians/second.
     double pm;      //desired phase margin
+    double phi;     //required controller phase
 
-    double sysmag;  //system magnitude at wcg
-    double sysphi;  //system phase at wcg
+    double sysmag;  //system magnitude at wcg (Absolute. NOT decibel!)
+    double sysphi;  //system phase at wcg (radians)
 
-    double sysPhi;  //system phase in radians
-    double sysGain; //system at wgc
     TableInterpolation isom;
+
+
 
     double dts;
 
