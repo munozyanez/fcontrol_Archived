@@ -9,11 +9,11 @@
 #include <sstream>      // std::istringstream
 
 using namespace std;
-class ToolsFControl
+class SamplingTime
 {
 public:
-    ToolsFControl();
-    long ToolsFControlInit();
+    SamplingTime(double new_dts = 0.01);
+//    long ToolsFControlInit();
     long SetSamplingTime(double new_dts);
     double WaitSamplingTime();
 

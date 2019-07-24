@@ -54,18 +54,21 @@ public:
 //        return output;
 //    }
 
+    long GetMagnitudeAndPhase(double dts, double w, double &magnitude, double &phase);
 private:
     //transfer function G
     double gain; //the gain for the transfer function.
     std::vector<double> numCoef,denCoef;//numerator and denominator coefficients.
     std::vector<double> numExps,denExps;//numerator and denominator jw powers.
 
+    long numOrder,denOrder;
+
 
     //bool SignalParams(const TimeSignal &new_signalParams);
 
     bool InitSystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef,
             const std::vector<double> &new_numExps, const std::vector<double> &new_denExps);
-    std::vector<double> PolynomialProduct(std::vector<double> p, std::vector<double> q);
+//    std::vector<double> PolynomialProduct(std::vector<double> p, std::vector<double> q);
 
     //state values
     double state;
@@ -73,6 +76,8 @@ private:
     std::vector<double> oldInputs;
 
 
+    complex<double> z,nz,dz;
+//    double dts; //Maybe some day.
 
 
 

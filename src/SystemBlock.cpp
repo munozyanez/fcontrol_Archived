@@ -231,6 +231,28 @@ long SystemBlock::Reset(double new_state)
 
 }
 
+long SystemBlock::GetMagnitudeAndPhase(double dts, double w, double &magnitude, double &phase)
+{
+    z=exp(dts*w*complex<double>(0,1));
+
+    for (int i=0; i<=numOrder; i++)
+    {
+        nz=nz+numCoef[i]*pow(z,i);
+    }
+
+    for (int i=0; i<=denOrder; i++)
+    {
+        dz=dz+denCoef[i]*pow(z,i);
+    }
+
+    //phase and magnitude
+    magnitude = abs(gain*nz/dz);
+    phase = arg(gain*nz/dz);
+
+    return 0;
+}
+
+
 bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef, const std::vector<double> &new_numExps, const std::vector<double> &new_denExps)
 {
 
@@ -287,6 +309,9 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
 
 
     }
+
+    numOrder = new_numCoef.size()-1;
+
     std::cout << "Block gain: " << gain << std::endl;
     std::cout << "numCoef : [";
     if (numGain !=0)
@@ -298,6 +323,8 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
         }
     }
     std::cout << "]" << std::endl;
+
+    denOrder = new_denCoef.size()-1;
 
     std::cout << "denCoef : [";
     for (int i=0; i<new_denCoef.size();i++)
@@ -334,27 +361,4 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
 
 }
 
-std::vector<double> SystemBlock::PolynomialProduct(std::vector<double> p, std::vector<double> q)
-{
 
-    //long newdeg = p.size()-1 + q.size()-1; // degree of p*q
-
-    // Special case for a polynomial of size 0
-    if (p.size() == 0 or q.size() == 0)
-    {
-        return std::vector<double>(0);
-    }
-
-    std::vector<double> r(p.size()-1 + q.size()-1);
-
-    for (int i = 0; i < p.size(); ++i)
-    {
-        for (int j = 0; j < q.size(); ++j)
-        {
-            r[i + j] = r[i + j] + p[i]*q[j];
-        }
-    }
-
-    return r;
-
-}

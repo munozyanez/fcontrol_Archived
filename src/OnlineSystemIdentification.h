@@ -39,7 +39,7 @@ public:
 
     double PrintParamsVector();
 
-    long GetMagnitudeAndPhase(double w, double & magnitude, double & phase);
+    long GetMagnitudeAndPhase(double dts, double w, double & magnitude, double & phase);
 
 private:
 

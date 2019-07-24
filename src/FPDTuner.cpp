@@ -1,14 +1,10 @@
 #include "FPDTuner.h"
 
-FPDTuner::FPDTuner() : FPDTuner( 60, 1)
-{
-
-}
-
-FPDTuner::FPDTuner(double new_pm = 60, double new_wcg = 1)
+FPDTuner::FPDTuner(double new_pm, double new_wcg, double new_dts)
 {
     pm=new_pm;
     wcg=new_wcg;
+    dts=new_dts;
 
     //store the iso-m table in memory
     isom = TableInterpolation("phi.m_exp.csv");
@@ -16,9 +12,13 @@ FPDTuner::FPDTuner(double new_pm = 60, double new_wcg = 1)
 
 }
 
-long FPDTuner::Tune(double new_phi, double new_gain)
+long FPDTuner::TuneIsom(const SystemBlock & sys, FPDBlock &con)
 {
 
 
+
+    return 0;
 }
+
+
 

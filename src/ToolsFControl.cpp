@@ -1,18 +1,19 @@
 #include "ToolsFControl.h"
 
-ToolsFControl::ToolsFControl()
+SamplingTime::SamplingTime(double new_dts)
 {
+    SetSamplingTime(new_dts);
 
 }
 
-long ToolsFControl::ToolsFControlInit()
-{
-//    time(&actualTimeValue);
-//    time(&lastTimeValue);
-    return 0;
-}
+//long SamplingTime::ToolsFControlInit()
+//{
+////    time(&actualTimeValue);
+////    time(&lastTimeValue);
+//    return 0;
+//}
 
-long ToolsFControl::SetSamplingTime(double new_dts)
+long SamplingTime::SetSamplingTime(double new_dts)
 {
 
     dts= long(new_dts*1000*1000*1000); //dts nanoseconds
@@ -21,7 +22,7 @@ long ToolsFControl::SetSamplingTime(double new_dts)
     return 0;
 }
 
-double ToolsFControl::WaitSamplingTime()
+double SamplingTime::WaitSamplingTime()
 {
     actualTimeValue = chrono::system_clock::now();
 
@@ -111,4 +112,30 @@ long TableInterpolation::getData(string fileName)
     file.close();
 
     return 0;
+}
+
+
+std::vector<double> PolynomialProduct(std::vector<double> p, std::vector<double> q)
+{
+
+    //long newdeg = p.size()-1 + q.size()-1; // degree of p*q
+
+    // Special case for a polynomial of size 0
+    if (p.size() == 0 or q.size() == 0)
+    {
+        return std::vector<double>(0);
+    }
+
+    std::vector<double> r(p.size()-1 + q.size()-1);
+
+    for (int i = 0; i < p.size(); ++i)
+    {
+        for (int j = 0; j < q.size(); ++j)
+        {
+            r[i + j] = r[i + j] + p[i]*q[j];
+        }
+    }
+
+    return r;
+
 }

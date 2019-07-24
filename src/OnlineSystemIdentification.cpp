@@ -398,9 +398,9 @@ double OnlineSystemIdentification::PrintParamsVector()
     return err;
 }
 
-long OnlineSystemIdentification::GetMagnitudeAndPhase(double w, double &magnitude, double &phase)
+long OnlineSystemIdentification::GetMagnitudeAndPhase(double dts, double w, double &magnitude, double &phase)
 {
-    z=exp(0.02*w*complex<double>(0,1));
+    z=exp(dts*w*complex<double>(0,1));
     double numi=0, deni=0;
 //    cout << "fcontrol num=[ " ;//<< num[0] ;
     for (int i=0; i<=numOrder; i++)

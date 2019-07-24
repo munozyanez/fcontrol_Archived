@@ -1,6 +1,8 @@
 #ifndef FPDBLOCK_H
 #define FPDBLOCK_H
-#include "fcontrol.h"
+//#include "fcontrol.h" //cant include because of compilation error: ‘FPDBlock’ has not been declared
+#include "Block.h"
+#include "FractionalController1DOF.h"
 
 class FPDBlock : public BaseBlock
 {
