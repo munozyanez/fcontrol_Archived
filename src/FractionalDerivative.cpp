@@ -27,7 +27,7 @@ FractionalDerivative::FractionalDerivative(double new_exp, double new_dts)
         Init(0,new_dts);
         return;
     }
-        cout << "Fractional derivative exponent: " << new_exp << endl;
+//        cout << "Fractional derivative exponent: " << new_exp << endl;
 
     Init(new_exp,new_dts);
     return;

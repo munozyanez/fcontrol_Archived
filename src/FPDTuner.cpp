@@ -22,16 +22,16 @@ long FPDTuner::TuneIsom(const SystemBlock & sys, FPDBlock &con)
     sysphi = sysphi*180/M_PI; //conversion to degrees
     sys.GetMagnitudeAndPhase(dts,wcg+dw,sysmag,slope); //reusing slope
     slope = slope*180/M_PI; //conversion to degrees
-    cout << "sysphi0="<< sysphi << ", sysphi1=" << slope << " (rad)" << endl;
+//    cout << "sysphi0="<< sysphi << ", sysphi1=" << slope << " (rad)" << endl;
 
 
     slope = (slope-sysphi) / ( log10(wcg+dw)-log10(wcg) ); //degrees/decade
 
-    cout << "System slope at wcg="<< wcg << ", m=" << slope << "deg/decade" << endl;
+//    cout << "System slope at wcg="<< wcg << ", m=" << slope << "deg/decade" << endl;
 
 
     phi=-180+pm-sysphi;
-    cout << "Searching phi="<< (long)phi << ", m=" << (long)-slope << "deg/decade" << endl;
+//    cout << "Searching phi="<< (long)phi << ", m=" << (long)-slope << "deg/decade" << endl;
 
     if (phi >0) //phi positive, derivative.
     {
@@ -58,7 +58,7 @@ long FPDTuner::TuneIsom(const SystemBlock & sys, FPDBlock &con)
     //now divide by plant amplitude
     k=k/sysmag;
 
-    cout << "alpha: "<< alpha << ", tau_a: "<< tau_a << ", k: "<< k << endl;
+//    cout << "alpha: "<< alpha << ", tau_a: "<< tau_a << ", k: "<< k << endl;
 
     //then change the controller parameters
     con = FPDBlock(k,tau_a*k,alpha,dts);

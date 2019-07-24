@@ -45,7 +45,7 @@ FractionalController1DOF::FractionalController1DOF(double new_exp, double new_dt
 
     //otherwise
     exp = new_exp;
-    cout << "Integer exponent: " << 0 << " fractional exponent: " << exp << endl;
+//    cout << "Integer exponent: " << 0 << " fractional exponent: " << exp << endl;
     ipart = SystemBlock(
                 std::vector<double> {1},
                 std::vector<double> {1});

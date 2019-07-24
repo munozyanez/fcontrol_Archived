@@ -319,27 +319,27 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
     }
 
 
-    std::cout << "Block gain: " << gain << std::endl;
-    std::cout << "numCoef : [";
+//    std::cout << "Block gain: " << gain << std::endl;
+//    std::cout << "numCoef : [";
     if (numGain !=0)
     {
         for (int i=0; i<new_numCoef.size();i++)
         {
             numCoef[i]=new_numCoef[i]/numGain;
-            std::cout << numCoef[i] << "," ;
+//            std::cout << numCoef[i] << "," ;
         }
     }
-    std::cout << "]" << std::endl;
+//    std::cout << "]" << std::endl;
 
 
-    std::cout << "denCoef : [";
+//    std::cout << "denCoef : [";
     for (int i=0; i<new_denCoef.size();i++)
     {
         denCoef[i]=new_denCoef[i]/denGain;
-        std::cout << denCoef[i] << "," ;
+//        std::cout << denCoef[i] << "," ;
 
     }
-    std::cout << "]" << std::endl;
+//    std::cout << "]" << std::endl;
 
 
     numExps=new_numExps;
