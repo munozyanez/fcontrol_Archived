@@ -24,7 +24,7 @@ class OnlineSystemIdentification
 {
 public:
     OnlineSystemIdentification();
-    OnlineSystemIdentification(long new_numOrder, long new_denOrder, double new_ff = 0.98);
+    OnlineSystemIdentification(long new_numOrder, long new_denOrder, double new_ff = 0.98, double new_paramFilter = 0.8);
     OnlineSystemIdentification(long new_numOrder, long new_denOrder, SystemBlock new_filter);
     long SetFilter(SystemBlock filter);
 
@@ -50,6 +50,7 @@ private:
     SystemBlock inFilter, outFilter;
     bool filterOn;
 
+
     complex<double> z,nz,dz;
 
 
@@ -59,7 +60,7 @@ private:
 //    Matrix<double,Dynamic,1> th;
 
 //    Matrix<double, 1, 1, 0, 1, 1> ff; //forgetting factor
-    double ff;
+    double ff, paramFilter;
     Matrix<double, Dynamic, Dynamic, 0, rlms_N, rlms_N> P; //max order rlms_N #defined
     Matrix<double, Dynamic, 1, 0, rlms_N, 1> phi; //max order rlms_N
     Matrix<double, Dynamic, 1, 0, rlms_N, 1> R_ev; //max order rlms_N

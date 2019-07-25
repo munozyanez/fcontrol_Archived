@@ -8,9 +8,10 @@ OnlineSystemIdentification::OnlineSystemIdentification() : OnlineSystemIdentific
 
 }
 
-OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long new_denOrder, double new_ff)
+OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long new_denOrder, double new_ff, double new_paramFilter)
 {
     ff=new_ff;
+    paramFilter = new_paramFilter;
 
     denOrder= new_denOrder;
     numOrder= new_numOrder;
@@ -146,7 +147,7 @@ double OnlineSystemIdentification::UpdateSystemDT1(double input, double output)
 
     cout <<    "!!!Not working, needs revision!!!" << endl;
 
-    //Assuming that input refers to u_{t-1} and output refers to y_{t-1]
+    //Assuming that input refers to u_{t-1} and output refers to y_{t-1}
     ti++;
     //move all phi input data one position backwards to have inputs from actual to last needed past values.
     for (int i=phiLastIndex; i>0; i--)
@@ -270,7 +271,7 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
     R = ff*R + newR;
 
 
-    th = th + R.inverse()*phi*(output - phi.transpose()*th);
+    th = th + paramFilter*R.inverse()*phi*(output - phi.transpose()*th);
 //    cout << "th: " << th.transpose() << endl;
 
 //    cout << "phi: " << phi.transpose() << endl;
