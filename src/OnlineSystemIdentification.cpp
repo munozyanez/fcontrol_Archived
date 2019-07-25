@@ -92,6 +92,17 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
 
 }
 
+OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long new_denOrder,SystemBlock new_filter, double new_ff, double new_paramFilter)
+: OnlineSystemIdentification(new_numOrder,new_denOrder, new_ff, new_paramFilter)
+{
+
+    SetFilter(new_filter);
+    //Default params: order 1, forgetting factor 0.98
+
+
+}
+
+
 long OnlineSystemIdentification::SetFilter(SystemBlock filter)
 {
     inFilter = SystemBlock(filter);

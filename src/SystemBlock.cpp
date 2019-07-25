@@ -309,11 +309,11 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
 
     //if gain is not a number something fishy is going on
     //probably denGain=0
-    if(!std::isnormal(gain))
+    if(!isnormal(gain))
     {
 
-        std::cout << "Block gain error " << gain << std::endl;
-        std::cout << "Check Denominator " << std::endl;
+        cout << "Block gain error " << gain << endl;
+        cout << "Check Denominator " << endl;
 
 
     }

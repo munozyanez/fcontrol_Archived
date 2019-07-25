@@ -34,6 +34,7 @@ double FPDBlock::OutputUpdate(double new_input)
 //    std::cout << "pid : " << cp << ","<< ci << ","<< cd << std::endl;
 //    std::cout << "pid : " <<state << std::endl;
 
+    if (!isnormal(state)) return 0;
     return state;
 
 }
