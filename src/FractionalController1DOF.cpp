@@ -10,10 +10,10 @@ FractionalController1DOF::FractionalController1DOF(double new_exp, double new_dt
     dts=new_dts;
     if (new_exp < 0)
     {
-        cout << "Using fractional derivative for exponents lesser than one. Splitting." << endl;
+//        cout << "Using fractional derivative for exponents lesser than one. Splitting." << endl;
         exp=1+modf(new_exp,&iexp);
         iexp--; //add one integrator
-        cout << "Integer exponent: " << iexp << " fractional exponent: " << exp << endl;
+//        cout << "Integer exponent: " << iexp << " fractional exponent: " << exp << endl;
         //initialize the integer part
         ipart = SystemBlock(
 //                    std::vector<double> {dts/2,dts/2},
