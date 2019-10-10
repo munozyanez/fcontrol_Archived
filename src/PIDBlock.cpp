@@ -81,6 +81,7 @@ double PIDBlock::GetState() const
     return state;
 }
 
+
 //void PIDBlock::operator>>(double &output)
 //{
 //    output = state;

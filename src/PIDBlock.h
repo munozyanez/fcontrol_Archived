@@ -22,6 +22,7 @@ public:
 
     double GetState() const;
 
+
 private:
     SystemBlock iBlock;
     SystemBlock dBlock;
