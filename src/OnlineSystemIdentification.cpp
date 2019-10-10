@@ -20,6 +20,8 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
     {
         numOrder = denOrder-1;
         cout << "Only causal systems!!! Reducing numerator to order: " << numOrder << endl;
+        cerr << "Only causal systems!!! Reducing numerator to order: " << numOrder << endl;
+
     } //now it is causal, numOrder <= denOrder
 
     //share orders available, allowing den use numerator unused orders.
