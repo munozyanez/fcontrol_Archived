@@ -9,10 +9,10 @@ SUBDIR_INCLUDE_DIRECTORIES
 SUBDIR_LINK_NAMES
 ```
 
-Then, assuming the library is placed at "${PROJECT_SOURCE_DIR}/lib/CiA402Device/" (for example after clone with ``git clone https://github.com/HUMASoft/CiA402Device.git ``, it is enough to add the following lines to CMakeLists.txt to add includes:
+Then, assuming the library is placed at "${PROJECT_SOURCE_DIR}/lib/fcontrol/" (for example after clone with ``git clone https://github.com/HUMASoft/fcontrol.git ``, it is enough to add the following lines to CMakeLists.txt to add includes:
 
 ```cmake
-add_subdirectory(${PROJECT_SOURCE_DIR}/lib/CiA402Device/)
+add_subdirectory(${PROJECT_SOURCE_DIR}/lib/fcontrol/)
 INCLUDE_DIRECTORIES(${SUBDIR_INCLUDE_DIRECTORIES})
 ```
 
