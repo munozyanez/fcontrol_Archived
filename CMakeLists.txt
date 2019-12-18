@@ -5,7 +5,7 @@ project(fcontrol)
 ## In case of use as submodule
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/files/phi.m_exp.csv ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
-# Pick up cmake modules - they all must be in the cmake subdirectory
+# Find cmake modules - they all must be in the cmake subdirectory
 # let cmake use them
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
@@ -14,7 +14,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 find_package(FFTW REQUIRED)
 #2-eigen
 find_package(Eigen3 REQUIRED NO_MODULE)
-message(STATUS "EIGEN: " ${EIGEN3_VERSION} " (internal)")
+message(STATUS "EIGEN: " ${EIGEN3_VERSION} " (system installed version)")
 include_directories(${EIGEN3_INCLUDE_DIR})
 
 # source files for fcontrol
