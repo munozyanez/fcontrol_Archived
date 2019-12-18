@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 2.8)
 
 project(fcontrol)
 
+## In case of use as submodule
 configure_file(${CMAKE_CURRENT_SOURCE_DIR}/files/phi.m_exp.csv ${CMAKE_CURRENT_BINARY_DIR} COPYONLY)
 
 # Pick up cmake modules - they all must be in the cmake subdirectory
@@ -20,26 +21,28 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 aux_source_directory(./src FCONTROL_SRCS)
 # include files for fcontrol
 FILE(GLOB_RECURSE FCONTROL_INCLUDE_FILES src/*.h src/*.hpp)
+FILE(GLOB_RECURSE FCONTROL_SHARE_FILES files/*)
 
-set(SUBDIR_LINK_NAMES ${SUBDIR_LINK_NAMES} ${PROJECT_NAME} PARENT_SCOPE)
+set(SUBDIR_LINK_NAMES ${SUBDIR_LINK_NAMES} ${PROJECT_NAME})# PARENT_SCOPE)
 set(SUBDIR_INCLUDE_DIRECTORIES ${SUBDIR_INCLUDE_DIRECTORIES}
     ${CMAKE_CURRENT_SOURCE_DIR}/src
-    ${EIGEN3_INCLUDE_DIR}
-    PARENT_SCOPE)
+    ${EIGEN3_INCLUDE_DIR})
+    #PARENT_SCOPE)
 
 ADD_LIBRARY(${PROJECT_NAME} SHARED ${FCONTROL_SRCS} ${FCONTROL_INCLUDE_FILES})
 
 
-
-#Install Library targets if top level project
+## In case of system installation
 if("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
     #install target
-    message(STATUS "Configuring " ${PROJECT_NAME} " as main project")
+    message(STATUS "Configuring " ${PROJECT_NAME} " as main project. Use only if you intend to install library")
     install(TARGETS ${PROJECT_NAME}
         RUNTIME DESTINATION bin/${PROJECT_NAME}
         LIBRARY DESTINATION lib/${PROJECT_NAME})
     install(FILES ${FCONTROL_INCLUDE_FILES}
         DESTINATION include/${PROJECT_NAME})
+    install(FILES ${FCONTROL_SHARE_FILES}
+        DESTINATION share/${PROJECT_NAME})
 
     # uninstall target
     configure_file(
@@ -52,19 +55,22 @@ if("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
 #Set Library variables if subdirectory (called from add_subdirectory() )
 else("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
     message(STATUS "Configuring " ${PROJECT_NAME} " as sub-project in " ${CMAKE_CURRENT_SOURCE_DIR})
+
+    set(SUBDIR_LINK_NAMES ${SUBDIR_LINK_NAMES} PARENT_SCOPE)
+    set(SUBDIR_INCLUDE_DIRECTORIES ${SUBDIR_INCLUDE_DIRECTORIES} PARENT_SCOPE)
 #    find_path(FCONTROL_SOURCE_DIR fcontrol.h
 #        HINTS ${CMAKE_CURRENT_SOURCE_DIR} PATH_SUFFIXES include src)
 #    find_path(FCONTROL_INCLUDE_FILES fcontrol.h
 #        HINTS ${CMAKE_CURRENT_SOURCE_DIR} PATH_SUFFIXES include src)
 
-  #  set(SUBDIR_INCLUDE_DIRECTORIES ${SUBDIR_INCLUDE_DIRECTORIES} ${FCONTROL_INCLUDE_FILES} PARENT_SCOPE)
+    #set(SUBDIR_INCLUDE_DIRECTORIES ${SUBDIR_INCLUDE_DIRECTORIES} ${FCONTROL_INCLUDE_FILES} PARENT_SCOPE)
 
 #    find_library(FCONTROL_LIBRARY NAMES ${PROJECT_NAME} lib${PROJECT_NAME}
 #        HINTS ${CMAKE_CURRENT_BINARY_DIR} )
 #message(STATUS "found " ${FCONTROL_INCLUDE_FILES} " in " ${CMAKE_CURRENT_BINARY_DIR})
 #message(STATUS "found " ${FCONTROL_LIBRARY} " in " ${CMAKE_CURRENT_BINARY_DIR})
 
-endif()
+endif() #("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
 
 
 target_link_libraries( ${PROJECT_NAME} ${FFTW_LIBRARIES} ${Eigen3_LIBRARIES})
