@@ -25,4 +25,22 @@ Also after "add_executable( ${name} ${sourcefile} )" line, add the following to 
 target_link_libraries( ${PROJECT_NAME} ${SUBDIR_LINK_NAMES} )
 ```
 # As a system library
-Use the usual CMake and make install commands in order to compile and install library on the system, then use Findfcontrol.cmake file from ( https://github.com/munozyanez/fcontrol-example/blob/master/cmake/Findfcontrol.cmake ) in order to use CMake find_package(fcontrol) directive.
+Use the usual CMake and make install commands in order to compile and install library on the system
+
+```
+git clone https://github.com/munozyanez/fcontrol.git
+mkdir .fcontrol-build
+cd .fcontrol-build
+cmake ../fcontrol
+make
+make install
+```
+
+Then use Findfcontrol.cmake file from ( https://github.com/munozyanez/fcontrol-example/blob/master/cmake/Findfcontrol.cmake ) in order to use CMake find_package(fcontrol) directive.
+
+You can also uninstall the library with:
+
+```
+make uninstall
+```
+inside .fcontrol-build directory.
