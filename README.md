@@ -44,3 +44,5 @@ You can also uninstall the library with:
 make uninstall
 ```
 inside .fcontrol-build directory.
+
+See https://github.com/munozyanez/fcontrol-example/blob/master/lib/CMakeLists.txt for an example of both cases.
