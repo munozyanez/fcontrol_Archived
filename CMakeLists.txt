@@ -46,6 +46,12 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
     install(FILES ${FCONTROL_SHARE_FILES}
         DESTINATION share/${PROJECT_NAME})
 
+    if(UNIX)
+        file(WRITE ${CMAKE_BINARY_DIR}/fcontrol.conf "${CMAKE_INSTALL_PREFIX}/lib/${PROJECT_NAME}")
+        install(FILES ${CMAKE_BINARY_DIR}/fcontrol.conf
+                DESTINATION "/etc/ld.so.conf.d")
+    endif()
+
     # uninstall target
     configure_file(
         "${CMAKE_CURRENT_SOURCE_DIR}/cmake/cmake_uninstall.cmake.in"
