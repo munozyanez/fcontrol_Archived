@@ -34,6 +34,8 @@ ADD_LIBRARY(${PROJECT_NAME} SHARED ${FCONTROL_SRCS} ${FCONTROL_INCLUDE_FILES})
 
 ## In case of system installation
 if("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
+set(CMAKE_CXX_STANDARD 11)
+set(CMAKE_CXX_STANDARD_REQUIRED ON)
     #install target
     message(STATUS "Configuring " ${PROJECT_NAME} " as main project. Use only if you intend to install library")
     install(TARGETS ${PROJECT_NAME}
