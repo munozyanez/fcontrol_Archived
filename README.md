@@ -3,8 +3,8 @@
 # How to use
 
 This library is intended for the use with CMake build system. CmakeLists.txt is configured to search for the following dependencies as required:
-*fftw
-*eigen
+ *fftw
+ *eigen
 that you can install under a debian based linux with:
 ```
 sudo apt install fftw-dev libeigen3-dev
