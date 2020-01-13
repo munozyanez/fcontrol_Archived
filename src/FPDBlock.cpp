@@ -12,6 +12,8 @@ FPDBlock::FPDBlock(double new_kp, double new_kd, double new_fex, double new_dts)
     fex=new_fex;
     dts= new_dts;
     s_e = FractionalController1DOF(fex,dts);
+    maxOut=0;
+    minOut=0;
 
 }
 
@@ -21,6 +23,17 @@ double FPDBlock::OutputUpdate(double new_input)
     input=new_input;
 
     state=input*kp + kd*s_e.OutputUpdate(input);
+
+    //apply saturation
+    if (maxOut!=0)
+    {
+        state = std::min(state,maxOut);
+    }
+    //apply saturation
+    if (minOut!=0)
+    {
+        state = std::max(state,minOut);
+    }
 
 //    if (signbit(ci)!=signbit(input))
 //    {
