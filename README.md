@@ -10,6 +10,11 @@ You can install under a debian based linux with:
 ```
 sudo apt install fftw-dev libeigen3-dev
 ```
+For ubuntu 18.04 LTS you need FFTW3 library
+```
+sudo  apt-get install libfftw3-dev
+```
+
 
 # In project
 For in project CMake build, find all the include and link directories in variables:
