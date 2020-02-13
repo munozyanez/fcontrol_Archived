@@ -317,7 +317,12 @@ long OnlineSystemIdentification::GetSystemBlock(SystemBlock & idsys)
 
 double OnlineSystemIdentification::GetZTransferFunction(vector<double> &num, vector<double> &den)
 {
-
+    if(num.size()<=this->numOrder+1){
+        num.resize(this->numOrder+1);
+    }
+    if(den.size()<=this->denOrder+1){
+        den.resize(this->denOrder+1);
+    }
 //    for (int i=0; i<numOrder; i++)
 //    {
 //        num[i]=th[i];
@@ -334,6 +339,7 @@ double OnlineSystemIdentification::GetZTransferFunction(vector<double> &num, vec
 
     num[0]=th[phiLastIndex];
 //    cout << "fcontrol num=[ " ;//<< num[0] ;
+
     for (int i=0; i<=numOrder; i++)
     {
         num[i]=th[phiLastIndex-i];
@@ -341,13 +347,13 @@ double OnlineSystemIdentification::GetZTransferFunction(vector<double> &num, vec
     }
 //    cout  << "], den=[ ";
 
-
     for (int i=0; i<denOrder; i++)
     {
         den[i]=th[phiNumIndex-1-i];
 //        cout << den[i]<< ", " ;
 
     }
+
     den[denOrder]=1;
 //    cout << den[denOrder] << "] "<< endl;
 
