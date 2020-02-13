@@ -10,9 +10,9 @@ You can install under a debian based linux with:
 ```
 sudo apt install fftw-dev libeigen3-dev
 ```
-For ubuntu 18.04 LTS you need FFTW3 library
+For ubuntu 18.04 LTS you need FFTW3 library instead, therefore:
 ```
-sudo  apt-get install libfftw3-dev
+sudo  apt-get install libfftw3-dev libeigen3-dev
 ```
 
 
