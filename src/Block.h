@@ -18,7 +18,13 @@ public:
         return output.OutputUpdate(input);
     }
 
+    friend double operator -- (BaseBlock& tf)
+    {
+        return tf.getState();
+    }
+
     long SetSaturation(double low, double high);
+
 
 protected:
     double maxOut, minOut; // 0 values disables saturation
@@ -30,6 +36,7 @@ private:
     //saturation values
 
     virtual double OutputUpdate(double new_input)=0;
+    virtual double getState()=0;
 
 
 
