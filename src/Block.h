@@ -8,22 +8,28 @@
 #include <math.h>
 #include <iostream>
 
+#include "TimeSignal.h"
+
 class BaseBlock
 {
 public:
     BaseBlock();
 
+    //operator uploading
     friend double operator > (double input, BaseBlock& output)
     {
         return output.OutputUpdate(input);
     }
 
-    friend double operator -- (BaseBlock& tf)
+    friend double operator > (BaseBlock& from, double & to)
     {
-        return tf.getState();
+        to=from.GetState();
+        std::cout << to;
+        return to;
     }
 
     long SetSaturation(double low, double high);
+
 
 
 protected:
@@ -36,7 +42,7 @@ private:
     //saturation values
 
     virtual double OutputUpdate(double new_input)=0;
-    virtual double getState()=0;
+    virtual double GetState() const = 0;
 
 
 

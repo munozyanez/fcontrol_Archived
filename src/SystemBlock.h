@@ -30,7 +30,7 @@ public:
     double GetNumOrder() const;
     double GetDenOrder() const;
     long GetTransfer(std::vector<double> & numCoefficients, std::vector<double> & denCoefficients) const;
-    virtual double GetState();
+    double GetState() const;
 
 
     double OutputUpdate(double new_input);

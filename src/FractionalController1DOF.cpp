@@ -80,7 +80,7 @@ long FractionalController1DOF::Init(double new_exp, double new_dts)
     return 0;
 }
 
-double FractionalController1DOF::getState() const
+double FractionalController1DOF::GetState() const
 {
     return state;
 }

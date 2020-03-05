@@ -12,9 +12,17 @@ public:
     TimeSignal(std::vector<double> new_data, double new_dts);
     TimeSignal(std::valarray<double> new_data, double new_dts);
 
+    friend double operator > (double new_value, TimeSignal & ts)
+    {
+        return ts.Update(new_value);
+
+    }
 
     bool Initialize(unsigned int new_size, double new_fs);
     bool GetParams(unsigned int &out_size, double &out_fs) const;
+
+    long Update(double new_value);
+    double GetValue(long index);
 
     //variables exposed
     //data must be exposed for better performance.

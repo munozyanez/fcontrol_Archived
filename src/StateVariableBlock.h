@@ -7,8 +7,7 @@
 class StateVariableBlock : public BaseBlock
 {
 public:
-    StateVariableBlock();
-    StateVariableBlock(double sampleTime);
+    StateVariableBlock(double sampleTime = 0.01);//make sure dts has a value.
 
     double OutputUpdate(double new_input);
 
@@ -16,7 +15,7 @@ public:
 private:
 
 
-    double sT; //sample time
+    double dts; //sample time. Make sure dts has a value.
     StateVariable variable;
 
 };

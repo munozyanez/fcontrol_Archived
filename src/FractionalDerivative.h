@@ -17,6 +17,8 @@ public:
     FractionalDerivative();
     FractionalDerivative(double new_exp, double new_dts);
     double OutputUpdate(double new_input);
+    double GetState() const;
+
 private:
     long Init(double new_exp, double new_dts);
     double exp;

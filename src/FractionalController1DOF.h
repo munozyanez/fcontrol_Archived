@@ -13,7 +13,7 @@ public:
     double OutputUpdate(double new_input);
 
 
-    double getState() const;
+    double GetState() const;
 
 private:
     long Init(double new_exp, double new_dts);

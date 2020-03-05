@@ -75,6 +75,11 @@ long FractionalDerivative::Init(double new_exp, double new_dts)
     return 0;
 }
 
+double FractionalDerivative::GetState() const
+{
+    return state;
+}
+
 
 
 double FractionalDerivative::OutputUpdate(double new_input)

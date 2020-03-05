@@ -48,6 +48,27 @@ bool TimeSignal::GetParams(unsigned int &out_size, double &out_fs) const
 
 }
 
+long TimeSignal::Update(double new_value)
+{
+    data=data.shift(-1);
+    data[0]= new_value;
+
+    return 0;
+}
+
+double TimeSignal::GetValue(long index)
+{
+    if (index > N)
+    {
+        return -1;
+    }
+    else
+    {
+        return data[index];
+    }
+
+}
+
 double TimeSignal::getFs() const
 {
     return fs;

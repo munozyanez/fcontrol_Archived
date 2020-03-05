@@ -102,7 +102,7 @@ long SystemBlock::GetTransfer(std::vector<double> &numCoefficients, std::vector<
 
 }
 
-double SystemBlock::GetState()
+double SystemBlock::GetState() const
 {
     return state;
 

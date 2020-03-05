@@ -1,9 +1,9 @@
 #include "FPDBlock.h"
 
-FPDBlock::FPDBlock()
-{
-    FPDBlock(1, 1, 1, 0.001);
-}
+//FPDBlock::FPDBlock()
+//{
+//    FPDBlock(1, 1, 1, 0.001);
+//}
 
 FPDBlock::FPDBlock(double new_kp, double new_kd, double new_fex, double new_dts)
 {
@@ -52,7 +52,7 @@ double FPDBlock::OutputUpdate(double new_input)
 
 }
 
-double FPDBlock::getState() const
+double FPDBlock::GetState() const
 {
     return state;
 }

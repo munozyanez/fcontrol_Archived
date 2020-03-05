@@ -7,12 +7,12 @@
 class FPDBlock : public BaseBlock
 {
 public:
-    FPDBlock();
-    FPDBlock(double new_kp, double new_kd, double new_fex, double new_dts);
+//    FPDBlock();
+    FPDBlock(double new_kp = 1, double new_kd = 1, double new_fex = 1, double new_dts = 0.001);
 
     double OutputUpdate(double new_input);
 
-    double getState() const;
+    double GetState() const;
 
 
 private:
