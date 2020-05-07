@@ -31,10 +31,13 @@ class TableInterpolation
 public:
     TableInterpolation();
     TableInterpolation(string new_table);
-    double GetTableValue(long row, long col);
+    double GetTableValue(ulong row, ulong col);
 private:
     long getData(string fileName);
     vector < vector<double> > lookupTable;
+    ulong hsize,vsize;
+    ulong row,col;
+
 
 };
 

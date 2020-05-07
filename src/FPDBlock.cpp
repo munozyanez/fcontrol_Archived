@@ -56,3 +56,19 @@ double FPDBlock::GetState() const
 {
     return state;
 }
+
+long FPDBlock::PrintParameters()
+{
+        std::cout << "kp : " << kp << ", kd: "<< kd << ", fex: "<< fex << std::endl;
+
+}
+
+long FPDBlock::GetParameters(double &out_kp, double &out_kd, double &out_fex)
+{
+    out_kp = kp;
+    out_kd = kd;
+    out_fex = fex;
+    return 0;
+
+}
+

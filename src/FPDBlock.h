@@ -14,6 +14,8 @@ public:
 
     double GetState() const;
 
+    long PrintParameters();
+    long GetParameters(double &out_kp, double &out_kd, double &out_fex );
 
 private:
     double kp, kd, fex;

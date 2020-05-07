@@ -69,8 +69,19 @@ TableInterpolation::TableInterpolation(string new_table)
     }
 }
 
-double TableInterpolation::GetTableValue(long row, long col)
+double TableInterpolation::GetTableValue(ulong row, ulong col)
 {
+    if(row > vsize | col > hsize)
+    {
+        cout << "row= "<< row << ", vsize= "<< vsize << ", col= "  << col<< ", hsize= " << hsize << endl;
+        cout << "Table out of bounds, resizing" << endl;
+        cout << "row= "<< min(row,vsize) << ", col= " << min(col,hsize) << endl;
+
+        return lookupTable[min(col,hsize)][min(row,vsize)];
+
+
+    }
+
     return lookupTable[row][col];
 
 }
@@ -112,6 +123,11 @@ long TableInterpolation::getData(string fileName)
     }
     // Close the File
     file.close();
+
+    hsize=lookupTable[1].size();
+    vsize=lookupTable.size();
+
+    cout << " Table: hsize=" << hsize << ", vsize=" << vsize << endl;
 
     return 0;
 }

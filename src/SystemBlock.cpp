@@ -275,9 +275,9 @@ double SystemBlock::PrintZTransferFunction(double dts)
         cout << ", " << numCoef[i];
     }
     cout << "],[ " << denCoef.back();
-    for (int i=numCoef.size()-2; i>=0; i--)
+    for (int i=denCoef.size()-2; i>=0; i--)
     {
-        cout << ", " << numCoef[i];
+        cout << ", " << denCoef[i];
 
     }
     cout << "]," <<dts<< ")"<< endl;
