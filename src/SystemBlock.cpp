@@ -255,6 +255,38 @@ long SystemBlock::GetMagnitudeAndPhase(double dts, double w, double &magnitude, 
     return 0;
 }
 
+double SystemBlock::GetZTransferFunction(vector<double> &num, vector<double> &den)
+{
+
+    num=numCoef;
+    den=denCoef;
+    return 0;
+
+}
+
+double SystemBlock::PrintZTransferFunction(double dts)
+{
+
+    //todo: scilab format
+
+    cout << "matlab G=tf([ " << numCoef.back() ;
+    for (int i=numCoef.size()-2; i>=0; i--)
+    {
+        cout << ", " << numCoef[i];
+    }
+    cout << "],[ " << denCoef.back();
+    for (int i=numCoef.size()-2; i>=0; i--)
+    {
+        cout << ", " << numCoef[i];
+
+    }
+    cout << "]," <<dts<< ")"<< endl;
+
+    return 0;
+
+
+
+}
 
 bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const std::vector<double> &new_denCoef, const std::vector<double> &new_numExps, const std::vector<double> &new_denExps)
 {

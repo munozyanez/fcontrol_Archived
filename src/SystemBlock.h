@@ -55,11 +55,13 @@ public:
 //    }
 
     long GetMagnitudeAndPhase(double dts, double w, double &magnitude, double &phase) const;
+    double PrintZTransferFunction(double dts);
+    double GetZTransferFunction(vector<double> &num, vector<double> &den);
 private:
     //transfer function G
     double gain; //the gain for the transfer function.
-    std::vector<double> numCoef,denCoef;//numerator and denominator coefficients.
-    std::vector<double> numExps,denExps;//numerator and denominator jw powers.
+    std::vector<double> numCoef,denCoef;//numerator and denominator coefficients in z positive powers.
+    std::vector<double> numExps,denExps;//numerator and denominator jw  powers.
 
     long numOrder,denOrder;
 
