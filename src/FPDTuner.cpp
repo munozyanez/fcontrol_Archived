@@ -24,7 +24,7 @@ long FPDTuner::TuneIsom(const SystemBlock & sys, FPDBlock &con)
     slope = slope*180/M_PI; //conversion to degrees
     slope = (slope-sysphi) / ( log10(wcg+dw)-log10(wcg) ); //degrees/decade
 
-    cout << "sysphi="<< sysphi << ", sysmag="<< sysmag << ", slope=" << slope << " (deg)" << endl;
+//    cout << "sysphi="<< sysphi << ", sysmag="<< sysmag << ", slope=" << slope << " (deg)" << endl;
 
 //    cout << "System slope at wcg="<< wcg << ", m=" << slope << "deg/decade" << endl;
 
@@ -33,7 +33,7 @@ long FPDTuner::TuneIsom(const SystemBlock & sys, FPDBlock &con)
 
     if (phi >0) //phi positive, derivative.
     {
-        cout << "Searching phi="<< ulong(phi) << ", m=" << ulong(-slope) << "deg/decade" << endl;
+//        cout << "Searching phi="<< ulong(phi) << ", m=" << ulong(-slope) << "deg/decade" << endl;
         alpha=isom.GetTableValue(ulong(phi),ulong(-slope));
         tgp=tan(phi*M_PI/180);
         sahp = sin(alpha*M_PI/2); //sin of alpha half pi
@@ -42,7 +42,7 @@ long FPDTuner::TuneIsom(const SystemBlock & sys, FPDBlock &con)
     }
     else //phi negative, integrator, use derivative table changing phi sign.
     {
-        cout << "Searching phi="<< ulong(-phi) << ", m=" << ulong(-slope) << "deg/decade" << endl;
+//        cout << "Searching phi="<< ulong(-phi) << ", m=" << ulong(-slope) << "deg/decade" << endl;
         alpha=-isom.GetTableValue(ulong(-phi),ulong(-slope));
         tgp=tan(-phi*M_PI/180);
         sahp = sin(-alpha*M_PI/2); //sin of alpha half pi

@@ -269,7 +269,7 @@ double SystemBlock::PrintZTransferFunction(double dts)
 
     //todo: scilab format
 
-    cout << "matlab G=tf([ " << numCoef.back() ;
+    cout << "matlab G=tf(" << gain << "*[ " << numCoef.back() ;
     for (int i=numCoef.size()-2; i>=0; i--)
     {
         cout << ", " << numCoef[i];
