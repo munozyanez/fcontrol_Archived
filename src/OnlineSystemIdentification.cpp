@@ -8,7 +8,7 @@ OnlineSystemIdentification::OnlineSystemIdentification() : OnlineSystemIdentific
 
 }
 
-OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long new_denOrder, double new_ff, double new_paramFilter)
+OnlineSystemIdentification::OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder, double new_ff, double new_paramFilter)
 {
     ff=new_ff;
     paramFilter = new_paramFilter;
@@ -84,7 +84,7 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
 
 }
 
-OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long new_denOrder,SystemBlock new_filter)
+OnlineSystemIdentification::OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder,SystemBlock new_filter)
 : OnlineSystemIdentification(new_numOrder,new_denOrder,0.98)
 {
 
@@ -94,7 +94,7 @@ OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long n
 
 }
 
-OnlineSystemIdentification::OnlineSystemIdentification(long new_numOrder, long new_denOrder,SystemBlock new_filter, double new_ff, double new_paramFilter)
+OnlineSystemIdentification::OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder, SystemBlock new_filter, double new_ff, double new_paramFilter)
 : OnlineSystemIdentification(new_numOrder,new_denOrder, new_ff, new_paramFilter)
 {
 

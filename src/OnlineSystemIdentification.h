@@ -24,9 +24,9 @@ class OnlineSystemIdentification
 {
 public:
     OnlineSystemIdentification();
-    OnlineSystemIdentification(long new_numOrder, long new_denOrder, double new_ff = 0.98, double new_paramFilter = 0.8);
-    OnlineSystemIdentification(long new_numOrder, long new_denOrder, SystemBlock new_filter);
-    OnlineSystemIdentification(long new_numOrder, long new_denOrder, SystemBlock new_filter, double new_ff, double new_paramFilter);
+    OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder, double new_ff = 0.98, double new_paramFilter = 0.8);
+    OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder, SystemBlock new_filter);
+    OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder, SystemBlock new_filter, double new_ff, double new_paramFilter);
     long SetFilter(SystemBlock filter);
 
     double UpdateSystem(double new_input, double new_output);
