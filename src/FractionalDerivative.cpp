@@ -19,14 +19,14 @@ FractionalDerivative::FractionalDerivative(double new_exp, double new_dts)
 //        Init(0,new_dts);
 //        return;
 //    }
-    if (new_exp < 0)
-    {
-        cout << "Cant use exponents lesser than zero. Use another option." << endl;
-//        exp=modf(new_exp,&iexp);
-//        cout << "Integer exponent" << iexp << " fractional exponent: " << exp << endl;
-        Init(0,new_dts);
-        return;
-    }
+//    if (new_exp < 0)
+//    {
+//        cout << "Cant use exponents lesser than zero. Use another option." << endl;
+////        exp=modf(new_exp,&iexp);
+////        cout << "Integer exponent" << iexp << " fractional exponent: " << exp << endl;
+//        Init(0,new_dts);
+//        return;
+//    }
 //        cout << "Fractional derivative exponent: " << new_exp << endl;
 
     Init(new_exp,new_dts);

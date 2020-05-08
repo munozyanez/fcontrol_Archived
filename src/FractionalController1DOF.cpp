@@ -4,7 +4,7 @@ FractionalController1DOF::FractionalController1DOF()
 {
 
 }
-
+/*
 FractionalController1DOF::FractionalController1DOF(double new_exp, double new_dts)
 {
     dts=new_dts;
@@ -63,7 +63,31 @@ double FractionalController1DOF::OutputUpdate(double new_input)
     return state;
 
 }
+*/
+FractionalController1DOF::FractionalController1DOF(double new_exp, double new_dts)
+{
+    dts=new_dts;
 
+    exp=min(new_exp,1.99);
+    exp=max(exp,-1.99);
+
+    Init(exp,new_dts);
+
+    cout << "Integer exponent: " << 0 << " fractional exponent: " << exp << endl;
+
+    return;
+
+
+}
+
+double FractionalController1DOF::OutputUpdate(double new_input)
+{
+    state = new_input > fpart;
+    cout << "new_input " << new_input << " state " << state << endl;
+
+    return state;
+
+}
 
 long FractionalController1DOF::Init(double new_exp, double new_dts)
 {
@@ -71,10 +95,6 @@ long FractionalController1DOF::Init(double new_exp, double new_dts)
     dts=new_dts;
     exp=new_exp;
     fpart = FractionalDerivative (exp, dts);
-
-
-
-
 
 
     return 0;
