@@ -17,7 +17,7 @@ FractionalController1DOF::FractionalController1DOF(double new_exp, double new_dt
 //        cout << "Integer exponent: " << iexp << " fractional exponent: " << exp << endl;
         //initialize the integer part
         cout << iexp;
-        ipart.resize(iexp);
+        ipart.resize(ulong(iexp));
         ipart[0] = SystemBlock(
 //                    std::vector<double> {dts/2,dts/2},
 //                    std::vector<double> {-1,1});
