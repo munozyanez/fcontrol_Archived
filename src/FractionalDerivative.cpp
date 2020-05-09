@@ -19,15 +19,15 @@ FractionalDerivative::FractionalDerivative(double new_exp, double new_dts)
 //        Init(0,new_dts);
 //        return;
 //    }
-//    if (new_exp < 0)
-//    {
-//        cout << "Cant use exponents lesser than zero. Use another option." << endl;
-////        exp=modf(new_exp,&iexp);
-////        cout << "Integer exponent" << iexp << " fractional exponent: " << exp << endl;
-//        Init(0,new_dts);
-//        return;
-//    }
-//        cout << "Fractional derivative exponent: " << new_exp << endl;
+    if (new_exp < 0)
+    {
+        cout << "Fractiona DERIVATIVE Can't use exponents lesser than zero. Use another option." << endl;
+//        exp=modf(new_exp,&iexp);
+//        cout << "Integer exponent" << iexp << " fractional exponent: " << exp << endl;
+        Init(0,new_dts);
+        return;
+    }
+        cout << "Fractional derivative exponent: " << new_exp << endl;
 
     Init(new_exp,new_dts);
     return;
@@ -47,7 +47,7 @@ long FractionalDerivative::Init(double new_exp, double new_dts)
     firtol=0.01; //default. otherwise assign with setter
     vector<double> tmp;
 //    cout << "Fractional derivative FIR: "<<endl;
-
+//MacLaurin series expansions based approximation
     for (int i=0; i<FRACTIONALDERIVATIVE_MAXSIZE; i++)
     {
         bi = tgamma(exp+1) / (tgamma(i+1)*tgamma(exp-i+1));

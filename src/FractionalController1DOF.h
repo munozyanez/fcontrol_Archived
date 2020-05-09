@@ -17,7 +17,7 @@ public:
 
 private:
     long Init(double new_exp, double new_dts);
-    SystemBlock ipart;
+    vector<SystemBlock> ipart;
     FractionalDerivative fpart;
 
     double iexp;
