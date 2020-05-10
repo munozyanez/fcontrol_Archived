@@ -43,6 +43,7 @@ public:
     long GetMagnitudeAndPhase(double dts, double w, double & magnitude, double & phase);
 
     long GetSystemBlock(SystemBlock &idsys);
+    double UpdateSystemPEff(double new_input, double new_output);
 private:
 
     long numOrder,denOrder, order;
@@ -61,13 +62,20 @@ private:
 //    Matrix<double,Dynamic,1> th;
 
 //    Matrix<double, 1, 1, 0, 1, 1> ff; //forgetting factor
-    double ff, paramFilter;
+    double ff, paramFilter, PEff=1;
+    Matrix<double, 1, 1, 0, 1, 1> PEAux; //max order rlms_N
+
+
     Matrix<double, Dynamic, Dynamic, 0, rlms_N, rlms_N> P; //max order rlms_N #defined
     Matrix<double, Dynamic, 1, 0, rlms_N, 1> phi; //max order rlms_N
+
     Matrix<double, Dynamic, 1, 0, rlms_N, 1> R_ev; //max order rlms_N
 
     Matrix<double, Dynamic, 1, 0, rlms_N, 1>  L;//max order rlms_N
     Matrix<double, Dynamic, 1, 0, rlms_N, 1> th;//max order rlms_N
+    Matrix<double, Dynamic, 1, 0, rlms_N, 1> thold; //max order rlms_N
+    double converge;
+
     Matrix<double, Dynamic, Dynamic, 0, rlms_N, rlms_N> R; //max order rlms_N #defined
     Matrix<double, Dynamic, Dynamic, 0, rlms_N, rlms_N> newR; //max order rlms_N #defined
 

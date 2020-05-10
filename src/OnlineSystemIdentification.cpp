@@ -68,6 +68,7 @@ OnlineSystemIdentification::OnlineSystemIdentification(ulong new_numOrder, ulong
     L=L.setZero(order,1);
 
     th=th.setZero(order,1);
+    thold=thold.setZero(order,1);
 
 
 //    cout << "--> Initial R <--" << endl << R << endl;
@@ -84,7 +85,7 @@ OnlineSystemIdentification::OnlineSystemIdentification(ulong new_numOrder, ulong
 
 }
 
-OnlineSystemIdentification::OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder,SystemBlock new_filter)
+OnlineSystemIdentification::OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder, SystemBlock new_filter)
 : OnlineSystemIdentification(new_numOrder,new_denOrder,0.98)
 {
 
@@ -216,6 +217,7 @@ double OnlineSystemIdentification::UpdateSystemDT1(double input, double output)
 double OnlineSystemIdentification::UpdateSystem(double new_input, double new_output)
 {
 
+    th=thold;
     //Assuming that input refers to u_{t-1} and output refers to y_{t}
 
     if (filterOn)
@@ -300,8 +302,134 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
 
     //and add the actual value
 
+    thold=th-thold;
+    converge=0;
+//    cout << thold;
+    for (long i=0; i<thold.size(); i++)
+    {
+        converge+=pow(thold[i],2);
+    }
+    converge=sqrt(converge);
 
-    return err;
+//    thold.stableNorm();
+    return converge;
+//    return thold.norm();
+
+}
+
+
+//Version considering actual output y_{t} previous input u_{t-1}
+double OnlineSystemIdentification::UpdateSystemPEff(double new_input, double new_output)
+{
+
+    th=thold;
+    //Assuming that input refers to u_{t-1} and output refers to y_{t}
+
+    if (filterOn)
+    {
+        input=new_input > inFilter;
+        output=new_output > outFilter;
+//            cout << "phi(phiNumIndex): " << phi(phiNumIndex) << endl;
+
+    }
+    else
+    {
+        input=new_input;
+        output=new_output;
+//            cout << "phi(phiNumIndex): " << phi(phiNumIndex) << endl;
+
+    }
+
+    ti++;
+
+    //Update phi input data
+    for (int i=phiLastIndex; i>phiNumIndex; i--) //order-1 is full phi size
+    {
+        //input indexes can start from zero to include actual input??
+       // cout << "phiLastIndex: " << phiLastIndex << " ; phiNumIndex: " << phiNumIndex << endl;
+        phi[i] = phi[i-1];
+    }
+
+    phi(phiNumIndex)=input;
+
+
+//            cout << "b0 " << (output[ti]-phi.transpose()*th)/input[ti] << ", at step: " <<  ti << endl;
+//    cout << "phi: " << phi.transpose() << endl;
+
+
+
+
+//    newR = phi*phi.transpose();
+
+
+
+//    cout << "R: " << endl << R << endl;
+//    cout << "R^-1: " << endl << R.inverse() << endl;
+//    cout << "|R|: " << R.determinant() << endl;
+
+//    if (abs(R.determinant()) < 100)
+//    {
+//        cout << "|R|: " << R.determinant() << endl;
+//        return 0;
+//    }
+
+
+
+//    R_ev=(newR.eigenvalues()).real();
+
+//    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
+//    if (phiEigenvalues.minCoeff()<-1E-15 || phiEigenvalues.maxCoeff()<0.1)
+//    if (R_ev.minCoeff()<=0 || R_ev.maxCoeff()<0.1)
+//    {
+////        cout << "phi (" << phi.transpose() <<  endl;
+////        cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
+//        phi(0)=-output;
+//        return -1;
+//    }
+//cout << phi;
+//cout << phi.transpose()*R*phi;
+
+    //updating R after check keeps it unchanged for non persistent exciting inputs
+    PEAux = phi.transpose()*R*phi;
+
+    PEff=1-PEAux[0]/(1+PEAux[0]);
+    R=R-(R*phi*phi.transpose()*R)/(PEff+PEAux[0]);
+    R=R/PEAux[0];
+
+    PEAux=th.transpose()*phi;
+
+    err=output-PEAux[0];
+
+
+    th = th + R*phi*err;
+
+//    cout << "th: " << th.transpose() << endl;
+
+//    cout << "phi: " << phi.transpose() << endl;
+//    cout << "test: phiT*theta " << phi.transpose()*th << endl;
+
+    //Update phi output data for next iteration
+    for (int i=denOrder-1; i>0; i--)
+    {
+        phi[i] = phi[i-1];
+    }
+
+    phi(0)=-output;
+
+    //and add the actual value
+
+    thold=th-thold;
+    converge=0;
+//    cout << thold;
+    for (long i=0; i<thold.size(); i++)
+    {
+        converge+=pow(thold[i],2);
+    }
+    converge=sqrt(converge);
+
+//    thold.stableNorm();
+    return converge;
+//    return thold.norm();
 
 }
 

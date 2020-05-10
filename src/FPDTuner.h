@@ -11,6 +11,7 @@ public:
     FPDTuner(double new_pm = 60, double new_wcg = 1, double new_dts = 0.01);
 
     long TuneIsom(const SystemBlock &sys, FPDBlock &con);
+    long TuneIsom(const vector<SystemBlock> &sys, FPDBlock &con);
 
 private:
 
