@@ -32,6 +32,8 @@ long FPDTuner::TuneIsom(const SystemBlock & sys, FPDBlock &con)
 
 
     phi=-180+pm-sysphi;
+//        cout << "sysphi="<< sysphi << ", pm="<< pm << ", phi=" << phi << " (deg)" << endl;
+
 
     if (phi >0) //phi positive, derivative.
     {

@@ -260,7 +260,7 @@ double SystemBlock::GetZTransferFunction(vector<double> &num, vector<double> &de
 
     num=numCoef;
     den=denCoef;
-    return 0;
+    return gain;
 
 }
 
@@ -304,7 +304,7 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
     double numGain = numCoef.back();
 
 
-    if (numGain == 0)
+    if (numGain == 0.0)
     {
         //find the first coeff not 0
         for (long i=numCoef.size()-1; i>=0; i--)

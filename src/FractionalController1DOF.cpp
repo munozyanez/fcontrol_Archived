@@ -16,7 +16,7 @@ FractionalController1DOF::FractionalController1DOF(double new_exp, double new_dt
         iexp=-iexp;//iexp is only used for integral exponents
 //        cout << "Integer exponent: " << iexp << " fractional exponent: " << exp << endl;
         //initialize the integer part
-        cout << iexp;
+//        cout << iexp;
         ipart.resize(ulong(iexp));
         ipart[0] = SystemBlock(
 //                    std::vector<double> {dts/2,dts/2},
@@ -130,7 +130,7 @@ long FractionalController1DOF::Init(double new_exp, double new_dts)
 
     dts=new_dts;
     exp=new_exp;
-    cout << "Integer exponent: " << iexp << " fractional derivative exponent: " << exp << endl;
+//    cout << "Integer exponent: " << iexp << " fractional derivative exponent: " << exp << endl;
     fpart = FractionalDerivative (exp, dts);
 
 
