@@ -160,6 +160,7 @@ double OnlineSystemIdentification::UpdateSystemDT1(double input, double output)
     //!!!Not working, needs revision!!!
 
     cout <<    "!!!Not working, needs revision!!!" << endl;
+    return -1;
 
     //Assuming that input refers to u_{t-1} and output refers to y_{t-1}
     ti++;
@@ -211,6 +212,7 @@ double OnlineSystemIdentification::UpdateSystemDT1(double input, double output)
     return err;
 
 }
+
 
 
 //Version considering actual output y_{t} previous input u_{t-1}
@@ -285,7 +287,7 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
     //updating R after check keeps it unchanged for non persistent exciting inputs
     R = ff*R + newR;
 
-
+/**(1-paramFilter)*/
     th = th + paramFilter*R.inverse()*phi*(output - phi.transpose()*th);
 //    cout << "th: " << th.transpose() << endl;
 
@@ -321,6 +323,11 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
 //Version considering actual output y_{t} previous input u_{t-1}
 double OnlineSystemIdentification::UpdateSystemPEff(double new_input, double new_output)
 {
+
+    //!!!Not working, needs revision!!!
+
+    cout <<    "!!!Not working, needs revision!!!" << endl;
+    return -1;
 
     th=thold;
     //Assuming that input refers to u_{t-1} and output refers to y_{t}
@@ -374,20 +381,18 @@ double OnlineSystemIdentification::UpdateSystemPEff(double new_input, double new
 //    }
 
 
-
-//    R_ev=(newR.eigenvalues()).real();
+    newR = phi*phi.transpose();
+    R_ev=(newR.eigenvalues()).real();
 
 //    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
 //    if (phiEigenvalues.minCoeff()<-1E-15 || phiEigenvalues.maxCoeff()<0.1)
-//    if (R_ev.minCoeff()<=0 || R_ev.maxCoeff()<0.1)
-//    {
-////        cout << "phi (" << phi.transpose() <<  endl;
-////        cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
-//        phi(0)=-output;
-//        return -1;
-//    }
-//cout << phi;
-//cout << phi.transpose()*R*phi;
+    if (R_ev.minCoeff()<=0 || R_ev.maxCoeff()<0.1)
+    {
+//        cout << "phi (" << phi.transpose() <<  endl;
+//        cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
+        phi(0)=-output;
+        return -1;
+    }
 
     //updating R after check keeps it unchanged for non persistent exciting inputs
     PEAux = phi.transpose()*R*phi;
@@ -430,6 +435,13 @@ double OnlineSystemIdentification::UpdateSystemPEff(double new_input, double new
 //    thold.stableNorm();
     return converge;
 //    return thold.norm();
+
+}
+
+double OnlineSystemIdentification::OutFilterUpdateSystem(double new_input, double new_output, ulong n)
+{
+
+
 
 }
 

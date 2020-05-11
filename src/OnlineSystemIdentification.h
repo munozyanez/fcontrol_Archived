@@ -31,6 +31,8 @@ public:
 
     double UpdateSystem(double new_input, double new_output);
     double UpdateSystemDT1(double new_input, double new_output);
+    double UpdateSystemPEff(double new_input, double new_output);
+    double OutFilterUpdateSystem(double new_input, double new_output, ulong n);
 
 
     double GetZTransferFunction(vector<double>& num,vector<double>& den);
@@ -43,7 +45,6 @@ public:
     long GetMagnitudeAndPhase(double dts, double w, double & magnitude, double & phase);
 
     long GetSystemBlock(SystemBlock &idsys);
-    double UpdateSystemPEff(double new_input, double new_output);
 private:
 
     long numOrder,denOrder, order;
