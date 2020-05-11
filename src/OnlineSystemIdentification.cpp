@@ -307,11 +307,11 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
     thold=th-thold;
     converge=0;
 //    cout << thold;
-    for (long i=0; i<thold.size(); i++)
-    {
-        converge+=pow(thold[i],2);
-    }
-    converge=sqrt(converge);
+//    for (long i=0; i<thold.size(); i++)
+//    {
+//        converge+=pow(thold[i],2);
+//    }
+//    converge=sqrt(converge);
 
 //    thold.stableNorm();
     return converge;
@@ -326,8 +326,8 @@ double OnlineSystemIdentification::UpdateSystemPEff(double new_input, double new
 
     //!!!Not working, needs revision!!!
 
-    cout <<    "!!!Not working, needs revision!!!" << endl;
-    return -1;
+//    cout <<    "!!!Not working, needs revision!!!" << endl;
+//    return -1;
 
     th=thold;
     //Assuming that input refers to u_{t-1} and output refers to y_{t}
