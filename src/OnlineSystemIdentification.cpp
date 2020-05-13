@@ -219,7 +219,7 @@ double OnlineSystemIdentification::UpdateSystemDT1(double input, double output)
 double OnlineSystemIdentification::UpdateSystem(double new_input, double new_output)
 {
 
-    th=thold;
+    thold=th;
     //Assuming that input refers to u_{t-1} and output refers to y_{t}
 
     if (filterOn)
