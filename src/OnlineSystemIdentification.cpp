@@ -329,7 +329,7 @@ double OnlineSystemIdentification::UpdateSystemPEff(double new_input, double new
 //    cout <<    "!!!Not working, needs revision!!!" << endl;
 //    return -1;
 
-    th=thold;
+    thold=th;
     //Assuming that input refers to u_{t-1} and output refers to y_{t}
 
     if (filterOn)
