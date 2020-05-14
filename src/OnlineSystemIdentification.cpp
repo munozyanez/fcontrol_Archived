@@ -641,3 +641,12 @@ vector<double> OnlineSystemIdentification::GetParamsVector()
     }
     return params;
 }
+
+long OnlineSystemIdentification::SetParamsVector(vector<double> params)
+{
+    for (int i=0; i<order; i++)
+    {
+        th(i)=params[i];
+    }
+    return 0;
+}

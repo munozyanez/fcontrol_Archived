@@ -46,6 +46,7 @@ public:
     long GetSystemBlock(SystemBlock &idsys);
     double GetAvgZTransferFunction(vector<double> &num, vector<double> &den);
     long GetAvgSystemBlock(SystemBlock &idsys);
+    long SetParamsVector(vector<double> new_th);
 private:
 
     ulong numOrder,denOrder;
