@@ -85,6 +85,9 @@ private:
 
     double err;
     double ti; //time index
+    ulong oPEi=0; //persistent excitation order index
+    double R_ev_sum=0; //persistent excitation order index
+
 
     double output, input;
     vector<double> oldOuts, oldIns;

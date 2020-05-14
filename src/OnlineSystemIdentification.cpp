@@ -253,34 +253,46 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
 //    cout << "phi: " << phi.transpose() << endl;
 
     newR = phi*phi.transpose();
+    R_ev_sum=R_ev.sum();
+
     R_ev=(newR.eigenvalues()).real();
 
-//    cout << "R_ev.prod() " <<R_ev.prod() << "; R_ev.sum() " <<R_ev.sum()  <<  endl;
+//    if ( (abs(R_ev.sum()-R_ev_sum)/R_ev_sum)>0.01 ) cout << "gogogo!" << endl;
 
+//    cout << "Perc " <<(abs(R_ev.sum()-R_ev_sum)/R_ev_sum) << "; R_ev.sum() " <<R_ev.sum()  <<  endl;
+//    cout << "R_ev.prod() " <<R_ev.prod() << "; R_ev.sum() " <<R_ev.sum()  <<  endl;
+//    cout << "R_ev.transpose() " <<R_ev.transpose() << "; R_ev.sum() " <<R_ev.sum()  <<  endl;
 
 //    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
 //    if (phiEigenvalues.minCoeff()<-1E-15 || phiEigenvalues.maxCoeff()<0.1)
-    if (R_ev.minCoeff()<=0 || R_ev.maxCoeff()<1)
+//    if (R_ev.minCoeff()<=0 || R_ev.maxCoeff()<10)
+    if ((R_ev.minCoeff()<=0) || ( (abs(R_ev.sum()-R_ev_sum)/R_ev_sum)<0.001 ) )
     {
 //        cout << "phi (" << phi.transpose() <<  endl;
 //        cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
         phi(0)=-output;
+        oPEi=0;
         return -1;
     }
+    oPEi++;
+//    cout << "oPEi: " << oPEi << endl;
+//    ff=1.0/oPEi;
+//    paramFilter=1.0-1.0/oPEi;
+//    if(oPEi<4) return -1;
 
     //updating R after check keeps it unchanged for non persistent exciting inputs
     R = ff*R + newR;
 
-/**(1-paramFilter) not working like this. check theory*/
+/**(1-paramFilter) not working like this. check theory!!*/
     th = th + paramFilter*R.inverse()*phi*(output - phi.transpose()*th);
 //    cout << "th: " << th.transpose() << endl;
 
-    thAvg = thAvg*(1.0-1.0/paramAvg) + th*(1.0/paramAvg);
+    thAvg = thAvg*(1.0-(1.0/paramAvg)) + th*(1.0/paramAvg);
 //    cout << "thAvg: " << thAvg.transpose() << endl;
 
-    PEAux = phi.transpose()*R*phi;
-    PEff=1.0-(PEAux[0]/(1.0+PEAux[0]));
-    cout << "PEAux: " << PEff << endl;
+//    PEAux = phi.transpose()*R*phi;
+//    PEff=1.0-(PEAux[0]/(1.0+PEAux[0]));
+//    cout << "PEAux: " << PEAux << endl;
 
 //    cout << "phi: " << phi.transpose() << endl;
 //    cout << "test: phiT*theta " << phi.transpose()*th << endl;
@@ -290,7 +302,6 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
     {
         phi[i] = phi[i-1];
     }
-
     phi(0)=-output;
 
     //and add the actual value
