@@ -24,15 +24,14 @@ class OnlineSystemIdentification
 {
 public:
     OnlineSystemIdentification();
-    OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder, double new_ff = 0.98, double new_paramFilter = 0.8);
+    OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder, double new_ff = 0.98, double new_paramFilter = 0.8, double new_paramAvg = 20);
     OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder, SystemBlock new_filter);
-    OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder, SystemBlock new_filter, double new_ff, double new_paramFilter);
+    OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder, SystemBlock new_filter, double new_ff, double new_paramFilter, double new_paramAvg = 20);
     long SetFilter(SystemBlock filter);
 
     double UpdateSystem(double new_input, double new_output);
     double UpdateSystemDT1(double new_input, double new_output);
     double UpdateSystemPEff(double new_input, double new_output);
-    double OutFilterUpdateSystem(double new_input, double new_output, ulong n);
 
 
     double GetZTransferFunction(vector<double>& num,vector<double>& den);
@@ -45,9 +44,12 @@ public:
     long GetMagnitudeAndPhase(double dts, double w, double & magnitude, double & phase);
 
     long GetSystemBlock(SystemBlock &idsys);
+    double GetAvgZTransferFunction(vector<double> &num, vector<double> &den);
+    long GetAvgSystemBlock(SystemBlock &idsys);
 private:
 
-    long numOrder,denOrder, order;
+    ulong numOrder,denOrder;
+    long order;
     long phiNumIndex,phiLastIndex;
 
     SystemBlock inFilter, outFilter;
@@ -63,7 +65,7 @@ private:
 //    Matrix<double,Dynamic,1> th;
 
 //    Matrix<double, 1, 1, 0, 1, 1> ff; //forgetting factor
-    double ff, paramFilter, PEff=1;
+    double ff, paramFilter, PEff=1, paramAvg;
     Matrix<double, 1, 1, 0, 1, 1> PEAux; //max order rlms_N
 
 
@@ -74,7 +76,7 @@ private:
 
     Matrix<double, Dynamic, 1, 0, rlms_N, 1>  L;//max order rlms_N
     Matrix<double, Dynamic, 1, 0, rlms_N, 1> th;//max order rlms_N
-    Matrix<double, Dynamic, 1, 0, rlms_N, 1> thold; //max order rlms_N
+    Matrix<double, Dynamic, 1, 0, rlms_N, 1> thAvg; //max order rlms_N
     double converge;
 
     Matrix<double, Dynamic, Dynamic, 0, rlms_N, rlms_N> R; //max order rlms_N #defined

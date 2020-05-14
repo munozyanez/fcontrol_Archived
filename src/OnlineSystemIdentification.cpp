@@ -8,10 +8,11 @@ OnlineSystemIdentification::OnlineSystemIdentification() : OnlineSystemIdentific
 
 }
 
-OnlineSystemIdentification::OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder, double new_ff, double new_paramFilter)
+OnlineSystemIdentification::OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder, double new_ff, double new_paramFilter, double new_paramAvg)
 {
     ff=new_ff;
     paramFilter = new_paramFilter;
+    paramAvg = new_paramAvg;
 
     denOrder= new_denOrder;
     numOrder= new_numOrder;
@@ -68,7 +69,7 @@ OnlineSystemIdentification::OnlineSystemIdentification(ulong new_numOrder, ulong
     L=L.setZero(order,1);
 
     th=th.setZero(order,1);
-    thold=thold.setZero(order,1);
+    thAvg=thAvg.setZero(order,1);
 
 
 //    cout << "--> Initial R <--" << endl << R << endl;
@@ -95,8 +96,8 @@ OnlineSystemIdentification::OnlineSystemIdentification(ulong new_numOrder, ulong
 
 }
 
-OnlineSystemIdentification::OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder, SystemBlock new_filter, double new_ff, double new_paramFilter)
-: OnlineSystemIdentification(new_numOrder,new_denOrder, new_ff, new_paramFilter)
+OnlineSystemIdentification::OnlineSystemIdentification(ulong new_numOrder, ulong new_denOrder, SystemBlock new_filter, double new_ff, double new_paramFilter, double new_paramAvg)
+: OnlineSystemIdentification(new_numOrder,new_denOrder, new_ff, new_paramFilter, new_paramAvg)
 {
 
     SetFilter(new_filter);
@@ -219,7 +220,6 @@ double OnlineSystemIdentification::UpdateSystemDT1(double input, double output)
 double OnlineSystemIdentification::UpdateSystem(double new_input, double new_output)
 {
 
-    thold=th;
     //Assuming that input refers to u_{t-1} and output refers to y_{t}
 
     if (filterOn)
@@ -240,7 +240,7 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
     ti++;
 
     //Update phi input data
-    for (int i=phiLastIndex; i>phiNumIndex; i--) //order-1 is full phi size
+    for (int i=phiLastIndex; i>phiNumIndex; i--) //(order-1) is full phi size
     {
         //input indexes can start from zero to include actual input??
        // cout << "phiLastIndex: " << phiLastIndex << " ; phiNumIndex: " << phiNumIndex << endl;
@@ -249,34 +249,18 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
 
     phi(phiNumIndex)=input;
 
-
 //            cout << "b0 " << (output[ti]-phi.transpose()*th)/input[ti] << ", at step: " <<  ti << endl;
 //    cout << "phi: " << phi.transpose() << endl;
 
-
-
-
     newR = phi*phi.transpose();
-
-
-
-//    cout << "R: " << endl << R << endl;
-//    cout << "R^-1: " << endl << R.inverse() << endl;
-//    cout << "|R|: " << R.determinant() << endl;
-
-//    if (abs(R.determinant()) < 100)
-//    {
-//        cout << "|R|: " << R.determinant() << endl;
-//        return 0;
-//    }
-
-
-
     R_ev=(newR.eigenvalues()).real();
+
+//    cout << "R_ev.prod() " <<R_ev.prod() << "; R_ev.sum() " <<R_ev.sum()  <<  endl;
+
 
 //    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
 //    if (phiEigenvalues.minCoeff()<-1E-15 || phiEigenvalues.maxCoeff()<0.1)
-    if (R_ev.minCoeff()<=0 || R_ev.maxCoeff()<0.1)
+    if (R_ev.minCoeff()<=0 || R_ev.maxCoeff()<1)
     {
 //        cout << "phi (" << phi.transpose() <<  endl;
 //        cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
@@ -287,9 +271,16 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
     //updating R after check keeps it unchanged for non persistent exciting inputs
     R = ff*R + newR;
 
-/**(1-paramFilter)*/
+/**(1-paramFilter) not working like this. check theory*/
     th = th + paramFilter*R.inverse()*phi*(output - phi.transpose()*th);
 //    cout << "th: " << th.transpose() << endl;
+
+    thAvg = thAvg*(1.0-1.0/paramAvg) + th*(1.0/paramAvg);
+//    cout << "thAvg: " << thAvg.transpose() << endl;
+
+    PEAux = phi.transpose()*R*phi;
+    PEff=1.0-(PEAux[0]/(1.0+PEAux[0]));
+    cout << "PEAux: " << PEff << endl;
 
 //    cout << "phi: " << phi.transpose() << endl;
 //    cout << "test: phiT*theta " << phi.transpose()*th << endl;
@@ -304,7 +295,6 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
 
     //and add the actual value
 
-    thold=th-thold;
     converge=0;
 //    cout << thold;
 //    for (long i=0; i<thold.size(); i++)
@@ -314,7 +304,7 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
 //    converge=sqrt(converge);
 
 //    thold.stableNorm();
-    return converge;
+    return PEff;
 //    return thold.norm();
 
 }
@@ -326,10 +316,9 @@ double OnlineSystemIdentification::UpdateSystemPEff(double new_input, double new
 
     //!!!Not working, needs revision!!!
 
-//    cout <<    "!!!Not working, needs revision!!!" << endl;
-//    return -1;
+    cout <<    "!!!Not working, needs revision!!!" << endl;
+    return -1;
 
-    thold=th;
     //Assuming that input refers to u_{t-1} and output refers to y_{t}
 
     if (filterOn)
@@ -405,6 +394,7 @@ double OnlineSystemIdentification::UpdateSystemPEff(double new_input, double new
 
     err=output-PEAux[0];
 
+    thAvg=th;
 
     th = th + R*phi*err;
 
@@ -423,12 +413,12 @@ double OnlineSystemIdentification::UpdateSystemPEff(double new_input, double new
 
     //and add the actual value
 
-    thold=th-thold;
+    thAvg=th-thAvg;
     converge=0;
 //    cout << thold;
-    for (long i=0; i<thold.size(); i++)
+    for (long i=0; i<thAvg.size(); i++)
     {
-        converge+=pow(thold[i],2);
+        converge+=pow(thAvg[i],2);
     }
     converge=sqrt(converge);
 
@@ -438,18 +428,19 @@ double OnlineSystemIdentification::UpdateSystemPEff(double new_input, double new
 
 }
 
-double OnlineSystemIdentification::OutFilterUpdateSystem(double new_input, double new_output, ulong n)
-{
-
-
-
-}
-
 
 long OnlineSystemIdentification::GetSystemBlock(SystemBlock & idsys)
 {
     vector<double> num(numOrder+1),den(denOrder+1);
     GetZTransferFunction(num,den);
+    idsys = SystemBlock(num,den);
+    return 0;
+}
+
+long OnlineSystemIdentification::GetAvgSystemBlock(SystemBlock & idsys)
+{
+    vector<double> num(numOrder+1),den(denOrder+1);
+    GetAvgZTransferFunction(num,den);
     idsys = SystemBlock(num,den);
     return 0;
 }
@@ -490,6 +481,33 @@ double OnlineSystemIdentification::GetZTransferFunction(vector<double> &num, vec
     for (int i=0; i<denOrder; i++)
     {
         den[i]=th[phiNumIndex-1-i];
+//        cout << den[i]<< ", " ;
+
+    }
+
+    den[denOrder]=1;
+//    cout << den[denOrder] << "] "<< endl;
+
+    return err;
+
+}
+
+double OnlineSystemIdentification::GetAvgZTransferFunction(vector<double> &num, vector<double> &den)
+{
+
+    num[0]=thAvg[phiLastIndex];
+//    cout << "fcontrol num=[ " ;//<< num[0] ;
+
+    for (int i=0; i<=numOrder; i++)
+    {
+        num[i]=thAvg[phiLastIndex-i];
+//        cout << num[i]<< ", " ;
+    }
+//    cout  << "], den=[ ";
+
+    for (int i=0; i<denOrder; i++)
+    {
+        den[i]=thAvg[phiNumIndex-1-i];
 //        cout << den[i]<< ", " ;
 
     }

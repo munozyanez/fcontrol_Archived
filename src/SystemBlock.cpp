@@ -248,9 +248,13 @@ long SystemBlock::GetMagnitudeAndPhase(double dts, double w, double &magnitude, 
 //        cout << dz << endl;
     }
 
+    z=gain*nz/dz;
+    magnitude = abs(z);
+    phase = arg(z);
+
     //phase and magnitude
-    magnitude = abs(gain*nz/dz);
-    phase = arg(gain*nz/dz);
+//    magnitude = abs(gain*nz/dz);
+//    phase = arg(gain*nz/dz);
 
     return 0;
 }
