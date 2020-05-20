@@ -266,7 +266,7 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
 //    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
 //    if (phiEigenvalues.minCoeff()<-1E-15 || phiEigenvalues.maxCoeff()<0.1)
 //    if (R_ev.minCoeff()<=0 || R_ev.maxCoeff()<10)
-    if ((R_ev.minCoeff()<=0) || ( (abs(R_ev.sum()-R_ev_sum)/R_ev_sum)<0.001 ) )
+    if ((R_ev.minCoeff()<=0) || ( (abs(R_ev.sum()-R_ev_sum)/R_ev_sum)<0.001 ) )//reduce updates more often
     {
 //        cout << "phi (" << phi.transpose() <<  endl;
 //        cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
@@ -285,14 +285,14 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
 
 /**(1-paramFilter) not working like this. check theory!!*/
     th = th + paramFilter*R.inverse()*phi*(output - phi.transpose()*th);
-//    cout << "th: " << th.transpose() << endl;
+//    cout << ti << " th: " << th.transpose() << endl;
 
     thAvg = thAvg*(1.0-(1.0/paramAvg)) + th*(1.0/paramAvg);
 //    cout << "thAvg: " << thAvg.transpose() << endl;
 
-//    PEAux = phi.transpose()*R*phi;
-//    PEff=1.0-(PEAux[0]/(1.0+PEAux[0]));
-//    cout << "PEAux: " << PEAux << endl;
+    PEAux = phi.transpose()*R*phi;
+    PEff=1.0-(PEAux[0]/(1.0+PEAux[0]));
+    cout << "PEAux: " << PEff << endl;
 
 //    cout << "phi: " << phi.transpose() << endl;
 //    cout << "test: phiT*theta " << phi.transpose()*th << endl;
