@@ -62,6 +62,7 @@ OnlineSystemIdentification::OnlineSystemIdentification(ulong new_numOrder, ulong
 
     //    P.resize(order,NoChange); //no longer needed
     R=R.Random(order,order);
+    F=F.Random(order,order);
     //    phi.resize(order,order); //no longer needed
     phi=100*phi.Random(order,1);
     R_ev=100*R_ev.Random(order,1);
@@ -266,8 +267,13 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
 //    if (!(phiEigenvalues.prod()>0 && phiEigenvalues.sum()>1))
 //    if (phiEigenvalues.minCoeff()<-1E-15 || phiEigenvalues.maxCoeff()<0.1)
 //    if (R_ev.minCoeff()<=0 || R_ev.maxCoeff()<10)
-    if ((R_ev.minCoeff()<=0) || ( (abs(R_ev.sum()-R_ev_sum)/R_ev_sum)<0.001 ) )//reduce updates more often
+//    if ((R_ev.minCoeff()<=0) || ( (abs(R_ev.sum()-R_ev_sum)/R_ev_sum)<0.001 ) )//reduce updates more often
+//    if (R_ev.minCoeff()<=0)
+    F=newR.inverse();
+    if (F.hasNaN())
     {
+//        cout << F << endl;
+
 //        cout << "phi (" << phi.transpose() <<  endl;
 //        cout << "PHI BAD POSED (" << phiEigenvalues.transpose() << ") at: " << ti << endl;
         phi(0)=-output;
@@ -280,8 +286,17 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
 //    paramFilter=1.0-1.0/oPEi;
 //    if(oPEi<4) return -1;
 
+//    cout << F << endl;
+    err=output-(th.transpose()*phi);
+    PEAux = phi.transpose()*F*phi;
+    PEAux[0]=abs(PEAux[0]);
+    PEcorr = abs(err)*PEAux[0];
+//    PEcorr = 5.0*(err*err);//(1.0+PEAux[0]));
+    if (PEcorr>0 & PEcorr<1) PEff=1-PEcorr;
+    cout << "PEff: " << PEff << ", err: " << err << ", PEAux[0] " << PEAux[0]  << endl;
+
     //updating R after check keeps it unchanged for non persistent exciting inputs
-    R = ff*R + newR;
+    R = PEff*R + newR;
 
 /**(1-paramFilter) not working like this. check theory!!*/
     th = th + paramFilter*R.inverse()*phi*(output - phi.transpose()*th);
@@ -290,9 +305,11 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
     thAvg = thAvg*(1.0-(1.0/paramAvg)) + th*(1.0/paramAvg);
 //    cout << "thAvg: " << thAvg.transpose() << endl;
 
-    PEAux = phi.transpose()*R*phi;
-    PEff=1.0-(PEAux[0]/(1.0+PEAux[0]));
-    cout << "PEAux: " << PEff << endl;
+//    PEAux = phi.transpose()*R*phi;
+//    PEff=1.0-(PEAux[0]/(1.0+PEAux[0]));
+//    cout << "PEAux: " << PEff << endl;
+
+
 
 //    cout << "phi: " << phi.transpose() << endl;
 //    cout << "test: phiT*theta " << phi.transpose()*th << endl;
@@ -315,7 +332,7 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
 //    converge=sqrt(converge);
 
 //    thold.stableNorm();
-    return PEff;
+    return err;
 //    return thold.norm();
 
 }
@@ -401,9 +418,8 @@ double OnlineSystemIdentification::UpdateSystemPEff(double new_input, double new
     R=R-(R*phi*phi.transpose()*R)/(PEff+PEAux[0]);
     R=R/PEAux[0];
 
-    PEAux=th.transpose()*phi;
 
-    err=output-PEAux[0];
+    err=output-(th.transpose()*phi);
 
     thAvg=th;
 

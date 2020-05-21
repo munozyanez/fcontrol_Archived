@@ -66,7 +66,7 @@ private:
 //    Matrix<double,Dynamic,1> th;
 
 //    Matrix<double, 1, 1, 0, 1, 1> ff; //forgetting factor
-    double ff, paramFilter, PEff=1, paramAvg;
+    double ff, paramFilter, PEff=1, PEcorr=1, paramAvg;
     Matrix<double, 1, 1, 0, 1, 1> PEAux; //max order rlms_N
 
 
@@ -81,6 +81,7 @@ private:
     double converge;
 
     Matrix<double, Dynamic, Dynamic, 0, rlms_N, rlms_N> R; //max order rlms_N #defined
+    Matrix<double, Dynamic, Dynamic, 0, rlms_N, rlms_N> F; //max order rlms_N #defined
     Matrix<double, Dynamic, Dynamic, 0, rlms_N, rlms_N> newR; //max order rlms_N #defined
 
 
