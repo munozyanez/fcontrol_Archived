@@ -10,6 +10,9 @@ class FPDTuner
 public:
     FPDTuner(double new_pm = 60, double new_wcg = 1, double new_dts = 0.01);
 
+    long TuneIsom(const SystemBlock &sys);
+    long TuneIsom(const SystemBlock &sys, vector<double> & out_params);
+
     long TuneIsom(const SystemBlock &sys, FPDBlock &con);
     long TuneIsom(const vector<SystemBlock> &sys, FPDBlock &con);
 
@@ -29,9 +32,13 @@ private:
 
     double dts;
 
+    //tuning results
+    double alpha, tau_a, k;
+    double tgp, tau_x, sahp, cahp;
+    double slope, dw=0.1;
 
 
-//    vector
+    vector<double> params;
 };
 
 #endif // FPDTUNER_H

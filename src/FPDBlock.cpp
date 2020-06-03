@@ -52,6 +52,25 @@ double FPDBlock::OutputUpdate(double new_input)
 
 }
 
+long FPDBlock::ParameterUpdate(vector<double> new_params)
+{
+    kp=new_params[0];
+    kd=new_params[1];
+    if ( abs(fex-new_params[2])>0.05 )
+    {
+
+        fex=new_params[2];
+        s_e_state = s_e.GetState();
+        std::cout << "s_e_state : " <<s_e_state << std::endl;
+
+        s_e = FractionalController1DOF(fex,dts);
+        s_e.Reset(s_e_state);
+
+    }
+
+    return 0;
+}
+
 double FPDBlock::GetState() const
 {
     return state;

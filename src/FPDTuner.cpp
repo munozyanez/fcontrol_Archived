@@ -8,16 +8,15 @@ FPDTuner::FPDTuner(double new_pm, double new_wcg, double new_dts)
 
     //store the iso-m table in memory
     isom = TableInterpolation("lib/fcontrol/phi.m_exp.csv");
+    params.resize(3);
 
 
 }
 
-long FPDTuner::TuneIsom(const SystemBlock & sys, FPDBlock &con)
+long FPDTuner::TuneIsom(const SystemBlock &sys)
 {
 
-    double alpha, tau_a, k;
-    double tgp, tau_x, sahp, cahp;
-    double slope, dw=0.1;
+
     ulong tslope,tphi;
     sys.GetMagnitudeAndPhase(dts,wcg,sysmag,sysphi);
     sysphi = sysphi*180/M_PI; //conversion to degrees
@@ -62,7 +61,26 @@ long FPDTuner::TuneIsom(const SystemBlock & sys, FPDBlock &con)
     //now divide by plant amplitude
     k=k/sysmag;
 
+    params[0]=k;
+    params[1]=tau_a*k;
+    params[2]=alpha;
 
+    return 0;
+}
+
+long FPDTuner::TuneIsom(const SystemBlock &sys, vector<double> &out_params)
+{
+    TuneIsom(sys);
+    out_params = params;
+    return 0;
+}
+
+
+
+long FPDTuner::TuneIsom(const SystemBlock & sys, FPDBlock &con)
+{
+
+    TuneIsom(sys);
 
 //    cout << "alpha: "<< alpha << ", tau_a: "<< tau_a << ", k: "<< k << endl;
 
@@ -75,6 +93,11 @@ long FPDTuner::TuneIsom(const SystemBlock & sys, FPDBlock &con)
 
 long FPDTuner::TuneIsom(const vector<SystemBlock> &sys, FPDBlock &con)
 {
+    cout << "This function needs to be remodeled!" << endl;
+    cout << "Compute combined systems by polynomial multiplication instead!" << endl;
+
+    return -1;
+
     double alpha, tau_a, k;
     double tgp, tau_x, sahp, cahp;
     double slope = 0.0, dw=0.1;

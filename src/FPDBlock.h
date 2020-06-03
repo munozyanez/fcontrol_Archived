@@ -11,6 +11,7 @@ public:
     FPDBlock(double new_kp = 1, double new_kd = 1, double new_fex = 1, double new_dts = 0.001);
 
     double OutputUpdate(double new_input);
+    long ParameterUpdate(vector<double> new_params);
 
     double GetState() const;
 
@@ -23,6 +24,7 @@ private:
 
     double state, input;
     FractionalController1DOF s_e;
+    double s_e_state;
 };
 
 #endif // FPDBLOCK_H

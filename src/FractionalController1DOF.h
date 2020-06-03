@@ -11,8 +11,9 @@ public:
     FractionalController1DOF();
     FractionalController1DOF(double new_exp, double new_dts);
     double OutputUpdate(double new_input);
+    long ParameterUpdate(double new_exp, double new_dts);
 
-
+    long Reset(double new_state = 0);
     double GetState() const;
 
 private:

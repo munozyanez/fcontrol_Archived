@@ -48,7 +48,7 @@ double SamplingTime::WaitSamplingTime()
     return (dtsWait - tWaited).count()/1000000;
 }
 
-TableInterpolation::TableInterpolation() : TableInterpolation("")
+TableInterpolation::TableInterpolation() : TableInterpolation("empty")
 {
 
 
@@ -58,14 +58,20 @@ TableInterpolation::TableInterpolation(string new_table)
 {
 
 
-    if (new_table.size()==0)
+    if (new_table.size()==0 || (new_table =="empty"))
     {
-        cout << "Empty data table" << endl;
+        if (new_table !="empty")
+        {
+            cout << "Empty Filename" << endl;
+
+        }
     }
     else
     {
         cout << "Data table: " << new_table << endl;
         getData(new_table);
+        //if error: cout << "Empty data table" << endl;
+
     }
 }
 
