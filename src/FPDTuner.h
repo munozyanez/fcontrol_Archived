@@ -16,6 +16,8 @@ public:
     long TuneIsom(const SystemBlock &sys, FPDBlock &con);
     long TuneIsom(const vector<SystemBlock> &sys, FPDBlock &con);
 
+    long GetParameters(double& out_kp,double& out_ka,double& out_alpha);
+
 private:
 
 

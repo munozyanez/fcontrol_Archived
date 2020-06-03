@@ -293,7 +293,7 @@ double OnlineSystemIdentification::UpdateSystem(double new_input, double new_out
     PEcorr = abs(err)*PEAux[0];
 //    PEcorr = 5.0*(err*err);//(1.0+PEAux[0]));
     if (PEcorr>0 & PEcorr<1) PEff=1-PEcorr;
-    cout << "PEff: " << PEff << ", err: " << err << ", PEAux[0] " << PEAux[0]  << endl;
+//    cout << "PEff: " << PEff << ", err: " << err << ", PEAux[0] " << PEAux[0]  << endl;
 
     //updating R after check keeps it unchanged for non persistent exciting inputs
     R = PEff*R + newR;

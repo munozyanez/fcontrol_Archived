@@ -165,5 +165,13 @@ long FPDTuner::TuneIsom(const vector<SystemBlock> &sys, FPDBlock &con)
     return 0;
 }
 
+long FPDTuner::GetParameters(double &out_kp, double &out_ka, double &out_alpha)
+{
+    out_kp=params[0];
+    out_ka=params[1];
+    out_alpha=params[3];
+    return 0;
+}
+
 
 
