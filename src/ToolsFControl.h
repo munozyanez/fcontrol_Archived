@@ -18,10 +18,10 @@ public:
     double WaitSamplingTime();
 
 private:
-    chrono::system_clock::time_point actualTimeValue, lastTimeValue; //last time value
+    std::chrono::system_clock::time_point actualTimeValue, lastTimeValue; //last time value
 //    long timeAlreadyWaited; //in nanoseconds
     long dts; //sampling time nanoseconds.
-    chrono::nanoseconds dtsWait, tWaited;
+    std::chrono::nanoseconds dtsWait, tWaited;
 //    chrono::system_clock clock;
 
 };

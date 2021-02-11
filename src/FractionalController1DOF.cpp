@@ -103,6 +103,7 @@ double FractionalController1DOF::OutputUpdate(double new_input)
 long FractionalController1DOF::ParameterUpdate(double new_exp, double new_dts)
 {
 
+    return 0;
 }
 
 long FractionalController1DOF::Reset(double new_state)
