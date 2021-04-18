@@ -13,6 +13,7 @@ public:
 
     double OutputUpdate(double input);
 
+    long AntiWindup(double minPlantSaturation, double maxPlantSaturation);
 //    void operator>>(double & output);
 //    void operator>>(SystemBlock & output);
     friend double operator > (double input, PIDBlock& output)
@@ -30,6 +31,8 @@ private:
     double state;
     SystemBlock pidBlock;
     long Initial(double new_Ts);
+    double cp,ci,cd;
+
 };
 
 #endif // PIDBLOCK_H

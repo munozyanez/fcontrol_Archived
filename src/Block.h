@@ -15,7 +15,7 @@ class BaseBlock
 public:
     BaseBlock();
 
-    //operator uploading
+    //operator overloading
     friend double operator > (double input, BaseBlock& output)
     {
         return output.OutputUpdate(input);
@@ -34,11 +34,12 @@ public:
 
 protected:
     double maxOut, minOut; // 0 values disables saturation
+    bool saturation;
 
 
 private:
 
-    double saturation;
+//    double saturation;
     //saturation values
 
     virtual double OutputUpdate(double new_input)=0;

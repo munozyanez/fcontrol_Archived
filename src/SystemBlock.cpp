@@ -140,16 +140,23 @@ double SystemBlock::OutputUpdate(double new_input)
         response -= denCoef[i]*oldStates[i];
     }
 
+
     //apply saturation
-    if (maxOut!=0)
+    if(saturation == true)
     {
-        response = std::min(response,maxOut);
+        if (response > maxOut)
+        {
+            response = maxOut;
+            cerr << "Top saturation!! output: " << response << " ,maxOut" << maxOut << endl;
+        }
+        //apply saturation
+        if (response < minOut)
+        {
+            response = minOut;
+            cerr << "Bottom saturation!! output: " << response << " ,maxOut" << minOut << endl;
+        }
     }
-    //apply saturation
-    if (minOut!=0)
-    {
-        response = std::max(response,minOut);
-    }
+
     //now add the last value after compute response
     oldStates.push_back(response);
     //delete first value
@@ -398,6 +405,7 @@ bool SystemBlock::InitSystemBlock(const std::vector<double> &new_numCoef, const 
 //        oldInputs.push_back(0.0);
 //    }
     state = 0;
+//    saturation = false; needed?
     return 0;
 
 

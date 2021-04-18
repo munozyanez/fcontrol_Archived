@@ -20,6 +20,10 @@ long PIDBlock::Initial(double new_Ts)
 //                std::vector<double> {-1,  1},
 //                std::vector<double> {0,      Ts*1});
     return 0;
+    cp=0;
+    ci=0;
+    cd=0;
+
 }
 
 PIDBlock::PIDBlock()
@@ -47,21 +51,40 @@ PIDBlock::PIDBlock(double new_kp, double new_ki, double new_kd, double new_Ts)
 
 double PIDBlock::UpdateControl(double input)
 {
-    double cp,ci,cd;
 
-    cp=input*kp;
+    cp = input*kp;
     ci = ki*iBlock.OutputUpdate(input);
     cd = kd*dBlock.OutputUpdate(input);
 
-    if (signbit(ci)!=signbit(input))
-    {
+    cout << ci << "; ";
+//    if (signbit(ci)!=signbit(input))
+//    {
 //        iBlock.Reset();
 //        ci = ki*iBlock.OutputUpdate(input);
 //        dBlock.Reset();
 //        cd = kd*dBlock.OutputUpdate(input);
-    }
+//    }
+
 
     state=cp+ci+cd;
+
+
+    //apply saturation
+    if(saturation == true)
+    {
+        if (state > maxOut)
+        {
+            state = maxOut;
+            cerr << "Top saturation!! output: " << state << " ,maxOut" << maxOut << endl;
+        }
+        //apply saturation
+        if (state < minOut)
+        {
+            state = minOut;
+            cerr << "Bottom saturation!! output: " << state << " ,maxOut" << minOut << endl;
+        }
+    }
+
 
 //    std::cout << "pid : " << cp << ","<< ci << ","<< cd << std::endl;
 //    std::cout << "pid : " <<state << std::endl;
@@ -74,6 +97,13 @@ double PIDBlock::OutputUpdate(double input)
 {
 
     return UpdateControl(input);
+}
+
+long PIDBlock::AntiWindup(double minPlantSaturation, double maxPlantSaturation)
+{
+    iBlock.SetSaturation(minPlantSaturation, maxPlantSaturation);
+    cout << "Using saturation limit on the integrator for Anti-Windup." << endl;
+    return 0;
 }
 
 double PIDBlock::GetState() const

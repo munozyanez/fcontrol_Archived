@@ -1,7 +1,7 @@
 #ifndef FRACTIONALDERIVATIVE_H
 #define FRACTIONALDERIVATIVE_H
 
-#define FRACTIONALDERIVATIVE_MAXSIZE 100
+#define FRACTIONALDERIVATIVE_MAXSIZE 200
 
 #include<valarray>
 #include <iostream>      //cout
@@ -19,6 +19,8 @@ public:
     double OutputUpdate(double new_input);
     double GetState() const;
 
+    vector<double> GetVfir() const;
+
 private:
     long Init(double new_exp, double new_dts);
     double exp;
@@ -26,6 +28,7 @@ private:
     double dts;
     double firtol;
     valarray<double> fir;
+    vector<double> vfir;
     long N;
     std::valarray<double> convolution_n;
 
@@ -34,8 +37,6 @@ private:
     std::valarray<double> oldStates;
     std::valarray<double> oldInputs;
 
-    //saturation values
-    double maxOut, minOut; // 0 values disables saturation
 
 
 };
