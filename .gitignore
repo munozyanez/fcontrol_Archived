@@ -1,3 +1,7 @@
+#*3rdparty*
+3rdparty/*
+
+
 # C++ objects and libs
 
 *.slo
@@ -39,4 +43,4 @@ CMakeLists.txt.user
 # Miscellanea
 **/build*/
 
-*3rdparty*
+
