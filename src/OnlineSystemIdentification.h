@@ -1,7 +1,6 @@
 #ifndef ONLINESYSTEMIDENTIFICATION_H
 #define ONLINESYSTEMIDENTIFICATION_H
 
-
 #define rlms_z (1)                //Number of input past values including current input
 #define rlms_p 2					//Number of output past values
 //#define rlms_N (rlms_z+rlms_p)      //phi dimension
@@ -9,7 +8,7 @@
 
 #include <vector>
 #undef Success //as in http://eigen.tuxfamily.org/bz/show_bug.cgi?id=253
-#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 #define Success 0 //as in http://eigen.tuxfamily.org/bz/show_bug.cgi?id=253
 #include <iostream>
 #include "SystemBlock.h"
@@ -17,7 +16,7 @@
 using namespace std;
 using namespace Eigen;
 
-#include <Eigen/Eigenvalues>
+#include <eigen3/Eigen/Eigenvalues>
 
 
 class OnlineSystemIdentification
