@@ -7,6 +7,13 @@ BaseBlock::BaseBlock()
     minOut = 0;
 }
 
+///
+/// \brief BaseBlock::SetSaturation: Apply an output saturation to block response. Only output saturation is
+/// available. If you need an input saturation use the previous block output saturation.
+/// \param low: Lowest value for the possible output.
+/// \param high: Highest value for the possible output.
+/// \return
+///
 
 long BaseBlock::SetSaturation(double low, double high)
 {

@@ -8,7 +8,7 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 #deps
 #1-fftw
-find_package(FFTW REQUIRED)
+#find_package(FFTW REQUIRED)
 #2-eigen
 find_package(Eigen3 REQUIRED NO_MODULE)
 message(STATUS "EIGEN: " ${EIGEN3_VERSION} " (system installed version)")

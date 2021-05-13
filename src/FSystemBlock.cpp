@@ -45,7 +45,7 @@ long FSystemBlock::FSystemBlockInit(const TimeSignal &init)
 
 }
 
-
+/*
 bool FSystemBlock::TimeResponse(TimeSignal &input, TimeSignal &output)
 {
 
@@ -85,7 +85,7 @@ bool FSystemBlock::TimeResponse(TimeSignal &input, TimeSignal &output)
 
     return true;
 
-}
+}*/
 
 double FSystemBlock::TimeResponseUpdate(const TimeSignal &old_input, const double &new_value)
 {
@@ -233,7 +233,7 @@ bool FSystemBlock::SignalParams(const TimeSignal &new_signalParams)
     //compute g based on G
     g.resize(0);
     g.resize(sN);
-    li::ifft(G,g);
+//    li::ifft(G,g);
 
     rI.resize(0);
     rI.resize(sN/2);
