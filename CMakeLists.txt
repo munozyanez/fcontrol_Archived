@@ -11,10 +11,12 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 #find_package(FFTW REQUIRED)
 #2-eigen
 #find_package(Eigen3 REQUIRED NO_MODULE)
-#message(STATUS "EIGEN: " ${EIGEN3_VERSION} " (system installed version)")
-#if(Eigen3_FOUND=FALSE)
+find_package(Eigen3 NO_MODULE)
+message(STATUS "EIGEN: " ${EIGEN3_VERSION} " (system installed version)")
+if(Eigen3_FOUND=FALSE)
     add_subdirectory(3rdparty/eigen)
-#endif(Eigen3_FOUND=FALSE)
+    set(EIGEN3_INCLUDE_DIR 3rdparty/eigen)
+endif(Eigen3_FOUND=FALSE)
 include_directories(${EIGEN3_INCLUDE_DIR})
 
 # source files for fcontrol
