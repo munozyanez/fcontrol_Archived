@@ -1,8 +1,11 @@
 # f-control
 
+Control engeneering c++ library.
+
 # Dependencies
 
-This library is intended for the use with CMake build system. CmakeLists.txt is configured to search for the following dependencies as required:
+Build system is configured to search for the following dependencies as required (will throw error if not installed).
+
 * fftw
 * eigen
 
@@ -16,6 +19,9 @@ sudo  apt-get install libfftw3-dev libeigen3-dev
 ```
 
 # How to use
+
+This library is intended for the use with CMake build system.
+
 ## In project
 For in project CMake build, find all the include and link directories in variables:
 
