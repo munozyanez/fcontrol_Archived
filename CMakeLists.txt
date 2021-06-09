@@ -6,6 +6,8 @@ project(fcontrol)
 # let cmake use them
 list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
+#add_subdirectory(clconv)
+
 #deps
 #1-fftw
 #find_package(FFTW REQUIRED)
@@ -22,8 +24,11 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 # source files for fcontrol
 aux_source_directory(./src FCONTROL_SRCS)
 # include files for fcontrol
-FILE(GLOB_RECURSE FCONTROL_INCLUDE_FILES src/*.h src/*.hpp)
+FILE(GLOB_RECURSE FCONTROL_INCLUDE_FILES src/*.h src/*.hpp clconv/*.h clconv/*.hpp)
 FILE(GLOB_RECURSE FCONTROL_SHARE_FILES files/*)
+
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/clconv/reduction_complete.cl  ${CMAKE_CURRENT_BINARY_DIR}/ COPYONLY)
+
 
 set(SUBDIR_LINK_NAMES ${SUBDIR_LINK_NAMES} ${PROJECT_NAME})# PARENT_SCOPE)
 set(SUBDIR_INCLUDE_DIRECTORIES ${SUBDIR_INCLUDE_DIRECTORIES}
