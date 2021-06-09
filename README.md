@@ -1,6 +1,6 @@
 # f-control
 
-# How to use
+# Dependencies
 
 This library is intended for the use with CMake build system. CmakeLists.txt is configured to search for the following dependencies as required:
 * fftw
@@ -15,8 +15,8 @@ For ubuntu 18.04 LTS you need FFTW3 library instead, therefore:
 sudo  apt-get install libfftw3-dev libeigen3-dev
 ```
 
-
-# In project
+# How to use
+## In project
 For in project CMake build, find all the include and link directories in variables:
 
 ```cmake
@@ -36,7 +36,7 @@ Also after "add_executable( ${name} ${sourcefile} )" line, add the following to 
 ```cmake
 target_link_libraries( ${PROJECT_NAME} ${SUBDIR_LINK_NAMES} )
 ```
-# As a system library
+## As a system library
 Use the usual CMake and make install commands in order to compile and install library on the system
 
 ```
