@@ -1,13 +1,14 @@
 #ifndef FRACTIONALDERIVATIVE_H
 #define FRACTIONALDERIVATIVE_H
 
-#define FRACTIONALDERIVATIVE_MAXSIZE 200
+#define FRACTIONALDERIVATIVE_MAXSIZE 1024
 
 #include<valarray>
 #include <iostream>      //cout
 #include <math.h>       //tgamma
 #include <vector>       //vector
 #include "Block.h"
+#include "Fraccional.h"
 
 using namespace std;
 
@@ -36,6 +37,9 @@ private:
     double state;
     std::valarray<double> oldStates;
     std::valarray<double> oldInputs;
+
+    clConv conv1;
+    float cv1[FRACTIONALDERIVATIVE_MAXSIZE],cv2[FRACTIONALDERIVATIVE_MAXSIZE];
 
 
 

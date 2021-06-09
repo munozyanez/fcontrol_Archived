@@ -9,8 +9,8 @@ list(APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 #add_subdirectory(clconv)
 
 #deps
-#1-fftw
-#find_package(FFTW REQUIRED)
+#1-opencl
+include(FindOpenCL)
 #2-eigen
 #find_package(Eigen3 REQUIRED NO_MODULE)
 find_package(Eigen3 NO_MODULE)
@@ -24,10 +24,10 @@ include_directories(${EIGEN3_INCLUDE_DIR})
 # source files for fcontrol
 aux_source_directory(./src FCONTROL_SRCS)
 # include files for fcontrol
-FILE(GLOB_RECURSE FCONTROL_INCLUDE_FILES src/*.h src/*.hpp clconv/*.h clconv/*.hpp)
+FILE(GLOB_RECURSE FCONTROL_INCLUDE_FILES src/*.h src/*.hpp)
 FILE(GLOB_RECURSE FCONTROL_SHARE_FILES files/*)
 
-configure_file(${CMAKE_CURRENT_SOURCE_DIR}/clconv/reduction_complete.cl  ${CMAKE_CURRENT_BINARY_DIR}/ COPYONLY)
+configure_file(${CMAKE_CURRENT_SOURCE_DIR}/files/reduction_complete.cl  ${CMAKE_CURRENT_BINARY_DIR}/ COPYONLY)
 
 
 set(SUBDIR_LINK_NAMES ${SUBDIR_LINK_NAMES} ${PROJECT_NAME})# PARENT_SCOPE)
@@ -99,5 +99,6 @@ else("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
 endif() #("${CMAKE_PROJECT_NAME}" STREQUAL "${PROJECT_NAME}")
 
 
-target_link_libraries( ${PROJECT_NAME} ${FFTW_LIBRARIES} ${Eigen3_LIBRARIES})
+target_link_libraries( ${PROJECT_NAME} ${Eigen3_LIBRARIES} OpenCL::OpenCL)
+
 

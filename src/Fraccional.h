@@ -1,5 +1,5 @@
 #define _CRT_SECURE_NO_WARNINGS
-#define PROGRAM_FILE "reduction_complete.cl"
+#define PROGRAM_FILE "lib/fcontrol/reduction_complete.cl"
 #define KERNEL_1 "reduction_vector"
 #define KERNEL_2 "reduction_complete"
 #define KERNEL_3 "vec_mult"
@@ -23,14 +23,16 @@ using namespace std;
 class clConv
 {
 public:
-    clConv(long verctorSize = 131072);
+    //TODO!:The code only works using default verctorSize, setting in the constructor call leads to crash
+    //only empty constructor works fine.
+    clConv(long verctorSize = 1024);
     ~clConv();
 
    float convolution(float*v1, float*v2);
    // long convolution(const vector<double> &_v1, const vector<double> &new_v2, vector<double> & out_result);
 
 private:
-    long VECTOR_SIZE=131072;
+    long VECTOR_SIZE;
     long ARRAY_SIZE=VECTOR_SIZE/4;
     long verctorSize;
     cl_device_id device;

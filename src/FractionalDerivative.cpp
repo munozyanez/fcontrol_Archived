@@ -54,13 +54,14 @@ long FractionalDerivative::Init(double new_exp, double new_dts)
     {
         bi = tgamma(exp+1) / (tgamma(i+1)*tgamma(exp-i+1));
         vfir.push_back( pow(-1,i)*bi/(pow(dts,exp)) );
-        if(abs(vfir[i])<firtol) break;
+//        if(abs(vfir[i])<firtol) break;
 //        cout << vfir[i] << ", ";
+        cout << tgamma(i+1) << ", ";
+
     }
 //    cout << endl<< endl;
 
     N=vfir.size();
-
     fir.resize(N,0);
     oldStates.resize(N,0);
     oldInputs.resize(N,0);
@@ -110,26 +111,29 @@ double FractionalDerivative::OutputUpdate(double new_input)
     oldInputs[oldInputs.size()-1]=new_input; //overwrite last value
 
     //compute response
-    convolution_n = (oldInputs*fir);
-    response = convolution_n.sum();
+//    convolution_n = (oldInputs*fir);
+        std::copy(begin(oldInputs), end(oldInputs), cv1);
+        std::copy(begin(fir), end(fir), cv2);
+    response=0;//conv1.convolution(cv1,cv2);
+//    response = convolution_n.sum();
 
-    cout  << "[ ";
-    for (int i=0; i<oldInputs.size(); i++)
-    {
-        cout << oldInputs[i] << ", " ;
-    }
-    cout  << "] "<< endl;
+//    cout  << "[ ";
+//    for (int i=0; i<oldInputs.size(); i++)
+//    {
+//        cout << oldInputs[i] << ", " ;
+//    }
+//    cout  << "] "<< endl;
 
     state = response;
     oldStates[0]=response;//overwrite first value
     oldStates = oldStates.cshift(1); //make the first value be the last one (make it i_n)
 
-    cout  << "[ ";
-    for (int i=0; i<oldStates.size(); i++)
-    {
-        cout << oldStates[i] << ", " ;
-    }
-    cout  << "] "<< endl << endl;
+//    cout  << "[ ";
+//    for (int i=0; i<oldStates.size(); i++)
+//    {
+//        cout << oldStates[i] << ", " ;
+//    }
+//    cout  << "] "<< endl << endl;
     //apply saturation
     if(saturation == true)
     {
