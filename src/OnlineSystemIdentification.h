@@ -8,7 +8,8 @@
 
 #include <vector>
 #undef Success //as in http://eigen.tuxfamily.org/bz/show_bug.cgi?id=253
-#include <Eigen/Dense>
+//#include <Eigen/Dense>
+#include <eigen3/Eigen/Dense>
 //#include <3rdparty/eigen/Eigen/Dense>
 #define Success 0 //as in http://eigen.tuxfamily.org/bz/show_bug.cgi?id=253
 #include <iostream>
@@ -17,7 +18,8 @@
 using namespace std;
 using namespace Eigen;
 
-#include <Eigen/Eigenvalues>
+//#include <Eigen/Eigenvalues>
+#include <eigen3/Eigen/Eigenvalues>
 //#include <3rdparty/eigen/Eigen/Eigenvalues>
 
 
