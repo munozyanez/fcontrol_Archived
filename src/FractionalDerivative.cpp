@@ -53,8 +53,9 @@ long FractionalDerivative::Init(double new_exp, double new_dts)
     for (int i=0; i<FRACTIONALDERIVATIVE_MAXSIZE; i++)
     {
         bi = tgamma(exp+1) / (tgamma(i+1)*tgamma(exp-i+1));
+        if (isnan(bi)) bi=0;
         vfir.push_back( pow(-1,i)*bi/(pow(dts,exp)) );
-        if(abs(vfir[i])<firtol) break;
+//        if(abs(vfir[i])<firtol) break;
 //        cout << vfir[i] << ", ";
     }
 //    cout << endl<< endl;

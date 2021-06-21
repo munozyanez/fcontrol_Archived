@@ -8,7 +8,8 @@
 
 #include <vector>
 #undef Success //as in http://eigen.tuxfamily.org/bz/show_bug.cgi?id=253
-#include <3rdparty/eigen/Eigen/Dense>
+//#include <3rdparty/eigen/Eigen/Dense>
+#include <Eigen/Dense>
 #define Success 0 //as in http://eigen.tuxfamily.org/bz/show_bug.cgi?id=253
 #include <iostream>
 #include "SystemBlock.h"
@@ -16,8 +17,8 @@
 using namespace std;
 using namespace Eigen;
 
-//#include <Eigen/Eigenvalues>
-#include <3rdparty/eigen/Eigen/Eigenvalues>
+#include <Eigen/Eigenvalues>
+//#include <3rdparty/eigen/Eigen/Eigenvalues>
 
 
 class OnlineSystemIdentification
