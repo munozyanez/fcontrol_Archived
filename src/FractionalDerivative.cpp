@@ -114,23 +114,23 @@ double FractionalDerivative::OutputUpdate(double new_input)
     convolution_n = (oldInputs*fir);
     response = convolution_n.sum();
 
-    cout  << "[ ";
-    for (int i=0; i<oldInputs.size(); i++)
-    {
-        cout << oldInputs[i] << ", " ;
-    }
-    cout  << "] "<< endl;
+//    cout  << "[ ";
+//    for (int i=0; i<oldInputs.size(); i++)
+//    {
+//        cout << oldInputs[i] << ", " ;
+//    }
+//    cout  << "] "<< endl;
 
     state = response;
     oldStates[0]=response;//overwrite first value
     oldStates = oldStates.cshift(1); //make the first value be the last one (make it i_n)
 
-    cout  << "[ ";
-    for (int i=0; i<oldStates.size(); i++)
-    {
-        cout << oldStates[i] << ", " ;
-    }
-    cout  << "] "<< endl << endl;
+//    cout  << "[ ";
+//    for (int i=0; i<oldStates.size(); i++)
+//    {
+//        cout << oldStates[i] << ", " ;
+//    }
+//    cout  << "] "<< endl << endl;
     //apply saturation
     if(saturation == true)
     {
