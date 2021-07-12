@@ -41,7 +41,7 @@ long FractionalDerivative::Init(double new_exp, double new_dts)
 
 
     dts=new_dts;
-    exp=new_exp;
+    alfa=new_exp;
 
     double bi=0;
 
@@ -52,9 +52,11 @@ long FractionalDerivative::Init(double new_exp, double new_dts)
 //MacLaurin series expansions based approximation
     for (int i=0; i<FRACTIONALDERIVATIVE_MAXSIZE; i++)
     {
-        bi = tgamma(exp+1) / (tgamma(i+1)*tgamma(exp-i+1));
+//        bi = tgamma(alfa+1) / (tgamma(i+1)*tgamma(alfa-i+1));
+        bi = lgamma(alfa+1) - lgamma(i+1) - lgamma(alfa-i+1);
+        bi = exp(bi);
         if (isnan(bi)) bi=0;
-        vfir.push_back( pow(-1,i)*bi/(pow(dts,exp)) );
+        vfir.push_back( pow(-1,i)*bi/(pow(dts,alfa)) );
 //        if(abs(vfir[i])<firtol) break;
 //        cout << vfir[i] << ", ";
     }

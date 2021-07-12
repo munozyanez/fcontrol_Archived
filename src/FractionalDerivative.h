@@ -23,7 +23,7 @@ public:
 
 private:
     long Init(double new_exp, double new_dts);
-    double exp;
+    double alfa;
 
     double dts;
     double firtol;
