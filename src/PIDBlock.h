@@ -10,6 +10,7 @@ public:
     PIDBlock();
     PIDBlock(double kp, double ki, double kd, double new_Ts);
     double UpdateControl(double input);
+    double UpdateControlILock(double input);
 
     double OutputUpdate(double input);
 

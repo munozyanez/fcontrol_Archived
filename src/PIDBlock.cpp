@@ -56,7 +56,7 @@ double PIDBlock::UpdateControl(double input)
     ci = ki*iBlock.OutputUpdate(input);
     cd = kd*dBlock.OutputUpdate(input);
 
-    cout << ci << "; ";
+//    cout << ci << "; ";
 //    if (signbit(ci)!=signbit(input))
 //    {
 //        iBlock.Reset();
@@ -91,6 +91,49 @@ double PIDBlock::UpdateControl(double input)
 
     return state;
 
+}
+
+double PIDBlock::UpdateControlILock(double input)
+{
+
+    cp = input*kp;
+//    ci = ki*iBlock.OutputUpdate(input);
+    cd = kd*dBlock.OutputUpdate(input);
+
+//    cout << ci << "; ";
+//    if (signbit(ci)!=signbit(input))
+//    {
+//        iBlock.Reset();
+//        ci = ki*iBlock.OutputUpdate(input);
+//        dBlock.Reset();
+//        cd = kd*dBlock.OutputUpdate(input);
+//    }
+
+
+    state=cp+ci+cd;
+
+
+    //apply saturation
+    if(saturation == true)
+    {
+        if (state > maxOut)
+        {
+            state = maxOut;
+            cerr << "Top saturation!! output: " << state << " ,maxOut" << maxOut << endl;
+        }
+        //apply saturation
+        if (state < minOut)
+        {
+            state = minOut;
+            cerr << "Bottom saturation!! output: " << state << " ,maxOut" << minOut << endl;
+        }
+    }
+
+
+//    std::cout << "pid : " << cp << ","<< ci << ","<< cd << std::endl;
+//    std::cout << "pid : " <<state << std::endl;
+
+    return state;
 }
 
 double PIDBlock::OutputUpdate(double input)
