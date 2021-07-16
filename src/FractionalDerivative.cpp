@@ -50,13 +50,24 @@ long FractionalDerivative::Init(double new_exp, double new_dts)
 //    vector<double> vfir;
 //    cout << "Fractional derivative FIR: "<<endl;
 //MacLaurin series expansions based approximation
-    for (int i=0; i<FRACTIONALDERIVATIVE_MAXSIZE; i++)
+    for (int i=0; i<ceil(abs(alfa)); i++)
     {
-//        bi = tgamma(alfa+1) / (tgamma(i+1)*tgamma(alfa-i+1));
-        bi = lgamma(alfa+1) - lgamma(i+1) - lgamma(alfa-i+1);
-        bi = exp(bi);
+        bi = tgamma(alfa+1) / (tgamma(i+1)*tgamma(alfa-i+1));
+//        bi = tgamma(alfa+1) / exp( lgamma(1+i) + lgamma(alfa+1-i));
+//        bi = (bi);
         if (isnan(bi)) bi=0;
         vfir.push_back( pow(-1,i)*bi/(pow(dts,alfa)) );
+//        if(abs(vfir[i])<firtol) break;
+//        cout << vfir[i] << ", ";
+    }
+
+    for (int i=ceil(abs(alfa)); i<FRACTIONALDERIVATIVE_MAXSIZE; i++)
+    {
+//        bi = tgamma(alfa+1) / (tgamma(i+1)*tgamma(alfa-i+1));
+        bi = pow(-1,ceil(abs(alfa)))*tgamma(alfa+1) / exp( lgamma(1+i) + lgamma(alfa+1-i));
+//        bi = (bi);
+        if (isnan(bi)) bi=0;
+        vfir.push_back( bi/(pow(dts,alfa)) );
 //        if(abs(vfir[i])<firtol) break;
 //        cout << vfir[i] << ", ";
     }

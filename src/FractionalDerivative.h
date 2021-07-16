@@ -1,7 +1,7 @@
 #ifndef FRACTIONALDERIVATIVE_H
 #define FRACTIONALDERIVATIVE_H
 
-#define FRACTIONALDERIVATIVE_MAXSIZE 1024
+#define FRACTIONALDERIVATIVE_MAXSIZE 200
 
 #include<valarray>
 #include <iostream>      //cout
