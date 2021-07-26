@@ -1,7 +1,7 @@
 #ifndef FRACTIONALDERIVATIVE_H
 #define FRACTIONALDERIVATIVE_H
 
-#define FRACTIONALDERIVATIVE_MAXSIZE 200
+#define FRACTIONALDERIVATIVE_MAXSIZE 1024
 
 #include<valarray>
 #include <iostream>      //cout
@@ -24,6 +24,7 @@ public:
 private:
     long Init(double new_exp, double new_dts);
     double alfa;
+    long ialfa;
 
     double dts;
     double firtol;

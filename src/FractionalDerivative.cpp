@@ -19,14 +19,14 @@ FractionalDerivative::FractionalDerivative(double new_exp, double new_dts)
 //        Init(0,new_dts);
 //        return;
 //    }
-    if (new_exp < -1)
-    {
-        cout << "Fractiona DERIVATIVE Can't use exponents lesser than -1. Use another option." << endl;
-//        exp=modf(new_exp,&iexp);
-//        cout << "Integer exponent" << iexp << " fractional exponent: " << exp << endl;
-        Init(0,new_dts);
-        return;
-    }
+//    if (new_exp < -1)
+//    {
+//        cout << "Fractiona DERIVATIVE Can't use exponents lesser than -1. Use another option." << endl;
+////        exp=modf(new_exp,&iexp);
+////        cout << "Integer exponent" << iexp << " fractional exponent: " << exp << endl;
+//        Init(0,new_dts);
+//        return;
+//    }
 //        cout << "Fractional derivative exponent: " << new_exp << endl;
 
     Init(new_exp,new_dts);
@@ -43,34 +43,51 @@ long FractionalDerivative::Init(double new_exp, double new_dts)
     dts=new_dts;
     alfa=new_exp;
 
+    if (alfa<0)
+    {
+        ialfa=floor(alfa);
+        alfa-=ialfa;
+    }
+    else
+    {
+        ialfa=0;
+    }
+
+
+
     double bi=0;
 
-    firtol=0.01; //default. otherwise assign with setter
+    firtol=0.001; //default. otherwise assign with setter
     vfir.clear();
 //    vector<double> vfir;
 //    cout << "Fractional derivative FIR: "<<endl;
 //MacLaurin series expansions based approximation
+
+    //first few values can not be computed using the trick below.
     for (int i=0; i<ceil(abs(alfa)); i++)
     {
         bi = tgamma(alfa+1) / (tgamma(i+1)*tgamma(alfa-i+1));
-//        bi = tgamma(alfa+1) / exp( lgamma(1+i) + lgamma(alfa+1-i));
-//        bi = (bi);
         if (isnan(bi)) bi=0;
         vfir.push_back( pow(-1,i)*bi/(pow(dts,alfa)) );
 //        if(abs(vfir[i])<firtol) break;
 //        cout << vfir[i] << ", ";
     }
 
+    // this formula use the fir coefficients term (-1)^i to make lgamma sign alternate for negative values
+    // lgamma(alfa+1-i), but only works for exponents lesser than one, therefore the ceil(abs(alfa))
     for (int i=ceil(abs(alfa)); i<FRACTIONALDERIVATIVE_MAXSIZE; i++)
     {
-//        bi = tgamma(alfa+1) / (tgamma(i+1)*tgamma(alfa-i+1));
+        //this option valid only for exponents greater than -1
+//        bi = ialfa*pow(-1,ceil(abs(alfa)))*tgamma(alfa+1) / exp( lgamma(1+i) + lgamma(alfa+1-i));
+
+        // Now using the integer integrator option for all negative exponents (see below)
         bi = pow(-1,ceil(abs(alfa)))*tgamma(alfa+1) / exp( lgamma(1+i) + lgamma(alfa+1-i));
-//        bi = (bi);
         if (isnan(bi)) bi=0;
         vfir.push_back( bi/(pow(dts,alfa)) );
 //        if(abs(vfir[i])<firtol) break;
 //        cout << vfir[i] << ", ";
     }
+
 //    cout << endl<< endl;
 
     N=vfir.size();
@@ -78,6 +95,30 @@ long FractionalDerivative::Init(double new_exp, double new_dts)
     fir.resize(N,0);
     oldStates.resize(N,0);
     oldInputs.resize(N,0);
+
+    //
+    //integrate the integer needed orders
+
+    while (ialfa<0)
+    {
+        ialfa++;
+
+        for (int i=0; i<N; i++)
+        {
+            fir[i]=0;
+            for (int j=0; j<=i; j++)
+            {
+                fir[i]+=vfir[j];
+            }
+            fir[i]*=dts;
+        }
+        //and copy
+        for (int i=0; i<N; i++)
+        {
+            vfir[i]=fir[i];
+
+        }
+    }
 
     //prepare fir for convolution (flip values)
     for (int i=0; i<N; i++)
